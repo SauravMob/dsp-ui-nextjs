@@ -56,7 +56,13 @@ const mainNavList: NavItem[] = [
     }
 ]
 
-export function Navbar({ className }: { className?: string }) {
+interface NavbarProps {
+    className: string,
+    emailId: string | undefined
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ className, emailId }) => {
+    console.log(emailId)
     const [active, setActive] = useState<string | null>(null);
     return (
         <div className={cn("fixed top-10 inset-x-0 w-full mx-auto z-50", className)}>
@@ -87,7 +93,7 @@ export function Navbar({ className }: { className?: string }) {
                     </div>
                     <div>
                         <Menu setActive={setActive}>
-                            <MenuItem setActive={setActive} active={active} item="admin@mobavenue.com">
+                            <MenuItem setActive={setActive} active={active} item={emailId || ''}>
                                 <div className="flex flex-col space-y-4 text-sm">
                                     <HoveredLink href="/account-details">Account Details</HoveredLink>
                                     <HoveredLink href="/change-password">Change Password</HoveredLink>
