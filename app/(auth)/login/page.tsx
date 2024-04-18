@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Mobavenue_Logo from '@/public/Mobavenue_Logo.svg'
 import Image from 'next/image'
-import LoginForm from "./component/LoginForm"
+import LoginForm from "./helpers/LoginForm"
 
 export default async function page() {
     return (

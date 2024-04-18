@@ -10,22 +10,16 @@ import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { Eye, EyeOff } from 'lucide-react'
-import { z } from "zod"
-import { loginUser } from '../_actions'
+import { loginUser } from '../../_actions'
 import { useRouter } from 'next/navigation'
-
-const formSchema = z.object({
-  username: z.string().min(1, { message: "Required Field!" }).email("Email is invalid"),
-  password: z.string().min(1, { message: "Required Field!" }).min(5, { message: "Password length should be atleast 5" })
-})
-
-type Inputs = z.infer<typeof formSchema>
+import { LoginFormData, formSchema } from '../types/LoginTypes'
+import { toast } from '@/components/ui/use-toast'
 
 const LoginForm = () => {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<LoginFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
@@ -36,10 +30,14 @@ const LoginForm = () => {
   const { setError } = form
   const { isSubmitting } = form.formState
 
-  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+  const onSubmit: SubmitHandler<LoginFormData> = async (values: LoginFormData) => {
     const result = await loginUser(values)
-    if (result.status === 401) setError('password', { message: result.message })
-    else router.push('/')
+    if (result.status === 401) {
+      toast({
+        title: "Error while logging",
+        description: result.message
+      })
+    } else router.push('/')
   }
 
   return (
@@ -81,8 +79,8 @@ const LoginForm = () => {
           <Switch id="remember-me" />
           <Label htmlFor="remember-me">Remember Me</Label>
         </div>
-        <Button type="submit" className='w-full' loading={isSubmitting}>Sign In</Button>
-        <div className='flex justify-center'>
+        <Button type="submit" className='w-full' loading={isSubmitting}>SIGN IN</Button>
+        <div className='flex justify-center text-xs'>
           New on our platform?
           <Link href={'/signup'} className='font-bold ml-1'>Create an account</Link>
         </div>

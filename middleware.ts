@@ -11,7 +11,6 @@ export function middleware(request: NextRequest) {
     }
 
     if (!isPublicPath && !userId) {
-        console.log("in here")
         return NextResponse.redirect(new URL('/login', request.nextUrl))
     }
 }

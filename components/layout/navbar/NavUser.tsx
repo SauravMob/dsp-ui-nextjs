@@ -1,6 +1,6 @@
 "use client"
 
-import { logout } from '@/app/(auth)/login/_actions';
+import { logout } from '@/app/(auth)/_actions';
 import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu';
 import ThemeToggler from '@/components/utility/ThemeToggler';
 import { useRouter } from 'next/navigation';
