@@ -34,6 +34,7 @@ const LoginForm = () => {
   })
 
   const { setError } = form
+  const { isSubmitting } = form.formState
 
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     const result = await loginUser(values)
@@ -80,7 +81,7 @@ const LoginForm = () => {
           <Switch id="remember-me" />
           <Label htmlFor="remember-me">Remember Me</Label>
         </div>
-        <Button type="submit" className='w-full'>Sign In</Button>
+        <Button type="submit" className='w-full' loading={isSubmitting}>Sign In</Button>
         <div className='flex justify-center'>
           New on our platform?
           <Link href={'/signup'} className='font-bold ml-1'>Create an account</Link>

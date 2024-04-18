@@ -26,5 +26,18 @@ export async function loginUser(data: LoginFormData) {
     cookies().set({ name: 'accountBalance', value: finalResult.accountBalance, httpOnly: true })
     cookies().set({ name: 'customFeatures', value: finalResult.customFeatures, httpOnly: true })
 
-    return {status: 200, message: 'Succesfully Logged In'}
+    return { status: 200, message: 'Succesfully Logged In' }
+}
+
+export async function logout() {
+    cookies().set({ name: 'userId', value: '', expires: new Date() })
+    cookies().set({ name: 'userName', value: '', expires: new Date() })
+    cookies().set({ name: 'emailId', value: '', expires: new Date() })
+    cookies().set({ name: 'accessToken', value: '', expires: new Date() })
+    cookies().set({ name: 'refreshToken', value: '', expires: new Date() })
+    cookies().set({ name: 'roleId', value: '', expires: new Date() })
+    cookies().set({ name: 'status', value: '', expires: new Date() })
+    cookies().set({ name: 'accountBalance', value: '', expires: new Date() })
+    cookies().set({ name: 'customFeatures', value: '', expires: new Date() })
+    return { status: 200, message: "Logged Out successfully" }
 }

@@ -4,7 +4,6 @@ import Image from 'next/image'
 import LoginForm from "./component/LoginForm"
 
 export default async function page() {
-
     return (
         <div className="min-h-screen flex justify-center items-center">
             <Card className="">
