@@ -1,14 +1,14 @@
 "use client"
 
-import { logout } from '@/app/(auth)/_actions';
-import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu';
-import { toast } from '@/components/ui/use-toast';
-import ThemeToggler from '@/components/utility/ThemeToggler';
+import { logout } from '@/app/(auth)/_actions'
+import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu'
+import { toast } from '@/components/ui/use-toast'
+import ThemeToggler from '@/components/utility/ThemeToggler'
 import React, { useState } from 'react'
 
 export default function NavUser({ emailId }: { emailId: string }) {
 
-    const [active, setActive] = useState<string | null>(null);
+    const [active, setActive] = useState<string | null>(null)
 
     const handleLogout = async () => {
         const result = await logout()

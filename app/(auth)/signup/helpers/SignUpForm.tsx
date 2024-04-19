@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha"
 import { countryOption } from '@/components/utility/GeoUtils'
 import { SelectInput } from '@/components/utility/SelectInput'
 import { registerUser } from '../../_actions'
@@ -28,15 +28,15 @@ const SignUpForm = () => {
       country: "",
       captchaToken: "",
       organizationId: 1
-    },
+    }
   })
-
-  useEffect(() => {
-    setValue('organizationId', window.location.hostname === 'lyxelflamingo.mobavenue.com' ? 2 : 1)
-  }, [])
 
   const { clearErrors, setValue } = form
   const { isSubmitting } = form.formState
+
+  useEffect(() => {
+    setValue('organizationId', window.location.hostname === 'lyxelflamingo.mobavenue.com' ? 2 : 1)
+  }, [setValue])
 
   const onSubmit: SubmitHandler<SignupFormData> = async (values: SignupFormData) => {
     const result = await registerUser(values)

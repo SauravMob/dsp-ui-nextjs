@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import Mobavenue_Logo from '@/public/Mobavenue_Logo.svg';
-import NavMenu from "./NavMenu";
-import NavUser from "./NavUser";
-import { cookies } from "next/headers";
+import { cn } from "@/lib/utils"
+import Image from "next/image"
+import Mobavenue_Logo from '@/public/Mobavenue_Logo.svg'
+import NavMenu from "./NavMenu"
+import NavUser from "./NavUser"
+import { cookies } from "next/headers"
 
 export const Navbar = async ({ className }: { className: string }) => {
 
@@ -24,5 +24,5 @@ export const Navbar = async ({ className }: { className: string }) => {
                 <NavUser emailId={EMAIL_ID} />
             </nav>
         </div>
-    );
+    )
 }

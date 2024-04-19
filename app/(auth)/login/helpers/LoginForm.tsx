@@ -22,7 +22,7 @@ const LoginForm = () => {
     defaultValues: {
       username: "",
       password: ""
-    },
+    }
   })
 
   const { isSubmitting } = form.formState

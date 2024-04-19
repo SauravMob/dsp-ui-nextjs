@@ -1,30 +1,30 @@
-import { cn } from '@/lib/utils';
-import * as React from 'react';
-import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select';
+import { cn } from '@/lib/utils'
+import * as React from 'react'
+import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select'
 
 export interface SelectOption {
-    label: string;
-    value: string;
+    label: string
+    value: string
 }
 
 export interface SelectInputProps {
-    className?: string;
-    onChange: (newValue: SingleValue<SelectOption> | null, actionMeta: ActionMeta<SelectOption>) => void;
-    options: SelectOption[];
-    placeholder: string;
-    isClearable?: boolean;
-    isSearchable?: boolean;
-    name: string;
+    className?: string
+    onChange: (newValue: SingleValue<SelectOption> | null, actionMeta: ActionMeta<SelectOption>) => void
+    options: SelectOption[]
+    placeholder: string
+    isClearable?: boolean
+    isSearchable?: boolean
+    name: string
 }
 
 export interface MultiSelectInputProps {
-    className?: string;
-    onChange: (newValue: MultiValue<SelectOption> | null, actionMeta: ActionMeta<SelectOption>) => void;
-    options: SelectOption[];
-    placeholder: string;
-    isClearable?: boolean;
-    isSearchable?: boolean;
-    name: string;
+    className?: string
+    onChange: (newValue: MultiValue<SelectOption> | null, actionMeta: ActionMeta<SelectOption>) => void
+    options: SelectOption[]
+    placeholder: string
+    isClearable?: boolean
+    isSearchable?: boolean
+    name: string
 }
 
 const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputProps>(
@@ -54,10 +54,10 @@ const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputPro
                 options={options}
                 {...props}
             />
-        );
+        )
     }
-);
-MultiSelectInput.displayName = "MultiSelectInput";
+)
+MultiSelectInput.displayName = "MultiSelectInput"
 
 const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
     ({ className, options, ...props }, ref) => {
@@ -85,9 +85,9 @@ const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
                 options={options}
                 {...props}
             />
-        );
+        )
     }
-);
-SelectInput.displayName = "SelectInput";
+)
+SelectInput.displayName = "SelectInput"
 
-export { SelectInput, MultiSelectInput };
+export { SelectInput, MultiSelectInput }

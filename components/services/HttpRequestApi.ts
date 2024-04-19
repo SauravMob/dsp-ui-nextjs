@@ -9,7 +9,7 @@ export const HttpRequestApi = async (
 ) => {
     try {
         const res = await fetch(`${SERVER_URL}${url}`, {
-            method: method,
+            method,
             body: data ? JSON.stringify(data) : "",
             headers: {
                 "Content-type": "application/json"

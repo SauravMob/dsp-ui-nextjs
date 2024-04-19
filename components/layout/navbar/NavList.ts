@@ -4,9 +4,7 @@ export const NavList = (roleId: string) => {
         navList = [
             {
                 label: "Analyse",
-                options: [
-                    { title: "Dashboard", path: "/admin-dashboard   " }
-                ]
+                options: [{ title: "Dashboard", path: "/admin-dashboard   " }]
             },
             {
                 label: "Manage",
@@ -48,15 +46,11 @@ export const NavList = (roleId: string) => {
         navList = [
             {
                 label: "Analyse",
-                options: [
-                    { title: "Dashboard", path: "/" }
-                ]
+                options: [{ title: "Dashboard", path: "/" }]
             },
             {
                 label: "Manage",
-                options: [
-                    { title: "Campaigns", path: "/campaigns" }
-                ]
+                options: [{ title: "Campaigns", path: "/campaigns" }]
             },
             {
                 label: "Assets",
