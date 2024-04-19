@@ -27,7 +27,6 @@ const LoginForm = () => {
     },
   })
 
-  const { setError } = form
   const { isSubmitting } = form.formState
 
   const onSubmit: SubmitHandler<LoginFormData> = async (values: LoginFormData) => {
@@ -37,7 +36,13 @@ const LoginForm = () => {
         title: "Error while logging",
         description: result.message
       })
-    } else router.push('/')
+    } else {
+      toast({
+        title: `Welcome back ${values.username}`,
+        description: result.message
+      })
+      router.push('/')
+    }
   }
 
   return (

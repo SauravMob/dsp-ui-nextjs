@@ -1,12 +1,14 @@
 'use server'
 
+import { SERVER_URL } from "../constants/ApiConfigConstants"
+
 export const HttpRequestApi = async (
     method: string,
     url: string,
     data?: object
 ) => {
     try {
-        const res = await fetch(`http://localhost:8080/api${url}`, {
+        const res = await fetch(`${SERVER_URL}${url}`, {
             method: method,
             body: data ? JSON.stringify(data) : "",
             headers: {

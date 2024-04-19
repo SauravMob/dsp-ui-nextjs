@@ -5,10 +5,10 @@ import NavMenu from "./NavMenu";
 import NavUser from "./NavUser";
 import { cookies } from "next/headers";
 
-export const Navbar = ({ className }: { className: string }) => {
+export const Navbar = async ({ className }: { className: string }) => {
 
-    const emailId: string | undefined = cookies().get('emailId')?.value || ''
-    const roleId: string | undefined = cookies().get('roleId')?.value || ''
+    const EMAIL_ID = cookies().get('emailId')?.value || ''
+    const ROLE_ID = cookies().get('roleId')?.value || ''
 
     return (
         <div className={cn("fixed top-10 inset-x-0 w-full mx-auto z-50", className)}>
@@ -20,8 +20,8 @@ export const Navbar = ({ className }: { className: string }) => {
                     height={120}
                     alt="Mobavenue_logo"
                 />
-                <NavMenu roleId={roleId} />
-                <NavUser emailId={emailId} />
+                <NavMenu roleId={ROLE_ID} />
+                <NavUser emailId={EMAIL_ID} />
             </nav>
         </div>
     );

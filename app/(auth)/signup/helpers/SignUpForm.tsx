@@ -45,7 +45,13 @@ const SignUpForm = () => {
         title: "Error while creating account",
         description: result.message
       })
-    } else if (result.status === 201) router.push('/')
+    } else if (result.status === 201) {
+      toast({
+        title: `Welcome ${values.username}`,
+        description: result.message
+      })
+      router.push('/login')
+    }
   }
 
   return (
@@ -150,7 +156,7 @@ const SignUpForm = () => {
               <FormControl>
                 <div className='flex justify-center items-center'>
                   <ReCAPTCHA
-                    sitekey='6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+                    sitekey='6LdajNwUAAAAAOLqhcOjLSIX6uME5VbWy9B4zmep'
                     onChange={(value) => {
                       if (value) setValue('captchaToken', value)
                     }}

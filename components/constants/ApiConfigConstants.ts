@@ -1,0 +1,1 @@
+export const SERVER_URL = process.env.NODE_ENV === 'production' ? "https://ui-backendapi.mobavenue.com/api" : 'http://localhost:8080/api';
