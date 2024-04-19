@@ -69,7 +69,7 @@ const LoginForm = () => {
               </FormLabel>
               <FormControl>
                 <div className='flex justify-center items-center'>
-                  <Input type={showPassword ? "text" : "password"} placeholder="********" {...field} />
+                  <Input type={showPassword ? "text" : "password"} placeholder="********" autoComplete="off" {...field} />
                   {!showPassword ? <Eye className='ml-2' onClick={() => setShowPassword(true)} /> : <EyeOff className='ml-2' onClick={() => setShowPassword(false)} />}
                 </div>
               </FormControl>

@@ -5,16 +5,17 @@ import LoginForm from "./helpers/LoginForm"
 
 export default async function page() {
     return (
-        <div className="min-h-screen flex justify-center items-center">
-            <Card className="">
+        <div className="min-h-screen flex justify-center items-center dark:bg-slate-950">
+            <Card>
                 <CardHeader>
                     <CardTitle className='flex justify-center'>
                         <Image
                             src={Mobavenue_Logo}
-                            width={150}
-                            height={150}
+                            width="0"
+                            height="0"
                             alt="Mobavenue_logo"
                             priority
+                            style={{ width: '50%', height: 'auto' }}
                         />
                     </CardTitle>
                     <CardDescription className='flex justify-center'>Please sign-in to your account and start advertising!</CardDescription>

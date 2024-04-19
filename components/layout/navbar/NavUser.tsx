@@ -1,6 +1,6 @@
 "use client"
 
-import { logout } from '@/app/(auth)/_actions'
+import { logout } from '@/app/(public)/_actions'
 import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu'
 import { toast } from '@/components/ui/use-toast'
 import ThemeToggler from '@/components/utility/ThemeToggler'

@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import clsx from 'clsx'
 import * as React from 'react'
 import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select'
 
@@ -31,26 +32,22 @@ const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputPro
     ({ className, options, ...props }, ref) => {
         return (
             <Select
+                unstyled
                 instanceId={"id"}
                 className={cn("w-full", className)}
                 classNamePrefix="select"
-                styles={{
-                    control: (baseStyles, state) => ({
-                        ...baseStyles,
-                        borderColor: "#e5e7eb"
-                    })
+                classNames={{
+                    control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950"),
+                    placeholder: () => "placeholder:text-slate-500 dark:placeholder:text-slate-400",
+                    menu: () => "p-50 mt-2 border border-slate-400 bg-white dark:bg-slate-900 rounded-lg",
+                    multiValue: () => "bg-slate-200 dark:bg-slate-700 rounded items-center p-0.5 pl-2 m-0.5 gap-1.5",
+                    option: ({ isFocused }) =>
+                        clsx(
+                            isFocused && "bg-slate-200 dark:bg-slate-700 active:bg-slate-400",
+                            "hover:cursor-pointer px-3 py-2 rounded"
+                        )
                 }}
                 isMulti
-                theme={(theme) => ({
-                    ...theme,
-                    colors: {
-                        ...theme.colors,
-                        primary: 'black',
-                        primary25: 'gray',
-                        primary50: 'gray',
-                        primary75: 'gray'
-                    }
-                })}
                 options={options}
                 {...props}
             />
@@ -63,25 +60,20 @@ const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
     ({ className, options, ...props }, ref) => {
         return (
             <Select
+                unstyled
                 instanceId={"id"}
                 className={cn("w-full", className)}
-                classNamePrefix="select"
-                styles={{
-                    control: (baseStyles, state) => ({
-                        ...baseStyles,
-                        borderColor: "#e5e7eb"
-                    })
+                classNames={{
+                    control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950"),
+                    placeholder: () => "placeholder:text-slate-500 dark:placeholder:text-slate-400",
+                    menu: () => "p-50 mt-2 border border-slate-400 bg-white dark:bg-slate-900 rounded-lg",
+                    option: ({ isFocused }) =>
+                        clsx(
+                            isFocused && "bg-slate-200 dark:bg-slate-700 active:bg-slate-400",
+                            "hover:cursor-pointer px-3 py-2 rounded"
+                        )
                 }}
-                theme={(theme) => ({
-                    ...theme,
-                    colors: {
-                        ...theme.colors,
-                        primary: 'black',
-                        primary25: 'gray',
-                        primary50: 'gray',
-                        primary75: 'gray'
-                    }
-                })}
+                classNamePrefix="select"
                 options={options}
                 {...props}
             />

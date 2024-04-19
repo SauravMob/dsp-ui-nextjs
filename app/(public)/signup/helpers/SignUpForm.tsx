@@ -14,6 +14,7 @@ import { SelectInput } from '@/components/utility/SelectInput'
 import { registerUser } from '../../_actions'
 import { toast } from '@/components/ui/use-toast'
 import { Eye, EyeOff } from 'lucide-react'
+import TNCModal from './TNCModal'
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -80,7 +81,7 @@ const SignUpForm = () => {
               </FormLabel>
               <FormControl>
                 <div className='flex justify-center items-center'>
-                  <Input type={showPassword ? "text" : "password"} placeholder="********" {...field} />
+                  <Input type={showPassword ? "text" : "password"} placeholder="********" autoComplete="off" {...field} />
                   {!showPassword ? <Eye className='ml-2' onClick={() => setShowPassword(true)} /> : <EyeOff className='ml-2' onClick={() => setShowPassword(false)} />}
                 </div>
               </FormControl>
@@ -171,7 +172,7 @@ const SignUpForm = () => {
         <Button type="submit" className='w-full' loading={isSubmitting}>SIGN UP</Button>
         <div className='text-xs text-wrap text-center'>
           By clicking Sign Up, I hereby indicate that I have read, understood, and agree to the
-          <Button className='bg-transparent text-black-900 font-medium mx-0 px-1' variant={"link"} size="sm">Terms and conditions</Button>
+          <TNCModal />
           of Mobavenue Advertiser Agreement.
           <br />
           Already have an account? <Link href={'/login'} className='font-bold ml-1'>Sign in</Link>

@@ -5,16 +5,15 @@ import SignUpForm from "./helpers/SignUpForm"
 
 export default async function page() {
     return (
-        <div className="min-h-screen flex justify-center items-center">
+        <div className="min-h-screen flex justify-center items-center dark:bg-slate-950">
             <Card className="w-[500px]">
                 <CardHeader>
                     <CardTitle className='flex justify-center'>
                         <Image
                             src={Mobavenue_Logo}
-                            width={150}
-                            height={150}
                             alt="Mobavenue_logo"
                             priority
+                            style={{ width: '40%', height: 'auto' }}
                         />
                     </CardTitle>
                     <CardDescription className='flex justify-center'>Please sign-in to your account and start advertising!</CardDescription>
