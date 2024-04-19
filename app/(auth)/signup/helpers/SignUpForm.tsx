@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SignupFormData, formSchema } from '../types/SignupTypes'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,8 +13,10 @@ import { countryOption } from '@/components/utility/GeoUtils'
 import { SelectInput } from '@/components/utility/SelectInput'
 import { registerUser } from '../../_actions'
 import { toast } from '@/components/ui/use-toast'
+import { Eye, EyeOff } from 'lucide-react'
 
 const SignUpForm = () => {
+  const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<SignupFormData>({
     resolver: zodResolver(formSchema),
@@ -74,10 +76,12 @@ const SignUpForm = () => {
             <FormItem>
               <FormLabel className='flex justify-between'>
                 <div>Password<span className='text-red-900'>*</span></div>
+                <Link href={'/forgot-password'} className='text-xs'>Forgot Password?</Link>
               </FormLabel>
               <FormControl>
                 <div className='flex justify-center items-center'>
-                  <Input placeholder="********" {...field} />
+                  <Input type={showPassword ? "text" : "password"} placeholder="********" {...field} />
+                  {!showPassword ? <Eye className='ml-2' onClick={() => setShowPassword(true)} /> : <EyeOff className='ml-2' onClick={() => setShowPassword(false)} />}
                 </div>
               </FormControl>
               <FormMessage />
@@ -153,7 +157,7 @@ const SignUpForm = () => {
               <FormControl>
                 <div className='flex justify-center items-center'>
                   <ReCAPTCHA
-                    sitekey='6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+                    sitekey='6LdajNwUAAAAAOLqhcOjLSIX6uME5VbWy9B4zmep'
                     onChange={(value) => {
                       if (value) setValue('captchaToken', value)
                     }}

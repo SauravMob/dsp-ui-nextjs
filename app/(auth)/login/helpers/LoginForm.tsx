@@ -31,7 +31,7 @@ const LoginForm = () => {
     const result = await loginUser(values)
     if (result?.status === 401) {
       toast({
-        title: "Error while logging",
+        title: "Error while logging in",
         description: result.message
       })
     } else {
