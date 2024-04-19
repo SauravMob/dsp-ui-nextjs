@@ -13,11 +13,9 @@ import { countryOption } from '@/components/utility/GeoUtils'
 import { SelectInput } from '@/components/utility/SelectInput'
 import { registerUser } from '../../_actions'
 import { toast } from '@/components/ui/use-toast'
-import { useRouter } from 'next/navigation'
 
 const SignUpForm = () => {
 
-  const router = useRouter()
   const form = useForm<SignupFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,17 +38,16 @@ const SignUpForm = () => {
 
   const onSubmit: SubmitHandler<SignupFormData> = async (values: SignupFormData) => {
     const result = await registerUser(values)
-    if (result.status === 400) {
+    if (result?.status === 400) {
       toast({
         title: "Error while creating account",
         description: result.message
       })
-    } else if (result.status === 201) {
+    } else {
       toast({
         title: `Welcome ${values.username}`,
-        description: result.message
+        description: "Your account has been created. Our executive will get in touch with you shortly."
       })
-      router.push('/login')
     }
   }
 
@@ -156,7 +153,7 @@ const SignUpForm = () => {
               <FormControl>
                 <div className='flex justify-center items-center'>
                   <ReCAPTCHA
-                    sitekey='6LdajNwUAAAAAOLqhcOjLSIX6uME5VbWy9B4zmep'
+                    sitekey='6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
                     onChange={(value) => {
                       if (value) setValue('captchaToken', value)
                     }}

@@ -11,12 +11,10 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { Eye, EyeOff } from 'lucide-react'
 import { loginUser } from '../../_actions'
-import { useRouter } from 'next/navigation'
 import { LoginFormData, formSchema } from '../types/LoginTypes'
 import { toast } from '@/components/ui/use-toast'
 
 const LoginForm = () => {
-  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<LoginFormData>({
@@ -31,7 +29,7 @@ const LoginForm = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (values: LoginFormData) => {
     const result = await loginUser(values)
-    if (result.status === 401) {
+    if (result?.status === 401) {
       toast({
         title: "Error while logging",
         description: result.message
@@ -39,9 +37,8 @@ const LoginForm = () => {
     } else {
       toast({
         title: `Welcome back ${values.username}`,
-        description: result.message
+        description: "Successfully logged in"
       })
-      router.push('/')
     }
   }
 
