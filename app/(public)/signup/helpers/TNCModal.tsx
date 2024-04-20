@@ -6,7 +6,7 @@ export default function TNCModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-transparent text-black-900 font-medium mx-0 px-1' variant={"link"} size="sm">Terms and conditions</Button>
+        <Button className='bg-transparent font-medium mx-0 px-1' variant={"link"} size="sm">Terms and conditions</Button>
       </DialogTrigger>
       <DialogContent className="max-w-screen-xl max-h-dvh overflow-y-scroll text-sm">
         <DialogHeader>

@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { Navbar } from "@/components/layout/navbar/Navbar"
+import { Button } from "@/components/ui/button"
+// import PrivacyPolicy from '@/app/(authenticated)/helpers/PrivacyPolicy'
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -13,11 +15,16 @@ export default function RootLayout({
 }>) {
 
     return (
-        <div>
+        <div className="min-h-screen">
             <Navbar className="top-0" />
-            <div className=" pt-24 px-4 dark:bg-slate-950 text-slate-800 dark:text-slate-200">
+            <div className=" pt-24 px-4">
                 {children}
             </div>
+            {/* <div className="flex items-center   ">
+                <PrivacyPolicy />
+                |
+                <Button className='bg-transparent font-medium mx-3 px-1' variant={"link"} size="sm">Ad Policy</Button>
+            </div> */}
         </div>
     )
 }

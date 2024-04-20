@@ -31,7 +31,7 @@ export const MenuItem = ({
         <div onMouseEnter={() => setActive(item)} className="relative ">
             <motion.p
                 transition={{ duration: 0.3 }}
-                className="group cursor-pointer text-slate-950 hover:opacity-[0.9] dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 p-3 rounded-lg"
+                className="group cursor-pointer text-slate-950 hover:opacity-[0.9] font-medium dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 p-3 rounded-lg"
             >
                 <span className="flex items-center">
                     {item} <ChevronDown size={13} className="transition-transform group-hover:rotate-180 ml-1" />
