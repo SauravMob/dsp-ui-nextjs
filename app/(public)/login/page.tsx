@@ -2,6 +2,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Mobavenue_Logo from '@/public/Mobavenue_Logo.svg'
 import Image from 'next/image'
 import LoginForm from "./helpers/LoginForm"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Mobavenue - Login",
+    description: "Mobavenue DSP login page"
+}
 
 export default async function page() {
     return (

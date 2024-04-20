@@ -4,9 +4,10 @@ import { logout } from '@/app/(public)/_actions'
 import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu'
 import { toast } from '@/components/ui/use-toast'
 import ThemeToggler from '@/components/utility/ThemeToggler'
+import { History, Power, SquareCheckBig, UserRound } from 'lucide-react'
 import React, { useState } from 'react'
 
-export default function NavUser({ emailId }: { emailId: string }) {
+export default function NavUser({ emailId, accountBalance }: { emailId: string, accountBalance: string }) {
 
     const [active, setActive] = useState<string | null>(null)
 
@@ -21,15 +22,42 @@ export default function NavUser({ emailId }: { emailId: string }) {
     return (
         <div className="flex items-center mr-4">
             <div>
-                <ThemeToggler />
+                <Menu setActive={setActive} className='px-0'>
+                    <MenuItem setActive={setActive} active={active} item={accountBalance}>
+                        <div className="flex flex-col space-y-4 text-sm">
+                            <HoveredLink href="/settings/billing">
+                                <div className='flex items-center'>
+                                    <History size={18} className='mr-1' />Transaction history
+                                </div>
+                            </HoveredLink>
+                        </div>
+                    </MenuItem>
+                </Menu>
             </div>
             <div>
-                <Menu setActive={setActive}>
+                <Menu setActive={setActive} className='px-0'>
                     <MenuItem setActive={setActive} active={active} item={emailId}>
                         <div className="flex flex-col space-y-4 text-sm">
-                            <HoveredLink href="/account-details">Account Details</HoveredLink>
-                            <HoveredLink href="/change-password">Change Password</HoveredLink>
-                            <HoveredLink href="#" onClick={() => handleLogout()}>Logout</HoveredLink>
+                            <HoveredLink href="#">
+                                <div className='flex items-center justify-center'>
+                                    <ThemeToggler />
+                                </div>
+                            </HoveredLink>
+                            <HoveredLink href="/account-details">
+                                <div className='flex items-center'>
+                                    <UserRound size={18} className='mr-1' />Account Details
+                                </div>
+                            </HoveredLink>
+                            <HoveredLink href="/change-password">
+                                <div className='flex items-center'>
+                                    <SquareCheckBig size={18} className='mr-1' />Change Password
+                                </div>
+                            </HoveredLink>
+                            <HoveredLink href="#" onClick={() => handleLogout()}>
+                                <div className='flex items-center'>
+                                    <Power size={18} className='mr-1' />Logout
+                                </div>
+                            </HoveredLink>
                         </div>
                     </MenuItem>
                 </Menu>

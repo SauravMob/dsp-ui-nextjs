@@ -1,8 +1,11 @@
 "use client";
+
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const transition = {
     type: "spring",
@@ -28,9 +31,11 @@ export const MenuItem = ({
         <div onMouseEnter={() => setActive(item)} className="relative ">
             <motion.p
                 transition={{ duration: 0.3 }}
-                className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
+                className="group cursor-pointer text-slate-950 hover:opacity-[0.9] dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 p-3 rounded-lg"
             >
-                {item}
+                <span className="flex items-center">
+                    {item} <ChevronDown size={13} className="transition-transform group-hover:rotate-180 ml-1" />
+                </span>
             </motion.p>
             {active !== null && (
                 <motion.div
@@ -43,7 +48,7 @@ export const MenuItem = ({
                             <motion.div
                                 transition={transition}
                                 layoutId="active" // layoutId ensures smooth animation
-                                className="bg-white dark:bg-black backdrop-blur-sm rounded-2xl overflow-hidden border border-black/[0.2] dark:border-white/[0.2] shadow-xl"
+                                className="bg-white dark:bg-slate-950 backdrop-blur-sm rounded-2xl overflow-hidden border border-black/[0.2] dark:border-white/[0.2] shadow-xl"
                             >
                                 <motion.div
                                     layout // layout ensures smooth animation
@@ -63,12 +68,14 @@ export const MenuItem = ({
 export const Menu = ({
     setActive,
     children,
+    className
 }: {
     setActive: (item: string | null) => void;
     children: React.ReactNode;
+    className?: string
 }) => {
     return (
-        <div onMouseLeave={() => setActive(null)} className="flex justify-center mx-auto space-x-4 px-8 py-6">
+        <div onMouseLeave={() => setActive(null)} className={cn("flex justify-center mx-auto space-x-4 px-8 py-3", className)}>
             {children}
         </div>
     );
@@ -95,7 +102,7 @@ export const ProductItem = ({
                 className="flex-shrink-0 rounded-md shadow-2xl"
             />
             <div>
-                <h4 className="text-xl font-bold mb-1 text-black dark:text-white">
+                <h4 className="text-xl font-bold mb-1 text-slate-950 dark:text-white">
                     {title}
                 </h4>
                 <p className="text-neutral-700 text-sm max-w-[10rem] dark:text-neutral-300">
@@ -110,7 +117,7 @@ export const HoveredLink = ({ children, ...rest }: any) => {
     return (
         <Link
             {...rest}
-            className="text-neutral-700 dark:text-neutral-200 hover:text-black "
+            className="text-neutral-700 hover:font-medium dark:text-neutral-200 hover:text-slate-950 "
         >
             {children}
         </Link>
