@@ -21,6 +21,9 @@ export default function NavUser({ emailId, accountBalance }: { emailId: string, 
 
     return (
         <div className="flex items-center mr-4">
+            <div className='hidden'>
+                <ThemeToggler />
+            </div>
             <div>
                 <Menu setActive={setActive} className='px-0'>
                     <MenuItem setActive={setActive} active={active} item={accountBalance}>

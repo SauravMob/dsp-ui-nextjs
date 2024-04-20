@@ -15,7 +15,9 @@ export default function RootLayout({
     return (
         <div>
             <Navbar className="top-0" />
-            {children}
+            <div className=" pt-24 px-4 dark:bg-slate-950 text-slate-800 dark:text-slate-200">
+                {children}
+            </div>
         </div>
     )
 }
