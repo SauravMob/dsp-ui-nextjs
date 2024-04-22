@@ -3,7 +3,7 @@
 import { logout } from '@/app/(public)/_actions'
 import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu'
 import { toast } from '@/components/ui/use-toast'
-import ThemeToggler from '@/components/utility/ThemeToggler'
+import ThemeToggler from '@/components/utility/customComponents/ThemeToggler'
 import { History, Power, SquareCheckBig, UserRound } from 'lucide-react'
 import React, { useState } from 'react'
 
