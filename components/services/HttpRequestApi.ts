@@ -1,5 +1,6 @@
 'use server'
 
+import { cookies } from "next/headers"
 import { SERVER_URL } from "../constants/ApiConfigConstants"
 
 export const HttpRequestApi = async (
@@ -7,12 +8,14 @@ export const HttpRequestApi = async (
     url: string,
     data?: object
 ) => {
+    const ACCESS_TOKEN = cookies().get('accessToken')?.value
     try {
         const res = await fetch(`${SERVER_URL}${url}`, {
             method,
-            body: data ? JSON.stringify(data) : "",
+            // body: data ? JSON.stringify(data) : "",
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${ACCESS_TOKEN}`
             }
         })
         return res

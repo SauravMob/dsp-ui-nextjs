@@ -1,42 +1,36 @@
 import React from 'react'
 
 import { LayoutDashboard } from 'lucide-react'
-import { Card } from '@/components/ui/card'
-import AreaChart from '@/components/utility/customComponents/AreaChart'
+import { getClickReport, getImpressionReport, getWinRateReport } from './_actions'
+import dynamic from 'next/dynamic'
+const AreaChart = dynamic(() => import('@/components/utility/customComponents/AreaChart'), {
+    ssr: false,
+})
 
-const data = {
-    "2024-04-15": 10.0,
-    "2024-04-16": 20.0,
-    "2024-04-17": 5.0,
-    "2024-04-18": 50.0,
-    "2024-04-19": 40.0,
-    "2024-04-20": 80.0,
-    "2024-04-21": 90.0
-}
-
-export default function pages() {
+export default async function pages() {
+    const impressionData = await getImpressionReport()
+    const clickData = await getClickReport()
+    const winRateData = await getWinRateReport()
     return (
         <div>
             <div className='font-bold mb-4 text-2xl flex items-center'>
                 <LayoutDashboard size={20} className='mr-1' /> Dashboard
             </div>
 
-            <Card className='min-h-96 p-4'>
-                <div className='grid grid-cols-4 gap-2'>
-                    <div className='col-span-1 flex justify-center'>
-                        <AreaChart data={data} />
-                    </div>
-                    <div className='col-span-1 flex justify-center'>
-                        Card2
-                    </div>
-                    <div className='col-span-1 flex justify-center'>
-                        Card3
-                    </div>
-                    <div className='col-span-1 flex justify-center'>
-                        Card4
-                    </div>
+            <div className='grid grid-cols-4 gap-6'>
+                <div className='col-span-1 flex justify-center'>
+                    <AreaChart data={impressionData} chartName='Impressions' color='#126352' interval='LAST_SEVEN_DAYS' />
                 </div>
-            </Card>
+                <div className='col-span-1 flex justify-center'>
+                    <AreaChart data={clickData} chartName='Clicks' color='#983232' interval='LAST_SEVEN_DAYS' />
+                </div>
+                <div className='col-span-1 flex justify-center'>
+                    <AreaChart data={winRateData} chartName='WinRate' color='#AA2498' interval='LAST_SEVEN_DAYS' />
+                </div>
+                <div className='col-span-1 flex justify-center'>
+                    {/* <AreaChart data={report} /> */}
+                </div>
+            </div>
         </div>
     )
 }
