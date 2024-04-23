@@ -25,3 +25,10 @@ export async function getWinRateReport() {
     if (!result.ok) return {status: 400, message: "Error in fetching data"}
     return await result.json()
 }
+
+export async function getEstimateReport() {
+    const url = `/reports/estimate/?userId=${userId}&interval=LAST_SEVEN_DAYS`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return {status: 400, message: "Error in fetching data"}
+    return await result.json()
+}

@@ -135,7 +135,7 @@ export default function AreaChart({
     }
 
     return (
-        <Card>
+        <Card className='hover:bg-slate-100 dark:hover:bg-slate-800'>
             <CardHeader>{chartName}</CardHeader>
             <CardContent className='p-4 m-0'>
                 <Chart

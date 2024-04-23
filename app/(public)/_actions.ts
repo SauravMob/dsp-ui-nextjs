@@ -22,15 +22,18 @@ export async function loginUser(data: LoginFormData) {
         return { status: 401, message: finalResult.message }
     }
 
-    cookies().set({ name: 'userId', value: finalResult.userId, httpOnly: true })
-    cookies().set({ name: 'userName', value: finalResult.userName, httpOnly: true })
-    cookies().set({ name: 'emailId', value: finalResult.emailId, httpOnly: true })
-    cookies().set({ name: 'accessToken', value: finalResult.accessToken, httpOnly: true })
-    cookies().set({ name: 'refreshToken', value: finalResult.refreshToken, httpOnly: true })
-    cookies().set({ name: 'roleId', value: finalResult.roleId, httpOnly: true })
-    cookies().set({ name: 'status', value: finalResult.status, httpOnly: true })
-    cookies().set({ name: 'accountBalance', value: finalResult.accountBalance, httpOnly: true })
-    cookies().set({ name: 'customFeatures', value: finalResult.customFeatures, httpOnly: true })
+    const fiveHoursInMilliseconds = 5 * 60 * 60 * 1000
+    const expirationTime = new Date(Date.now() + fiveHoursInMilliseconds)
+    
+    cookies().set({ name: 'userId', value: finalResult.userId, httpOnly: true, expires: expirationTime })
+    cookies().set({ name: 'userName', value: finalResult.userName, httpOnly: true, expires: expirationTime })
+    cookies().set({ name: 'emailId', value: finalResult.emailId, httpOnly: true, expires: expirationTime })
+    cookies().set({ name: 'accessToken', value: finalResult.accessToken, httpOnly: true, expires: expirationTime })
+    cookies().set({ name: 'refreshToken', value: finalResult.refreshToken, httpOnly: true, expires: expirationTime })
+    cookies().set({ name: 'roleId', value: finalResult.roleId, httpOnly: true, expires: expirationTime })
+    cookies().set({ name: 'status', value: finalResult.status, httpOnly: true, expires: expirationTime })
+    cookies().set({ name: 'accountBalance', value: finalResult.accountBalance, httpOnly: true, expires: expirationTime })
+    cookies().set({ name: 'customFeatures', value: finalResult.customFeatures, httpOnly: true, expires: expirationTime })
 
     revalidatePath('/', 'layout')
     redirect('/')
