@@ -21,8 +21,8 @@ export default function AreaChart({
     isDouble?: boolean
 }) {
 
-    const xaxis = isDouble ? Object.keys(data.today) : Object.keys(data.report) || []
-    const yaxis = isDouble ? Object.values(data.today) : Object.values(data.report) || []
+    const xaxis = isDouble ? Object.keys(data.today) : data?.report ? Object.keys(data.report) : []
+    const yaxis = isDouble ? Object.values(data.today) : data?.report ? Object.values(data.report) : []
     const yyaxis = isDouble && data.yesterday ? Object.values(data.yesterday) : []
     const statsCount = chartName === 'WinRate' ? (yaxis.reduce((p, a) => p + a, 0) / (yaxis.length === 0 ? 1 : yaxis.length)) : yaxis.reduce((p, a) => p + a, 0)
 

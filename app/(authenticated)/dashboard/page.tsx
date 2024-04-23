@@ -1,25 +1,31 @@
 import React from 'react'
 
-import { LayoutDashboard } from 'lucide-react'
 import { getClickReport, getEstimateReport, getImpressionReport, getWinRateReport } from './_actions'
 import dynamic from 'next/dynamic'
 import EstimationCard from '@/components/utility/customComponents/EstimationCard'
+import DashboardHeaders from './helpers/DashboardHeaders'
 const AreaChart = dynamic(() => import('@/components/utility/customComponents/AreaChart'), {
     ssr: false,
 })
 
-export default async function pages() {
-    
-    const impressionData = await getImpressionReport()
-    const clickData = await getClickReport()
-    const winRateData = await getWinRateReport()
-    const estimateData = await getEstimateReport()
-    
+export default async function pages({
+    params,
+    searchParams,
+}: {
+    params: { slug: string };
+    searchParams?: { [key: string]: string | undefined };
+}) {
+
+    const interval = searchParams?.interval || "LAST_SEVEN_DAYS"
+
+    const impressionData = await getImpressionReport(interval)
+    const clickData = await getClickReport(interval)
+    const winRateData = await getWinRateReport(interval)
+    const estimateData = await getEstimateReport(interval)
+
     return (
         <div>
-            <div className='font-bold mb-4 text-2xl flex items-center'>
-                <LayoutDashboard size={20} className='mr-1' /> Dashboard
-            </div>
+            <DashboardHeaders interval={interval}/>
 
             <div className='grid grid-cols-4 gap-6'>
                 <div className='col-span-1 flex justify-center'>

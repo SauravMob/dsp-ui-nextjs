@@ -5,30 +5,30 @@ import { cookies } from "next/headers"
 
 const userId = cookies().get('userId')?.value
 
-export async function getImpressionReport() {
-    const url = `/reports/impressions/${userId}/?interval=LAST_SEVEN_DAYS`
+export async function getImpressionReport(interval: string) {
+    const url = `/reports/impressions/${userId}/?interval=${interval}`
     const result = await HttpRequestApi('GET', url)
-    if (!result.ok) return {status: 400, message: "Error in fetching data"}
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }
 
-export async function getClickReport() {
-    const url = `/reports/clicks/${userId}/?interval=LAST_SEVEN_DAYS`
+export async function getClickReport(interval: string) {
+    const url = `/reports/clicks/${userId}/?interval=${interval}`
     const result = await HttpRequestApi('GET', url)
-    if (!result.ok) return {status: 400, message: "Error in fetching data"}
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }
 
-export async function getWinRateReport() {
-    const url = `/reports/winRate/${userId}/?interval=LAST_SEVEN_DAYS`
+export async function getWinRateReport(interval: string) {
+    const url = `/reports/winRate/${userId}/?interval=${interval}`
     const result = await HttpRequestApi('GET', url)
-    if (!result.ok) return {status: 400, message: "Error in fetching data"}
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }
 
-export async function getEstimateReport() {
-    const url = `/reports/estimate/?userId=${userId}&interval=LAST_SEVEN_DAYS`
+export async function getEstimateReport(interval: string) {
+    const url = `/reports/estimate/?userId=${userId}&interval=${interval}`
     const result = await HttpRequestApi('GET', url)
-    if (!result.ok) return {status: 400, message: "Error in fetching data"}
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }
