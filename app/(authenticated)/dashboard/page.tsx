@@ -17,15 +17,17 @@ export default async function pages({
 }) {
 
     const interval = searchParams?.interval || "LAST_SEVEN_DAYS"
+    const from = interval === 'CUSTOM' && searchParams?.from || ''
+    const to = interval === 'CUSTOM' && searchParams?.to || ''
 
-    const impressionData = await getImpressionReport(interval)
-    const clickData = await getClickReport(interval)
-    const winRateData = await getWinRateReport(interval)
-    const estimateData = await getEstimateReport(interval)
+    const impressionData = await getImpressionReport(interval, from, to)
+    const clickData = await getClickReport(interval, from, to)
+    const winRateData = await getWinRateReport(interval, from, to)
+    const estimateData = await getEstimateReport(interval, from, to)
 
     return (
         <div>
-            <DashboardHeaders interval={interval}/>
+            <DashboardHeaders interval={interval} />
 
             <div className='grid grid-cols-4 gap-6'>
                 <div className='col-span-1 flex justify-center'>

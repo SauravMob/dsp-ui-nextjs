@@ -3,6 +3,7 @@
 import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu'
 import { LayoutDashboard } from 'lucide-react'
 import React, { useState } from 'react'
+import DashboardSheet from './DashboardSheet'
 
 export default function DashboardHeaders({ interval }: { interval: string }) {
     const [active, setActive] = useState<string | null>(interval)
@@ -59,6 +60,11 @@ export default function DashboardHeaders({ interval }: { interval: string }) {
                             <HoveredLink href="/dashboard?interval=LAST_MONTH">
                                 <div className='flex items-center'>
                                     Last Month
+                                </div>
+                            </HoveredLink>
+                            <HoveredLink href="#">
+                                <div className='flex items-center'>
+                                    <DashboardSheet />
                                 </div>
                             </HoveredLink>
                         </div>
