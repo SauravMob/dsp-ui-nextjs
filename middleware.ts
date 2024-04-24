@@ -3,11 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname
     const isPublicPath = path === '/login' || path === '/signup' || path === '/privacy-policy' || path === '/ad-policy'
+    
+    const roleId = request.cookies.get('roleId')?.value || ''
+    if (path === '/') return NextResponse.redirect(new URL(roleId === '2' ? '/admin-dashboard' : '/dashboard', request.nextUrl))
 
     const userId = request.cookies.get('userId')?.value || ''
 
     if (isPublicPath && userId) {
-        return NextResponse.redirect(new URL('/', request.nextUrl))
+        return NextResponse.redirect(new URL(roleId === '2' ? '/admin-dashboard' : '/dashboard', request.nextUrl))
     }
 
     if (!isPublicPath && !userId) {
@@ -18,19 +21,19 @@ export function middleware(request: NextRequest) {
 export const config = {
     matcher: [
         // COMMONS
-        '/', 
+        '/',
         '/login',
         '/signup',
         '/privacy-policy',
         '/ad-policy',
 
         // DASHBOARD
-        '/dashboard', 
-        '/admin-dashboard', 
+        '/dashboard',
+        '/admin-dashboard',
 
         // MANAGE
-        '/campaign-manager', 
-        '/creative-manager', 
+        '/campaign-manager',
+        '/creative-manager',
         '/campaigns/:path*',
         '/advertisers/:path*',
         '/inventory/:path*',
@@ -58,4 +61,4 @@ export const config = {
         '/manage-users/:path*',
         '/admin-tools/:path*'
     ]
-  }
+}

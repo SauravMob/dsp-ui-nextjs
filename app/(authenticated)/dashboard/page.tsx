@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 
 import { getClickReport, getEstimateReport, getImpressionReport, getTabularReport, getWinRateReport } from './actions'
 import dynamic from 'next/dynamic'
@@ -30,24 +30,20 @@ export default async function pages({
     return (
         <div>
             <DashboardHeaders interval={interval} />
-
             <div className='grid grid-cols-4 gap-6'>
                 <div className='col-span-1 flex justify-center'>
-                    <Suspense fallback={<>LOADING....</>}>
-                        <AreaChart data={impressionData} chartName='Impressions' color='#126352' interval='LAST_SEVEN_DAYS' />
-                    </Suspense>
+                    <AreaChart data={impressionData} chartName='Impressions' color='#126352' interval={interval} />
                 </div>
                 <div className='col-span-1 flex justify-center'>
-                    <AreaChart data={clickData} chartName='Clicks' color='#983232' interval='LAST_SEVEN_DAYS' />
+                    <AreaChart data={clickData} chartName='Clicks' color='#983232' interval={interval} />
                 </div>
                 <div className='col-span-1 flex justify-center'>
-                    <AreaChart data={winRateData} chartName='WinRate' color='#AA2498' interval='LAST_SEVEN_DAYS' />
+                    <AreaChart data={winRateData} chartName='WinRate' color='#AA2498' interval={interval} />
                 </div>
                 <div className='col-span-1 flex justify-center'>
                     <EstimationCard data={estimateData} />
                 </div>
             </div>
-
             <div className='mt-5'>
                 <DashboardDatatable data={tabularData} />
             </div>
