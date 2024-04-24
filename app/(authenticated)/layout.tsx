@@ -17,7 +17,7 @@ export default function RootLayout({
     return (
         <div className="min-h-screen">
             <Navbar className="top-0" />
-            <div className=" pt-24 px-4">
+            <div className="pb-5 pt-24 px-4">
                 {children}
             </div>
             {/* <div className="flex items-center   ">

@@ -170,7 +170,7 @@ export default function DataTable<TData, TValue>({
     return (
         <div>
             <div className="rounded-md border">
-                <Table>
+                <Table className='text-sm'>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>

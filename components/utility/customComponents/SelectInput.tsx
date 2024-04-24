@@ -15,7 +15,8 @@ export interface SelectInputProps {
     placeholder: string
     isClearable?: boolean
     isSearchable?: boolean
-    name: string
+    name: string,
+    value?: SelectOption
 }
 
 export interface MultiSelectInputProps {
@@ -25,16 +26,18 @@ export interface MultiSelectInputProps {
     placeholder: string
     isClearable?: boolean
     isSearchable?: boolean
-    name: string
+    name: string,
+    value?: SelectOption
 }
 
 const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputProps>(
-    ({ className, options, ...props }, ref) => {
+    ({ className, options, value, ...props }, ref) => {
         return (
             <Select
                 unstyled
                 instanceId={"id"}
                 className={cn("w-full", className)}
+                value={value}
                 classNamePrefix="select"
                 classNames={{
                     control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950"),
@@ -53,12 +56,13 @@ const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputPro
 MultiSelectInput.displayName = "MultiSelectInput"
 
 const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
-    ({ className, options, ...props }, ref) => {
+    ({ className, options, value, ...props }, ref) => {
         return (
             <Select
                 unstyled
                 instanceId={"id"}
                 className={cn("w-full", className)}
+                value={value}
                 classNames={{
                     control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950"),
                     placeholder: () => "placeholder:text-slate-500 dark:placeholder:text-slate-400",

@@ -62,3 +62,16 @@ export async function getTabularReport(
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }
+
+export async function getBarChartData(
+    interval: string,
+    from?: string,
+    to?: string,
+    reportType?: string
+) {
+    const userId = cookies().get('userId')?.value
+    const url = interval === "CUSTOM" ? `/barChart?interval=CUSTOM&from=${from}&to=${to}&reportType=${reportType?.toUpperCase()}&userId=${userId}` : `/barChart?interval=${interval}&reportType=${reportType?.toUpperCase()}&userId=${userId}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}

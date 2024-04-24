@@ -144,6 +144,7 @@ export default function AreaChart({
                     options={options}
                     series={series}
                     type='area'
+                    height={100}
                 />
             </CardContent>
             <CardFooter>{getStatSum()}</CardFooter>

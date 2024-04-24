@@ -1,11 +1,14 @@
 import React from 'react'
 
-import { getClickReport, getEstimateReport, getImpressionReport, getTabularReport, getWinRateReport } from './actions'
+import { getBarChartData, getClickReport, getEstimateReport, getImpressionReport, getTabularReport, getWinRateReport } from './actions'
 import dynamic from 'next/dynamic'
 import EstimationCard from '@/components/utility/customComponents/EstimationCard'
 import DashboardHeaders from './helpers/DashboardHeaders'
 import DashboardDatatable from './helpers/DashboardDatatable'
 const AreaChart = dynamic(() => import('@/components/utility/customComponents/AreaChart'), {
+    ssr: false
+})
+const BarChart = dynamic(() => import('@/components/utility/customComponents/BarChart'), {
     ssr: false
 })
 
@@ -20,12 +23,15 @@ export default async function pages({
     const interval = searchParams?.interval || "LAST_SEVEN_DAYS"
     const from = interval === 'CUSTOM' ? searchParams?.from : ''
     const to = interval === 'CUSTOM' ? searchParams?.to : ''
+    const reportType = searchParams?.reportType ? searchParams.reportType : "impressions"
 
     const impressionData = await getImpressionReport(interval, from, to)
     const clickData = await getClickReport(interval, from, to)
     const winRateData = await getWinRateReport(interval, from, to)
     const estimateData = await getEstimateReport(interval, from, to)
     const tabularData = await getTabularReport(interval, from, to)
+
+    const barData = await getBarChartData(interval, from, to, reportType)
 
     return (
         <div>
@@ -46,6 +52,9 @@ export default async function pages({
             </div>
             <div className='mt-5'>
                 <DashboardDatatable data={tabularData} />
+            </div>
+            <div className='mt-5'>
+                <BarChart data={barData} reportType={reportType} />
             </div>
         </div>
     )

@@ -4,8 +4,11 @@ import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu'
 import { LayoutDashboard } from 'lucide-react'
 import React, { useState } from 'react'
 import DashboardSheet from './DashboardSheet'
+import { useSearchParams } from 'next/navigation'
 
 export default function DashboardHeaders({ interval }: { interval: string }) {
+    const searchParams = useSearchParams()
+    const uri = searchParams.has('reportType') ? `/dashboard?reportType=${searchParams.get('reportType')}&interval=` : `/dashboard?interval=`
     const [active, setActive] = useState<string | null>(interval)
 
     const item = (() => {
@@ -37,27 +40,27 @@ export default function DashboardHeaders({ interval }: { interval: string }) {
                 <Menu setActive={setActive} className='px-0'>
                     <MenuItem setActive={setActive} active={active} item={item}>
                         <div className="flex flex-col space-y-4 text-sm">
-                            <HoveredLink href="/dashboard?interval=TODAY">
+                            <HoveredLink href={`${uri}TODAY`}>
                                 <div className='flex items-center'>
                                     Today
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href="/dashboard?interval=YESTERDAY">
+                            <HoveredLink href={`${uri}YESTERDAY`}>
                                 <div className='flex items-center'>
                                     Yesterday
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href="/dashboard?interval=LAST_SEVEN_DAYS">
+                            <HoveredLink href={`${uri}LAST_SEVEN_DAYS`}>
                                 <div className='flex items-center'>
                                     Last 7 days
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href="/dashboard?interval=THIS_MONTH">
+                            <HoveredLink href={`${uri}THIS_MONTH`}>
                                 <div className='flex items-center'>
                                     This Month
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href="/dashboard?interval=LAST_MONTH">
+                            <HoveredLink href={`${uri}LAST_MONTH`}>
                                 <div className='flex items-center'>
                                     Last Month
                                 </div>
