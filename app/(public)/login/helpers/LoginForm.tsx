@@ -10,7 +10,7 @@ import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { Eye, EyeOff } from 'lucide-react'
-import { loginUser } from '../../_actions'
+import { loginUser } from '../../actions'
 import { LoginFormData, formSchema } from '../types/LoginTypes'
 import { toast } from '@/components/ui/use-toast'
 

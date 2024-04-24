@@ -115,14 +115,16 @@ export default function AreaChart({
         }
     }
 
-    const series = isDouble ? [{
-        name: 'Today',
-        data: yaxis
-    },
-    {
-        name: 'Yesterday',
-        data: yyaxis
-    }] : [
+    const series = isDouble ? [
+        {
+            name: 'Today',
+            data: yaxis
+        },
+        {
+            name: 'Yesterday',
+            data: yyaxis
+        }
+    ] : [
         {
             name: "",
             data: yaxis

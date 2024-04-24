@@ -13,7 +13,7 @@ export const HttpRequestApi = async (
         method,
         headers: {
             "Content-type": "application/json",
-            "Authorization": `Bearer ${ACCESS_TOKEN}`
+            Authorization: `Bearer ${ACCESS_TOKEN}`
         }
     }
 

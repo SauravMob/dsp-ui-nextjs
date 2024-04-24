@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import ReCAPTCHA from "react-google-recaptcha"
 import { countryOption } from '@/components/utility/utils/GeoUtils'
 import { SelectInput } from '@/components/utility/customComponents/SelectInput'
-import { registerUser } from '../../_actions'
+import { registerUser } from '../../actions'
 import { toast } from '@/components/ui/use-toast'
 import { Eye, EyeOff } from 'lucide-react'
 import TNCModal from './TNCModal'

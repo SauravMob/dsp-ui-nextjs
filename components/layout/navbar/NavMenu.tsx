@@ -1,12 +1,12 @@
 "use client"
 
-import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu';
+import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu'
 import React, { useState } from 'react'
-import { NavList } from './NavList';
-import { NavOption } from './NavbarTypes';
+import { NavList } from './NavList'
+import { NavOption } from './NavbarTypes'
 
 export default function NavMenu({ roleId }: { roleId: string }) {
-    const [active, setActive] = useState<string | null>(null);
+    const [active, setActive] = useState<string | null>(null)
     return (
         <Menu setActive={setActive}>
             {NavList(roleId).map((item, k: number) => (
