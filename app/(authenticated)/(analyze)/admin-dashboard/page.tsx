@@ -32,7 +32,7 @@ export default async function page({
 
   return (
     <div>
-      <AdminDashboardHeader />
+      <AdminDashboardHeader interval={interval} reportType={reportType} advertiserId={advertiserId} sspUserId={sspUserId} />
       <div className='grid grid-cols-4 gap-6'>
         <div className='col-span-3 flex justify-center'>
           <AreaChart

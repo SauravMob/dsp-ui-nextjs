@@ -140,7 +140,7 @@ export default function AreaChart({
 
     return (
         <Card className='hover:bg-slate-100 dark:hover:bg-slate-800 w-full'>
-            <CardHeader>{chartName}</CardHeader>
+            <CardHeader>{`${chartName} - Hourly`}</CardHeader>
             <CardContent className='p-4 m-0'>
                 <Chart
                     options={options}

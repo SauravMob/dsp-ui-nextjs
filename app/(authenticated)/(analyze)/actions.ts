@@ -164,3 +164,12 @@ export async function getAdminTabularReport(
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }
+
+export async function fetchUserByRole(
+    role: string
+) {
+    const url = `/users/idName?role=${role}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
