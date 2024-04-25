@@ -52,27 +52,27 @@ export default function DashboardHeaders({ interval }: { interval: string }) {
                 <Menu setActive={setActive} className='px-0'>
                     <MenuItem setActive={setActive} active={active} item={item}>
                         <div className="flex flex-col space-y-4 text-sm">
-                            <HoveredLink href={pathname + '?' + createQueryString('interval', 'TODAY')}>
+                            <HoveredLink href={`${pathname}?${createQueryString('interval', 'TODAY')}`}>
                                 <div className='flex items-center'>
                                     Today
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href={pathname + '?' + createQueryString('interval', "YESTERDAY")}>
+                            <HoveredLink href={`${pathname}?${createQueryString('interval', "YESTERDAY")}`}>
                                 <div className='flex items-center'>
                                     Yesterday
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href={pathname + '?' + createQueryString('interval', "LAST_SEVEN_DAYS")}>
+                            <HoveredLink href={`${pathname}?${createQueryString('interval', "LAST_SEVEN_DAYS")}`}>
                                 <div className='flex items-center'>
                                     Last 7 days
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href={pathname + '?' + createQueryString('interval', "THIS_MONTH")}>
+                            <HoveredLink href={`${pathname}?${createQueryString('interval', "THIS_MONTH")}`}>
                                 <div className='flex items-center'>
                                     This Month
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href={pathname + '?' + createQueryString('interval', "LAST_MONTH")}>
+                            <HoveredLink href={`${pathname}?${createQueryString('interval', "LAST_MONTH")}`}>
                                 <div className='flex items-center'>
                                     Last Month
                                 </div>

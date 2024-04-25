@@ -115,7 +115,7 @@ export default function BarChart({
             labels: {
                 show: true,
                 style: {
-                    colors: xAxis.map(v => localStorage.getItem('theme') === 'dark' ? "white" : "black")
+                    colors: xAxis.map(v => { return localStorage.getItem('theme') === 'dark' ? "white" : "black" })
                 }
             },
             axisBorder: {
@@ -169,7 +169,7 @@ export default function BarChart({
                             name="reportType"
                             value={reportTypeOptions.filter(v => v.value === reportType)[0]}
                             options={reportTypeOptions}
-                            onChange={(e) => router.push(pathname + '?' + createQueryString('reportType', e?.value || ''))}
+                            onChange={(e) => router.push(`${pathname}?${createQueryString('reportType', e?.value || '')}`)}
                         />
                     </div>
                     <div className=' col-span-1'>
@@ -182,7 +182,7 @@ export default function BarChart({
                             loadOptions={campaignFilter}
                             onChange={(e) => {
                                 setCampaign(e ? e.value : '')
-                                router.push(pathname + '?' + createQueryString('campaignId', e?.value || ''))
+                                router.push(`${pathname}?${createQueryString('campaignId', e?.value || '')}`)
                             }}
                         />
                     </div>
@@ -196,7 +196,7 @@ export default function BarChart({
                             loadOptions={creativeFilter}
                             onChange={(e) => {
                                 setCreative(e ? e.value : '')
-                                router.push(pathname + '?' + createQueryString('creativeId', e?.value || ''))
+                                router.push(`${pathname}?${createQueryString('creativeId', e?.value || '')}`)
                             }}
                         />
                     </div>

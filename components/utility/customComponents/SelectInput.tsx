@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import clsx from 'clsx'
 import * as React from 'react'
 import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select'
-import AsyncSelect from 'react-select/async';
+import AsyncSelect from 'react-select/async'
 
 export interface SelectOption {
     label: string

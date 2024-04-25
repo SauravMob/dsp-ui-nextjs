@@ -43,11 +43,11 @@ export default function DashboardSheet() {
                 />
             </div>
             <div className='flex justify-center my-3'>
-                <Link href={pathname + '?' + [
+                <Link href={`${pathname}?${[
                     createQueryString('interval', date ? 'CUSTOM' : 'LAST_SEVEN_DAYS'),
                     date ? `from=${formatQryDate(date.from)}` : '',
                     date ? `to=${formatQryDate(date.to)}` : ''
-                ].filter(Boolean).join('&')}>Submit</Link>
+                ].filter(Boolean).join('&')}`}>Submit</Link>
             </div>
         </SheetContent>
     </Sheet>

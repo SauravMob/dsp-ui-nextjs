@@ -72,9 +72,7 @@ export async function getBarChartData(
     creativeId?: string
 ) {
     const userId = cookies().get('userId')?.value
-    const url = interval === "CUSTOM"
-        ? `/barChart?interval=CUSTOM&from=${from}&to=${to}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}`
-        : `/barChart?interval=${interval}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}`
+    const url = interval === "CUSTOM" ? `/barChart?interval=CUSTOM&from=${from}&to=${to}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}` : `/barChart?interval=${interval}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
