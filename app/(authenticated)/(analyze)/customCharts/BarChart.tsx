@@ -5,7 +5,7 @@ import React, { useCallback, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { AutoComplete, SelectInput } from '@/components/utility/customComponents/SelectInput'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { fetchCampaignIdNameList, fetchCreativeIdNameList } from '@/app/(authenticated)/dashboard/actions'
+import { fetchCampaignIdNameList, fetchCreativeIdNameList } from '@/app/(authenticated)/(analyze)/actions'
 
 type ReportData = {
     bids: null
@@ -169,7 +169,7 @@ export default function BarChart({
                             name="reportType"
                             value={reportTypeOptions.filter(v => v.value === reportType)[0]}
                             options={reportTypeOptions}
-                            onChange={(e) => router.push(`${pathname}?${createQueryString('reportType', e?.value || '')}`)}
+                            onChange={(e) => router.push(`${pathname}?${createQueryString('reportType', e?.value || '')}`, { scroll: false })}
                         />
                     </div>
                     <div className=' col-span-1'>
@@ -182,7 +182,7 @@ export default function BarChart({
                             loadOptions={campaignFilter}
                             onChange={(e) => {
                                 setCampaign(e ? e.value : '')
-                                router.push(`${pathname}?${createQueryString('campaignId', e?.value || '')}`)
+                                router.push(`${pathname}?${createQueryString('campaignId', e?.value || '')}`, { scroll: false })
                             }}
                         />
                     </div>
@@ -196,7 +196,7 @@ export default function BarChart({
                             loadOptions={creativeFilter}
                             onChange={(e) => {
                                 setCreative(e ? e.value : '')
-                                router.push(`${pathname}?${createQueryString('creativeId', e?.value || '')}`)
+                                router.push(`${pathname}?${createQueryString('creativeId', e?.value || '')}`, { scroll: false })
                             }}
                         />
                     </div>

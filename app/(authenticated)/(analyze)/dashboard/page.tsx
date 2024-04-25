@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { getBarChartData, getClickReport, getEstimateReport, getImpressionReport, getTabularReport, getWinRateReport } from './actions'
+import { getBarChartData, getClickReport, getEstimateReport, getImpressionReport, getTabularReport, getWinRateReport } from '../actions'
 import dynamic from 'next/dynamic'
-import EstimationCard from '@/components/utility/customComponents/EstimationCard'
+import EstimationCard from '../customCharts/EstimationCard'
 import DashboardHeaders from './helpers/DashboardHeaders'
 import DashboardDatatable from './helpers/DashboardDatatable'
-const AreaChart = dynamic(() => import('@/components/utility/customComponents/AreaChart'), {
+const AreaChart = dynamic(() => import('../customCharts/AreaChart'), {
     ssr: false
 })
-const BarChart = dynamic(() => import('@/components/utility/customComponents/BarChart'), {
+const BarChart = dynamic(() => import('../customCharts/BarChart'), {
     ssr: false
 })
 

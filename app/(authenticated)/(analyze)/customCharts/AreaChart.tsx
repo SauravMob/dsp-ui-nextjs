@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import React from 'react'
 import Chart from 'react-apexcharts'
-import { kFormatter, numFormatter } from '../utils/Utils'
+import { kFormatter, numFormatter } from '../../../../components/utility/utils/Utils'
 
 export default function AreaChart({
     data,
@@ -11,14 +11,16 @@ export default function AreaChart({
     color,
     isLabel,
     interval,
-    isDouble
+    isDouble,
+    height
 }: {
     data: Record<string, number>,
     chartName: string,
     color: string,
     isLabel?: boolean,
     interval: string,
-    isDouble?: boolean
+    isDouble?: boolean,
+    height?: number
 }) {
 
     const xaxis = isDouble ? Object.keys(data.today) : data?.report ? Object.keys(data.report) : []
@@ -48,7 +50,7 @@ export default function AreaChart({
         grid: {
             show: false
         },
-        colors: [color],
+        colors: [color, "#983232"],
         dataLabels: {
             enabled: false
         },
@@ -137,14 +139,14 @@ export default function AreaChart({
     }
 
     return (
-        <Card className='hover:bg-slate-100 dark:hover:bg-slate-800'>
+        <Card className='hover:bg-slate-100 dark:hover:bg-slate-800 w-full'>
             <CardHeader>{chartName}</CardHeader>
             <CardContent className='p-4 m-0'>
                 <Chart
                     options={options}
                     series={series}
                     type='area'
-                    height={100}
+                    height={height ? height : 100}
                 />
             </CardContent>
             <CardFooter>{getStatSum()}</CardFooter>
