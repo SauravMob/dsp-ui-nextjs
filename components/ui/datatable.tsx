@@ -10,6 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { cn } from "@/lib/utils"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
+export type ExtendedColumnDef<TData, TValue> = ColumnDef<TData, TValue> & {
+    className?: string;
+};
+
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
@@ -197,7 +201,7 @@ export default function DataTable<TData, TValue>({
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className={(columns.find(col => col.header === cell.column.columnDef.header) as ExtendedColumnDef<TData, TValue>)?.className}>
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}

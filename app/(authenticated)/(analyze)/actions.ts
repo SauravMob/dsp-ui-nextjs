@@ -9,7 +9,8 @@ export async function getImpressionReport(
     to?: string
 ) {
     const userId = cookies().get('userId')?.value
-    const url = interval === "CUSTOM" ? `/reports/impressions/${userId}?interval=CUSTOM&from=${from}&to=${to}` : `/reports/impressions/${userId}?interval=${interval}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/reports/impressions/${userId}?${customInterval}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -21,7 +22,8 @@ export async function getClickReport(
     to?: string
 ) {
     const userId = cookies().get('userId')?.value
-    const url = interval === "CUSTOM" ? `/reports/clicks/${userId}?interval=CUSTOM&from=${from}&to=${to}` : `/reports/clicks/${userId}?interval=${interval}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/reports/clicks/${userId}?${customInterval}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -33,7 +35,8 @@ export async function getWinRateReport(
     to?: string
 ) {
     const userId = cookies().get('userId')?.value
-    const url = interval === "CUSTOM" ? `/reports/winRate/${userId}?interval=CUSTOM&from=${from}&to=${to}` : `/reports/winRate/${userId}?interval=${interval}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/reports/winRate/${userId}?${customInterval}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -46,7 +49,8 @@ export async function getEstimateReport(
 ) {
     const roleId = cookies().get('roleId')?.value
     const userId = roleId === '2' ? '' : cookies().get('userId')?.value
-    const url = interval === "CUSTOM" ? `/reports/estimate?interval=CUSTOM&from=${from}&to=${to}${userId ? `&userId=${userId}` : ''}` : `/reports/estimate?interval=${interval}${userId ? `&userId=${userId}` : ''}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/reports/estimate?${customInterval}${userId ? `&userId=${userId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -58,7 +62,8 @@ export async function getTabularReport(
     to?: string
 ) {
     const userId = cookies().get('userId')?.value
-    const url = interval === "CUSTOM" ? `/reports/${userId}?interval=CUSTOM&from=${from}&to=${to}` : `/reports/${userId}?interval=${interval}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/reports/${userId}?${customInterval}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -73,7 +78,8 @@ export async function getBarChartData(
     creativeId?: string
 ) {
     const userId = cookies().get('userId')?.value
-    const url = interval === "CUSTOM" ? `/barChart?interval=CUSTOM&from=${from}&to=${to}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}` : `/barChart?interval=${interval}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/barChart?${customInterval}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -108,7 +114,8 @@ export async function getImpressionChartData(
     advertiserId?: string,
     sspUserId?: string
 ) {
-    const url = interval === "CUSTOM" ? `/admin/reports/impressions?interval=CUSTOM&from=${from}&to=${to}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}` : `/admin/reports/impressions?interval=${interval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/admin/reports/impressions?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -121,7 +128,8 @@ export async function getClicksChartData(
     advertiserId?: string,
     sspUserId?: string
 ) {
-    const url = interval === "CUSTOM" ? `/admin/reports/clicks?interval=CUSTOM&from=${from}&to=${to}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}` : `/admin/reports/clicks?interval=${interval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/admin/reports/clicks?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -134,7 +142,8 @@ export async function getBidsChartData(
     advertiserId?: string,
     sspUserId?: string
 ) {
-    const url = interval === "CUSTOM" ? `/admin/reports/bids?interval=CUSTOM&from=${from}&to=${to}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}` : `/admin/reports/bids?interval=${interval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/admin/reports/bids?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -149,7 +158,8 @@ export async function getAdminTabularReport(
     pageNo?: string,
     pageSize?: string
 ) {
-    const url = interval === "CUSTOM" ? `/admin/reports/tabular?interval=CUSTOM&from=${from}&to=${to}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}&pageNo=${pageNo}&pageSize=${pageSize}` : `/admin/reports/tabular?interval=${interval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}&pageNo=${pageNo}&pageSize=${pageSize}`
+    const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
+    const url = `/admin/reports/tabular?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}&pageNo=${pageNo}&pageSize=${pageSize}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()

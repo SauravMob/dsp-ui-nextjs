@@ -2,9 +2,8 @@
 
 import React from 'react'
 
-import { ColumnDef } from "@tanstack/react-table"
 import { Card, CardHeader } from '@/components/ui/card'
-import DataTable, { DataTableColumnHeader } from '@/components/ui/datatable'
+import DataTable, { DataTableColumnHeader, ExtendedColumnDef } from '@/components/ui/datatable'
 
 type TabularData = {
     impressions: number,
@@ -15,42 +14,48 @@ type TabularData = {
     date: string
 }
 
-const dashboardColumns: ColumnDef<TabularData>[] = [
+const dashboardColumns: ExtendedColumnDef<TabularData, any>[] = [
     {
         accessorKey: "date",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Date" />
-        )
+            <DataTableColumnHeader column={column} title="Date" className='justify-center' />
+        ),
+        className: "text-center text-nowrap"
     },
     {
         accessorKey: "impressions",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Impressions" />
-        )
+            <DataTableColumnHeader column={column} title="Impressions" className='justify-center' />
+        ),
+        className: "text-end"
     },
     {
         accessorKey: "clicks",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Clicks" />
-        )
+            <DataTableColumnHeader column={column} title="Clicks" className='justify-center' />
+        ),
+        className: "text-end"
     },
     {
         accessorKey: "ctr",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="CTR" />
-        )
+            <DataTableColumnHeader column={column} title="CTR" className='justify-center' />
+        ),
+        className: "text-end"
     },
     {
         accessorKey: "install",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Installs" />
-        )
+            <DataTableColumnHeader column={column} title="Installs" className='justify-center' />
+        ),
+        className: "text-end"
     },
     {
         accessorKey: "spends",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Spends" />
-        )
+            <DataTableColumnHeader column={column} title="Spends" className='justify-center' />
+        ),
+        className: "text-end"
     }
 ]
 
