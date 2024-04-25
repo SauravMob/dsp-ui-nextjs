@@ -4,17 +4,27 @@ import { Calendar } from '@/components/ui/calendar'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { formatQryDate, todayDate, todayMinus2Date, todayMinus3MonthsDate } from '@/components/utility/utils/Utils'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import React, { useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import React, { useCallback, useState } from 'react'
 
-export default function DashboardSheet () {
+export default function DashboardSheet() {
     const [date, setDate] = useState<{
         from: Date | undefined;
         to?: Date | undefined;
     } | undefined>({ from: todayMinus2Date, to: todayDate })
 
+    const pathname = usePathname()
     const searchParams = useSearchParams()
-    const url = date ? searchParams.has('reportType') ? `/dashboard?reportType=${searchParams.get("reportType")}&interval=CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : `/dashboard?interval=CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : '/dashboard?interval=LAST_SEVEN_DAYS'
+
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString())
+            if (value) params.set(name, value)
+            else params.delete(name)
+            return params.toString()
+        },
+        [searchParams]
+    )
 
     return <Sheet>
         <SheetTrigger>
@@ -33,7 +43,11 @@ export default function DashboardSheet () {
                 />
             </div>
             <div className='flex justify-center my-3'>
-                <Link href={url}>Submit</Link>
+                <Link href={pathname + '?' + [
+                    createQueryString('interval', date ? 'CUSTOM' : 'LAST_SEVEN_DAYS'),
+                    date ? `from=${formatQryDate(date.from)}` : '',
+                    date ? `to=${formatQryDate(date.to)}` : ''
+                ].filter(Boolean).join('&')}>Submit</Link>
             </div>
         </SheetContent>
     </Sheet>

@@ -2,14 +2,26 @@
 
 import { HoveredLink, Menu, MenuItem } from '@/components/ui/navbar-menu'
 import { LayoutDashboard } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import DashboardSheet from './DashboardSheet'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 export default function DashboardHeaders({ interval }: { interval: string }) {
+    const pathname = usePathname()
     const searchParams = useSearchParams()
-    const uri = searchParams.has('reportType') ? `/dashboard?reportType=${searchParams.get('reportType')}&interval=` : `/dashboard?interval=`
     const [active, setActive] = useState<string | null>(interval)
+
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString())
+            params.delete('from')
+            params.delete('to')
+            if (value) params.set(name, value)
+            else params.delete(name)
+            return params.toString()
+        },
+        [searchParams]
+    )
 
     const item = (() => {
         switch (interval) {
@@ -40,27 +52,27 @@ export default function DashboardHeaders({ interval }: { interval: string }) {
                 <Menu setActive={setActive} className='px-0'>
                     <MenuItem setActive={setActive} active={active} item={item}>
                         <div className="flex flex-col space-y-4 text-sm">
-                            <HoveredLink href={`${uri}TODAY`}>
+                            <HoveredLink href={pathname + '?' + createQueryString('interval', 'TODAY')}>
                                 <div className='flex items-center'>
                                     Today
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href={`${uri}YESTERDAY`}>
+                            <HoveredLink href={pathname + '?' + createQueryString('interval', "YESTERDAY")}>
                                 <div className='flex items-center'>
                                     Yesterday
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href={`${uri}LAST_SEVEN_DAYS`}>
+                            <HoveredLink href={pathname + '?' + createQueryString('interval', "LAST_SEVEN_DAYS")}>
                                 <div className='flex items-center'>
                                     Last 7 days
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href={`${uri}THIS_MONTH`}>
+                            <HoveredLink href={pathname + '?' + createQueryString('interval', "THIS_MONTH")}>
                                 <div className='flex items-center'>
                                     This Month
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href={`${uri}LAST_MONTH`}>
+                            <HoveredLink href={pathname + '?' + createQueryString('interval', "LAST_MONTH")}>
                                 <div className='flex items-center'>
                                     Last Month
                                 </div>

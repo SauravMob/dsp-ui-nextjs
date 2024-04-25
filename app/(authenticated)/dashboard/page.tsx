@@ -24,6 +24,8 @@ export default async function pages({
     const from = interval === 'CUSTOM' ? searchParams?.from : ''
     const to = interval === 'CUSTOM' ? searchParams?.to : ''
     const reportType = searchParams?.reportType ? searchParams.reportType : "impressions"
+    const campaignId = searchParams?.campaignId ? searchParams.campaignId : ""
+    const creativeId = searchParams?.creativeId ? searchParams.creativeId : ""
 
     const impressionData = await getImpressionReport(interval, from, to)
     const clickData = await getClickReport(interval, from, to)
@@ -31,7 +33,7 @@ export default async function pages({
     const estimateData = await getEstimateReport(interval, from, to)
     const tabularData = await getTabularReport(interval, from, to)
 
-    const barData = await getBarChartData(interval, from, to, reportType)
+    const barData = await getBarChartData(interval, from, to, reportType, campaignId, creativeId)
 
     return (
         <div>
@@ -54,7 +56,7 @@ export default async function pages({
                 <DashboardDatatable data={tabularData} />
             </div>
             <div className='mt-5'>
-                <BarChart data={barData} reportType={reportType} />
+                <BarChart data={barData} reportType={reportType} campaignId={campaignId} creativeId={creativeId} />
             </div>
         </div>
     )

@@ -67,10 +67,34 @@ export async function getBarChartData(
     interval: string,
     from?: string,
     to?: string,
-    reportType?: string
+    reportType?: string,
+    campaignId?: string,
+    creativeId?: string
 ) {
     const userId = cookies().get('userId')?.value
-    const url = interval === "CUSTOM" ? `/barChart?interval=CUSTOM&from=${from}&to=${to}&reportType=${reportType?.toUpperCase()}&userId=${userId}` : `/barChart?interval=${interval}&reportType=${reportType?.toUpperCase()}&userId=${userId}`
+    const url = interval === "CUSTOM"
+        ? `/barChart?interval=CUSTOM&from=${from}&to=${to}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}`
+        : `/barChart?interval=${interval}&reportType=${reportType?.toUpperCase()}&userId=${userId}${campaignId ? `&campaignId=${campaignId}` : ''}${creativeId ? `&creativeId=${creativeId}` : ''}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function fetchCampaignIdNameList(
+    name?: string
+) {
+    const userId = cookies().get('userId')?.value
+    const url = `/campaigns/idName?row=5${name ? `&name=${name}` : ''}&userId=${userId}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function fetchCreativeIdNameList(
+    name?: string
+) {
+    const userId = cookies().get('userId')?.value
+    const url = `/creatives/idName?row=5${name ? `&name=${name}` : ''}&userId=${userId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()

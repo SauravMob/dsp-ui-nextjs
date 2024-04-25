@@ -1,10 +1,11 @@
 "use client"
 
 import { Card, CardContent } from '@/components/ui/card'
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import Chart from 'react-apexcharts'
-import { SelectInput } from '@/components/utility/customComponents/SelectInput'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { AutoComplete, SelectInput } from '@/components/utility/customComponents/SelectInput'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { fetchCampaignIdNameList, fetchCreativeIdNameList } from '@/app/(authenticated)/dashboard/actions'
 
 type ReportData = {
     bids: null
@@ -24,16 +25,48 @@ const reportTypeOptions = [
 
 export default function BarChart({
     data,
-    reportType
+    reportType,
+    campaignId,
+    creativeId
 }: {
     data: ReportData[],
-    reportType: string
+    reportType: string,
+    campaignId: string,
+    creativeId: string
 }) {
 
     const router = useRouter()
+    const pathname = usePathname()
     const searchParams = useSearchParams()
 
-    const uri = searchParams.has("interval") ? searchParams.get("interval") === "CUSTOM" ? `/dashboard?interval=CUSTOM&from=${searchParams.get('from')}&to=${searchParams.get('to')}&reportType=` : `/dashboard?interval=${searchParams.get("interval")}&reportType=` : `/dashboard?reportType=`
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString())
+            if (value) params.set(name, value)
+            else params.delete(name)
+            return params.toString()
+        },
+        [searchParams]
+    )
+
+    const [campaign, setCampaign] = useState<string | undefined>(campaignId)
+    const [campaignOptions, setCampaignOptions] = useState<{ value: string, label: string }[]>([])
+    const [creative, setCreative] = useState<string | undefined>(creativeId)
+    const [creativeOptions, setCreativeOptions] = useState<{ value: string, label: string }[]>([])
+
+    const campaignFilter = async (inputValue: string) => {
+        const fetch = await fetchCampaignIdNameList(inputValue)
+        const options = fetch.map((v: { id: string, name: string }) => ({ value: v.id, label: v.name }))
+        setCampaignOptions(options)
+        return options
+    }
+
+    const creativeFilter = async (inputValue: string) => {
+        const fetch = await fetchCreativeIdNameList(inputValue)
+        const options = fetch.map((v: { id: string, name: string }) => ({ value: v.id, label: v.name }))
+        setCreativeOptions(options)
+        return options
+    }
 
     const yAxis = data?.map(item => {
         if (reportType === "impressions" || reportType === "clicks" || reportType === "bids" || reportType === "installs" || reportType === "spends") return item[reportType]
@@ -136,29 +169,35 @@ export default function BarChart({
                             name="reportType"
                             value={reportTypeOptions.filter(v => v.value === reportType)[0]}
                             options={reportTypeOptions}
-                            onChange={(e) => router.push(`${uri}${e?.value}`)}
+                            onChange={(e) => router.push(pathname + '?' + createQueryString('reportType', e?.value || ''))}
                         />
                     </div>
                     <div className=' col-span-1'>
-                        <SelectInput
-                            placeholder="Report Type"
+                        <AutoComplete
+                            placeholder="Campaign..."
                             isClearable={true}
                             isSearchable={true}
-                            name="reportType"
-                            value={reportTypeOptions.filter(v => v.value === reportType)[0]}
-                            options={reportTypeOptions}
-                            onChange={(e) => router.push(`${uri}${e?.value}`)}
+                            name="campaign"
+                            value={campaignOptions.filter(v => v.value === campaign)[0]}
+                            loadOptions={campaignFilter}
+                            onChange={(e) => {
+                                setCampaign(e ? e.value : '')
+                                router.push(pathname + '?' + createQueryString('campaignId', e?.value || ''))
+                            }}
                         />
                     </div>
                     <div className=' col-span-1'>
-                        <SelectInput
-                            placeholder="Report Type"
+                        <AutoComplete
+                            placeholder="Creatives..."
                             isClearable={true}
                             isSearchable={true}
-                            name="reportType"
-                            value={reportTypeOptions.filter(v => v.value === reportType)[0]}
-                            options={reportTypeOptions}
-                            onChange={(e) => router.push(`${uri}${e?.value}`)}
+                            name="creative"
+                            value={creativeOptions.filter(v => v.value === creative)[0]}
+                            loadOptions={creativeFilter}
+                            onChange={(e) => {
+                                setCreative(e ? e.value : '')
+                                router.push(pathname + '?' + createQueryString('creativeId', e?.value || ''))
+                            }}
                         />
                     </div>
                 </div>
