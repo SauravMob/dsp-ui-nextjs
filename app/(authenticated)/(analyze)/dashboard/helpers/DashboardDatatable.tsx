@@ -3,7 +3,8 @@
 import React from 'react'
 
 import { Card, CardHeader } from '@/components/ui/card'
-import DataTable, { DataTableColumnHeader, ExtendedColumnDef } from '@/components/ui/datatable'
+import DataTable, { CustomPagination, DataTableColumnHeader } from '@/components/ui/datatable'
+import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 
 type TabularData = {
     impressions: number,
@@ -14,48 +15,42 @@ type TabularData = {
     date: string
 }
 
-const dashboardColumns: ExtendedColumnDef<TabularData, any>[] = [
+const dashboardColumns: ColumnDef<TabularData, any>[] = [
     {
         accessorKey: "date",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Date" className='justify-center' />
-        ),
-        className: "text-center text-nowrap"
+        )
     },
     {
         accessorKey: "impressions",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Impressions" className='justify-center' />
-        ),
-        className: "text-end"
+        )
     },
     {
         accessorKey: "clicks",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Clicks" className='justify-center' />
-        ),
-        className: "text-end"
+        )
     },
     {
         accessorKey: "ctr",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="CTR" className='justify-center' />
-        ),
-        className: "text-end"
+        )
     },
     {
         accessorKey: "install",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Installs" className='justify-center' />
-        ),
-        className: "text-end"
+        )
     },
     {
         accessorKey: "spends",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Spends" className='justify-center' />
-        ),
-        className: "text-end"
+        )
     }
 ]
 
@@ -64,10 +59,27 @@ export default function DashboardDataTable<TData, TValue>({
 }: {
     data: TabularData[]
 }) {
+
+    const table = useReactTable({
+        data: data,
+        columns: dashboardColumns,
+        getCoreRowModel: getCoreRowModel(),
+    })
+
     return (
         <Card className='p-6'>
             <CardHeader className='font-bold text-lg py-2 px-0'>Performance by Day</CardHeader>
-            <DataTable columns={dashboardColumns} data={data} />
+            <DataTable columns={dashboardColumns} table={table} />
+            <CustomPagination
+                table={table}
+                goToFirstPage={() => table.setPageIndex(0)}
+                goToPreviousPage={() => table.previousPage()}
+                goToNextPage={() => table.nextPage()}
+                goToLastPage={() => table.setPageIndex(table.getPageCount() - 1)}
+                onRowNumberChange={(value) => {
+                    table.setPageSize(Number(value))
+                }}
+            />
         </Card>
     )
 }

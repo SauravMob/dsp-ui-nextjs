@@ -22,7 +22,7 @@ export default async function page({
   const advertiserId = searchParams?.advertiserId ? searchParams.advertiserId : ""
   const sspUserId = searchParams?.sspUserId ? searchParams.sspUserId : ""
   const pageNo = searchParams?.pageNo ? searchParams.pageNo : "0"
-  const pageSize = searchParams?.pageSize ? searchParams.pageSize : "50"
+  const pageSize = searchParams?.pageSize ? searchParams.pageSize : "2"
 
   const impressionData = await getImpressionChartData(interval, from, to, advertiserId, sspUserId)
   const clicksData = await getClicksChartData(interval, from, to, advertiserId, sspUserId)
@@ -49,7 +49,7 @@ export default async function page({
         </div>
       </div>
       <div className='mt-5'>
-        <AdminDashboardDatatable interval={interval} data={tabularData.content} />
+        <AdminDashboardDatatable interval={interval} data={tabularData} pageNo={parseInt(pageNo)} pageSize={parseInt(pageSize)} />
       </div>
     </div>
   )
