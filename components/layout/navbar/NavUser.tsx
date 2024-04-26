@@ -24,7 +24,7 @@ export default function NavUser({ emailId, accountBalance }: { emailId: string, 
             <div className='hidden'>
                 <ThemeToggler />
             </div>
-            <div>
+            {emailId !== "admin@mobavenue.com" && <div>
                 <Menu setActive={setActive} className='px-0'>
                     <MenuItem setActive={setActive} active={active} item={accountBalance}>
                         <div className="flex flex-col space-y-4 text-sm">
@@ -36,7 +36,7 @@ export default function NavUser({ emailId, accountBalance }: { emailId: string, 
                         </div>
                     </MenuItem>
                 </Menu>
-            </div>
+            </div>}
             <div>
                 <Menu setActive={setActive} className='px-0'>
                     <MenuItem setActive={setActive} active={active} item={emailId}>

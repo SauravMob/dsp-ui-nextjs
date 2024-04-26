@@ -5,12 +5,20 @@ import dynamic from 'next/dynamic'
 import EstimationCard from '../customCharts/EstimationCard'
 import DashboardHeaders from './helpers/DashboardHeaders'
 import DashboardDatatable from './helpers/DashboardDatatable'
+import { Metadata } from 'next'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 const AreaChart = dynamic(() => import('../customCharts/AreaChart'), {
     ssr: false
 })
 const BarChart = dynamic(() => import('../customCharts/BarChart'), {
     ssr: false
 })
+
+export const metadata: Metadata = {
+    title: "Mobavenue | Dashboard",
+    description: "Mobavenue DSP dashboard for users"
+}
 
 export default async function pages({
     params,
@@ -19,6 +27,9 @@ export default async function pages({
     params: { slug: string }
     searchParams?: { [key: string]: string | undefined }
 }) {
+
+    const roleId = cookies().get('roleId')?.value
+    if (roleId === "2") redirect('/not-found')
 
     const interval = searchParams?.interval || "LAST_SEVEN_DAYS"
     const from = interval === 'CUSTOM' ? searchParams?.from : ''

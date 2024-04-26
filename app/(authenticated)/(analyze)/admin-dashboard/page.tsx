@@ -4,9 +4,17 @@ import AdminDashboardHeader from './helpers/AdminDashboardHeader'
 import dynamic from 'next/dynamic'
 import EstimationCard from '../customCharts/EstimationCard'
 import AdminDashboardDatatable from './helpers/AdminDashboardDatatable'
+import { Metadata } from 'next'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 const AreaChart = dynamic(() => import('../customCharts/AreaChart'), {
   ssr: false
 })
+
+export const metadata: Metadata = {
+  title: "Mobavenue | Admin Dashboard",
+  description: "Mobavenue DSP dashboard for admin"
+}
 
 export default async function page({
   params,
@@ -15,6 +23,10 @@ export default async function page({
   params: { slug: string }
   searchParams?: { [key: string]: string | undefined }
 }) {
+
+  const roleId = cookies().get('roleId')?.value
+  if (roleId !== "2") redirect('/not-found')
+
   const interval = searchParams?.interval || "TODAY"
   const from = interval === 'CUSTOM' ? searchParams?.from : ''
   const to = interval === 'CUSTOM' ? searchParams?.to : ''
@@ -32,7 +44,7 @@ export default async function page({
 
   return (
     <div>
-      <AdminDashboardHeader interval={interval} reportType={reportType} advertiserId={advertiserId} sspUserId={sspUserId} pageSize={pageSize}/>
+      <AdminDashboardHeader interval={interval} reportType={reportType} advertiserId={advertiserId} sspUserId={sspUserId} pageSize={pageSize} />
       <div className='grid grid-cols-4 gap-6'>
         <div className='col-span-3 flex justify-center'>
           <AreaChart

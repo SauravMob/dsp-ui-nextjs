@@ -176,8 +176,11 @@ export default function AdminDashboardSheet({
                 </div>
             </div>
             <div className='flex justify-center my-5'>
-                <SheetTrigger>
-                    <Button variant="default" onClick={() => router.push(uri)}>Submit</Button>
+                <SheetTrigger onClick={() => {
+                    router.refresh()
+                    router.push(uri)
+                }}>
+                    <div className='bg-slate-800 text-slate-200 hover:bg-slate-950 dark:bg-slate-200 dark:text-slate-950 dark:hover:bg-slate-400 font-semibold py-3 px-4 rounded-xl'>Submit</div>
                 </SheetTrigger>
             </div>
         </SheetContent>

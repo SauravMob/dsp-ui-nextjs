@@ -52,7 +52,7 @@ export default function AreaChart({
         },
         colors: [color, "#983232"],
         dataLabels: {
-            enabled: false,
+            enabled: false
         },
         stroke: {
             width: 2.5
