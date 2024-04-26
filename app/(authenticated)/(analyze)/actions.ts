@@ -115,7 +115,7 @@ export async function getImpressionChartData(
     sspUserId?: string
 ) {
     const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
-    const url = `/admin/reports/impressions?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
+    const url = `/admin/reports/impressions?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&sspUserId=${sspUserId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -129,7 +129,7 @@ export async function getClicksChartData(
     sspUserId?: string
 ) {
     const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
-    const url = `/admin/reports/clicks?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
+    const url = `/admin/reports/clicks?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&sspUserId=${sspUserId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -143,7 +143,7 @@ export async function getBidsChartData(
     sspUserId?: string
 ) {
     const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
-    const url = `/admin/reports/bids?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}`
+    const url = `/admin/reports/bids?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&sspUserId=${sspUserId}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -159,7 +159,7 @@ export async function getAdminTabularReport(
     pageSize?: string
 ) {
     const customInterval = interval === "CUSTOM" ? `interval=CUSTOM&from=${from}&to=${to}` : `interval=${interval}`
-    const url = `/admin/reports/tabular?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&spUserId=${sspUserId}` : ''}&pageNo=${pageNo}&pageSize=${pageSize}`
+    const url = `/admin/reports/tabular?${customInterval}${advertiserId ? `&advertiserId=${advertiserId}` : ''}${sspUserId ? `&sspUserId=${sspUserId}` : ''}&pageNo=${pageNo}&pageSize=${pageSize}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()

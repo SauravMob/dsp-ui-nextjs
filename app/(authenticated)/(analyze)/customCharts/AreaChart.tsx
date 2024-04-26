@@ -52,7 +52,7 @@ export default function AreaChart({
         },
         colors: [color, "#983232"],
         dataLabels: {
-            enabled: false
+            enabled: false,
         },
         stroke: {
             width: 2.5
@@ -68,7 +68,10 @@ export default function AreaChart({
         },
         xaxis: {
             labels: {
-                show: isLabel
+                show: isLabel,
+                style: {
+                    colors: xaxis.map(v => { return localStorage.getItem('theme') === 'dark' ? "white" : "black" })
+                }   
             },
             axisBorder: {
                 show: isLabel
@@ -77,7 +80,10 @@ export default function AreaChart({
         labels: xaxis,
         yaxis: {
             labels: {
-                show: isLabel
+                show: isLabel,
+                style: {
+                    colors: [localStorage.getItem('theme') === 'dark' ? "white" : "black"]
+                }
             }
         },
         yyaxis: {
@@ -149,7 +155,7 @@ export default function AreaChart({
                     height={height ? height : 100}
                 />
             </CardContent>
-            <CardFooter>{getStatSum()}</CardFooter>
+            {!isLabel && <CardFooter>{getStatSum()}</CardFooter>}
         </Card>
     )
 }

@@ -85,7 +85,7 @@ export default function AdminDashboardSheet({
                                 )}
                             >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date ? <span>{interval}</span> : <span>Interval</span>}
+                                {date ? <span>{customInterval}</span> : <span>Interval</span>}
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="flex w-auto flex-col space-y-2 p-2">

@@ -5,6 +5,7 @@ import React from 'react'
 import { Card, CardHeader } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { ColumnDef, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import { numFormatter } from '@/components/utility/utils/Utils'
 
 type TabularData = {
     impressions: number,
@@ -45,7 +46,7 @@ const dashboardColumns: ColumnDef<TabularData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('impressions')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('impressions'))}</div>
         }
     },
     {
@@ -61,7 +62,7 @@ const dashboardColumns: ColumnDef<TabularData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('clicks')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('clicks'))}</div>
         }
     },
     {
@@ -77,7 +78,7 @@ const dashboardColumns: ColumnDef<TabularData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('ctr')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('ctr'))}</div>
         }
     },
     {
@@ -93,7 +94,7 @@ const dashboardColumns: ColumnDef<TabularData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('install')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('install'))}</div>
         }
     },
     {
@@ -109,7 +110,7 @@ const dashboardColumns: ColumnDef<TabularData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('spends')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('spends'))}</div>
         }
     }
 ]

@@ -6,6 +6,7 @@ import { Card, CardHeader } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { ColumnDef, PaginationState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { numFormatter } from '@/components/utility/utils/Utils'
 
 type ContentType = {
     deliveryDate?: string,
@@ -70,6 +71,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
                 onHide={() => column.toggleVisibility(false)}
             />
         ),
+        enableSorting: false,
         cell: ({ row }) => {
             return <div className='text-center'>{row.getValue('advertiser')}</div>
         }
@@ -87,6 +89,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
 
             />
         ),
+        enableSorting: false,
         cell: ({ row }) => {
             return <div className='text-center'>{row.getValue('sspUser')}</div>
         }
@@ -105,7 +108,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('bids')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('bids'))}</div>
         }
     },
     {
@@ -122,7 +125,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('impressions')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('impressions'))}</div>
         }
     },
     {
@@ -138,7 +141,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('clicks')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('clicks'))}</div>
         }
     },
     {
@@ -154,7 +157,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('spends')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('spends'))}</div>
         }
     },
     {
@@ -186,7 +189,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('gmDollar')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('gmDollar'))}</div>
         }
     },
     {
@@ -202,7 +205,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('gmPercentage')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('gmPercentage'))}</div>
         }
     },
     {
@@ -218,7 +221,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('winRate')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('winRate'))}</div>
         }
     },
     {
@@ -235,7 +238,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('ctr')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('ctr'))}</div>
         }
     },
     {
@@ -251,7 +254,7 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('ecpm')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('ecpm'))}</div>
         }
     }
 ]
@@ -286,7 +289,7 @@ const todayOrYesterdayColumns: ColumnDef<TYContentData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('impressions')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('impressions'))}</div>
         }
     },
     {
@@ -302,7 +305,7 @@ const todayOrYesterdayColumns: ColumnDef<TYContentData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('clicks')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('clicks'))}</div>
         }
     },
     {
@@ -318,7 +321,7 @@ const todayOrYesterdayColumns: ColumnDef<TYContentData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('ctr')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('ctr'))}</div>
         }
     },
     {
@@ -334,7 +337,7 @@ const todayOrYesterdayColumns: ColumnDef<TYContentData, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue('installs')}</div>
+            return <div className='text-end'>{numFormatter(row.getValue('installs'))}</div>
         }
     },
     {

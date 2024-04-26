@@ -39,6 +39,7 @@ export default async function page({
             data={reportType === "impressions" ? impressionData : reportType === "clicks" ? clicksData : bidsData}
             chartName={reportType === "impressions" ? "Impressions" : reportType === "clicks" ? "Clicks" : "Bids"}
             isDouble={interval === "TODAY_YESTERDAY"}
+            isLabel={true}
             color='#126352'
             height={200}
             interval={interval}
