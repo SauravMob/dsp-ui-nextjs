@@ -121,7 +121,7 @@ export default function DashboardDataTable<TData, TValue>({
 }) {
 
     const table = useReactTable({
-        data: data,
+        data,
         columns: dashboardColumns,
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel()

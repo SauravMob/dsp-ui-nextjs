@@ -352,7 +352,7 @@ const todayOrYesterdayColumns: ColumnDef<TYContentData, any>[] = [
         cell: ({ row }) => {
             return <div className='text-end'>{row.getValue('spends')}</div>
         }
-    },
+    }
 ]
 
 export default function AdminDashboardDatatable({
@@ -379,12 +379,12 @@ export default function AdminDashboardDatatable({
             else params.set("pageNo", '0')
             return params.toString()
         },
-        [searchParams]
+        [searchParams, pageSize]
     )
 
     const columns = interval === "TODAY" || interval === "YESTERDAY" ? todayOrYesterdayColumns : dashboardColumns
 
-    const pagination = useMemo<PaginationState>(() => ({ pageIndex: pageNo, pageSize: data.pageSize }), [pageNo, pageSize])
+    const pagination = useMemo<PaginationState>(() => ({ pageIndex: pageNo, pageSize: data.pageSize }), [pageNo, data.pageSize])
 
     const table = useReactTable({
         data: data.content,

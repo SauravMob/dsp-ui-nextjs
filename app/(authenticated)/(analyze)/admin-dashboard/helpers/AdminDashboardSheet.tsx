@@ -6,10 +6,9 @@ import { PopoverContent } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { SelectInput } from '@/components/utility/customComponents/SelectInput'
-import { formatQryDate, todayDate, todayMinus2Date, todayMinus3MonthsDate } from '@/components/utility/utils/Utils'
+import { endOfLastMonth, endOfLastWeekDate, endOfThisMonth, formatQryDate, startOfLastMonth, startOfLastWeekDate, startOfThisMonth, todayDate, todayMinus2Date, todayMinus3MonthsDate, todayMinus7Date, yesterdayDate } from '@/components/utility/utils/Utils'
 import { cn } from '@/lib/utils'
 import { Popover, PopoverTrigger } from '@radix-ui/react-popover'
-import { endOfMonth, endOfWeek, startOfMonth, startOfWeek, subDays, subMonths } from 'date-fns'
 import { CalendarIcon, Filter } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -63,12 +62,12 @@ export default function AdminDashboardSheet({
         fetchData()
     }, [])
 
-    const uri = useMemo(() => `${path}?interval=${customInterval === "CUSTOM" && date ? `CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : `${customInterval}`}${customReportType ? `&reportType=${customReportType}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customSspUserId ? `&sspUserId=${customSspUserId}` : ''}&pageNo=0&pageSize=${pageSize}`, [customInterval, customReportType, customAdvertiserId, customSspUserId])
+    const uri = useMemo(() => `${path}?interval=${customInterval === "CUSTOM" && date ? `CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : `${customInterval}`}${customReportType ? `&reportType=${customReportType}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customSspUserId ? `&sspUserId=${customSspUserId}` : ''}&pageNo=0&pageSize=${pageSize}`, [customInterval, customReportType, customAdvertiserId, customSspUserId, pageSize])
 
     return <Sheet>
         <SheetTrigger>
             <div className='px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-900 hover:font-medium flex items-center'>
-                <Filter size={19} className='mr-2'/>
+                <Filter size={19} className='mr-2' />
                 Filters
             </div>
         </SheetTrigger>
@@ -93,13 +92,13 @@ export default function AdminDashboardSheet({
                             <Select
                                 onValueChange={(value) => {
                                     setCustomInterval(value)
-                                    if (value === "TODAY") setDate({ from: new Date(), to: new Date() })
-                                    else if (value === "YESTERDAY") setDate({ from: subDays(new Date, 1), to: subDays(new Date, 1) })
-                                    else if (value === "TODAY_YESTERDAY") setDate({ from: subDays(new Date(), 1), to: new Date() })
-                                    else if (value === "LAST_SEVEN_DAYS") setDate({ from: subDays(new Date(), 7), to: new Date() })
-                                    else if (value === "LAST_WEEK") setDate({ from: startOfWeek(subDays(new Date(), 7)), to: endOfWeek(subDays(new Date(), 7)) });
-                                    else if (value === "THIS_MONTH") setDate({ from: startOfMonth(new Date()), to: endOfMonth(new Date()) });
-                                    else if (value === "LAST_MONTH") setDate({ from: startOfMonth(subMonths(new Date(), 1)), to: endOfMonth(subMonths(new Date(), 1)) });
+                                    if (value === "TODAY") setDate({ from: todayDate, to: todayDate })
+                                    else if (value === "YESTERDAY") setDate({ from: yesterdayDate, to: yesterdayDate })
+                                    else if (value === "TODAY_YESTERDAY") setDate({ from: yesterdayDate, to: todayDate })
+                                    else if (value === "LAST_SEVEN_DAYS") setDate({ from: todayMinus7Date, to: todayDate })
+                                    else if (value === "LAST_WEEK") setDate({ from: startOfLastWeekDate, to: endOfLastWeekDate })
+                                    else if (value === "THIS_MONTH") setDate({ from: startOfThisMonth, to: endOfThisMonth })
+                                    else if (value === "LAST_MONTH") setDate({ from: startOfLastMonth, to: endOfLastMonth })
                                 }}
                             >
                                 <SelectTrigger>
