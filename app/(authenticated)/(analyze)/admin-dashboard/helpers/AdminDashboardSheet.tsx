@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { PopoverContent } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { SelectInput } from '@/components/utility/customComponents/SelectInput'
 import { endOfLastMonth, endOfLastWeekDate, endOfThisMonth, formatQryDate, startOfLastMonth, startOfLastWeekDate, startOfThisMonth, todayDate, todayMinus2Date, todayMinus3MonthsDate, todayMinus7Date, yesterdayDate } from '@/components/utility/utils/Utils'
 import { cn } from '@/lib/utils'
@@ -14,6 +14,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useMemo, useState } from 'react'
 import { fetchUserByRole } from '../../actions'
 import { DateRange } from 'react-day-picker'
+import Link from 'next/link'
 
 const reportTypeOptions = [
     { value: "impressions", label: "Impressions" },
@@ -176,13 +177,12 @@ export default function AdminDashboardSheet({
                 </div>
             </div>
             <div className='flex justify-center my-5'>
-                <SheetTrigger onClick={() => {
-                    router.refresh()
-                    router.push(uri)
-                }}>
-                    <div className='bg-slate-800 text-slate-200 hover:bg-slate-950 dark:bg-slate-200 dark:text-slate-950 dark:hover:bg-slate-400 font-semibold py-3 px-4 rounded-xl'>Submit</div>
-                </SheetTrigger>
+                <SheetClose asChild>
+                    <Link href={uri}>
+                        <div className='bg-slate-800 text-slate-200 hover:bg-slate-950 dark:bg-slate-200 dark:text-slate-950 dark:hover:bg-slate-400 font-semibold py-3 px-4 rounded-xl'>Submit</div>
+                    </Link>
+                </SheetClose>
             </div>
         </SheetContent>
-    </Sheet >
+    </Sheet>
 }

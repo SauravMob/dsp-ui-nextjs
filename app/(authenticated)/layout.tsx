@@ -1,5 +1,4 @@
 import { Navbar } from "@/components/layout/navbar/Navbar"
-import { Button } from "@/components/ui/button"
 // import PrivacyPolicy from '@/app/(authenticated)/helpers/PrivacyPolicy'
 
 export default function RootLayout({

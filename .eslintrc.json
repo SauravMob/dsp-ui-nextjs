@@ -3,6 +3,7 @@
   "ignorePatterns": ["/components/ui/**/*"],
   "rules": {
     "no-console": "off",
+    "exhaustive-deps": "off",
 
     // Best Practices
     "eqeqeq": "error",
