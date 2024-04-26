@@ -10,7 +10,7 @@ import { formatQryDate, todayDate, todayMinus2Date, todayMinus3MonthsDate } from
 import { cn } from '@/lib/utils'
 import { Popover, PopoverTrigger } from '@radix-ui/react-popover'
 import { endOfMonth, endOfWeek, startOfMonth, startOfWeek, subDays, subMonths } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
+import { CalendarIcon, Filter } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useMemo, useState } from 'react'
 import { fetchUserByRole } from '../../actions'
@@ -26,12 +26,14 @@ export default function AdminDashboardSheet({
     interval,
     reportType,
     advertiserId,
-    sspUserId
+    sspUserId,
+    pageSize
 }: {
     interval: string,
     reportType: string,
     advertiserId: string,
-    sspUserId: string
+    sspUserId: string,
+    pageSize: string
 }) {
 
     const path = usePathname()
@@ -61,11 +63,14 @@ export default function AdminDashboardSheet({
         fetchData()
     }, [])
 
-    const uri = useMemo(() => `${path}?interval=${customInterval === "CUSTOM" && date ? `CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : `${customInterval}`}${customReportType ? `&reportType=${customReportType}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customSspUserId ? `&sspUserId=${customSspUserId}` : ''}`, [customInterval, customReportType, customAdvertiserId, customSspUserId])
+    const uri = useMemo(() => `${path}?interval=${customInterval === "CUSTOM" && date ? `CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : `${customInterval}`}${customReportType ? `&reportType=${customReportType}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customSspUserId ? `&sspUserId=${customSspUserId}` : ''}&pageNo=0&pageSize=${pageSize}`, [customInterval, customReportType, customAdvertiserId, customSspUserId])
 
     return <Sheet>
         <SheetTrigger>
-            Filters
+            <div className='px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-900 hover:font-medium flex items-center'>
+                <Filter size={19} className='mr-2'/>
+                Filters
+            </div>
         </SheetTrigger>
         <SheetContent className="w-[400px] sm:w-[540px]">
             <div className='grid grid-cols-3 mt-10'>

@@ -28,16 +28,22 @@ interface DataTablePaginationProps<TData> {
     table: TanstackTable<TData>
 }
 
-interface DataTableColumnHeaderProps<TData, TValue>
+export interface DataTableColumnHeaderProps<TData, TValue>
     extends React.HTMLAttributes<HTMLDivElement> {
     column: Column<TData, TValue>
-    title: string
+    title: string,
+    onSortAsc: () => void,
+    onSortDesc: () => void,
+    onHide: () => void
 }
 
-export function DataTableColumnHeader<TData, TValue>({
+export function CustomHeader<TData, TValue>({
     column,
     title,
     className,
+    onSortAsc,
+    onSortDesc,
+    onHide
 }: DataTableColumnHeaderProps<TData, TValue>) {
     if (!column.getCanSort()) {
         return <div className={cn(className)}>{title}</div>
@@ -63,16 +69,16 @@ export function DataTableColumnHeader<TData, TValue>({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                    <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+                    <DropdownMenuItem onClick={onSortAsc}>
                         <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Asc
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+                    <DropdownMenuItem onClick={onSortDesc}>
                         <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Desc
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+                    <DropdownMenuItem onClick={onHide}>
                         <EyeOff className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Hide
                     </DropdownMenuItem>
@@ -124,7 +130,7 @@ export default function DataTable<TData, TValue>({
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                <TableCell colSpan={columns.length}>
                                     No results.
                                 </TableCell>
                             </TableRow>

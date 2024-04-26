@@ -6,12 +6,14 @@ export default function AdminDashboardHeader({
     interval,
     reportType,
     advertiserId,
-    sspUserId
+    sspUserId,
+    pageSize
 }: {
     interval: string
     reportType: string
     advertiserId: string
-    sspUserId: string
+    sspUserId: string,
+    pageSize: string
 }) {
     return (
         <div className='mb-4 flex justify-between'>
@@ -20,7 +22,7 @@ export default function AdminDashboardHeader({
             </div>
 
             <div>
-                <AdminDashboardSheet interval={interval} reportType={reportType} advertiserId={advertiserId} sspUserId={sspUserId} />
+                <AdminDashboardSheet interval={interval} reportType={reportType} advertiserId={advertiserId} sspUserId={sspUserId} pageSize={pageSize}/>
             </div>
         </div>
     )

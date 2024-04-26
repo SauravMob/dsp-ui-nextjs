@@ -22,7 +22,7 @@ export default async function page({
   const advertiserId = searchParams?.advertiserId ? searchParams.advertiserId : ""
   const sspUserId = searchParams?.sspUserId ? searchParams.sspUserId : ""
   const pageNo = searchParams?.pageNo ? searchParams.pageNo : "0"
-  const pageSize = searchParams?.pageSize ? searchParams.pageSize : "2"
+  const pageSize = searchParams?.pageSize ? searchParams.pageSize : "10"
 
   const impressionData = await getImpressionChartData(interval, from, to, advertiserId, sspUserId)
   const clicksData = await getClicksChartData(interval, from, to, advertiserId, sspUserId)
@@ -32,7 +32,7 @@ export default async function page({
 
   return (
     <div>
-      <AdminDashboardHeader interval={interval} reportType={reportType} advertiserId={advertiserId} sspUserId={sspUserId} />
+      <AdminDashboardHeader interval={interval} reportType={reportType} advertiserId={advertiserId} sspUserId={sspUserId} pageSize={pageSize}/>
       <div className='grid grid-cols-4 gap-6'>
         <div className='col-span-3 flex justify-center'>
           <AreaChart

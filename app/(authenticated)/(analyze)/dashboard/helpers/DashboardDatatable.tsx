@@ -3,8 +3,8 @@
 import React from 'react'
 
 import { Card, CardHeader } from '@/components/ui/card'
-import DataTable, { CustomPagination, DataTableColumnHeader } from '@/components/ui/datatable'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
+import { ColumnDef, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 
 type TabularData = {
     impressions: number,
@@ -19,38 +19,98 @@ const dashboardColumns: ColumnDef<TabularData, any>[] = [
     {
         accessorKey: "date",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Date" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Date"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-center text-nowrap'>{row.getValue('date')}</div>
+        }
     },
     {
         accessorKey: "impressions",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Impressions" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Impressions"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('impressions')}</div>
+        }
     },
     {
         accessorKey: "clicks",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Clicks" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Clicks"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('clicks')}</div>
+        }
     },
     {
         accessorKey: "ctr",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="CTR" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="CTR"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('ctr')}</div>
+        }
     },
     {
         accessorKey: "install",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Installs" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Installs"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('install')}</div>
+        }
     },
     {
         accessorKey: "spends",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Spends" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Spends"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('spends')}</div>
+        }
     }
 ]
 
@@ -63,7 +123,8 @@ export default function DashboardDataTable<TData, TValue>({
     const table = useReactTable({
         data: data,
         columns: dashboardColumns,
-        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getCoreRowModel: getCoreRowModel()
     })
 
     return (

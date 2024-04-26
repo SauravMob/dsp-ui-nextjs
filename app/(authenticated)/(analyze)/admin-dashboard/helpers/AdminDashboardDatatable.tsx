@@ -1,11 +1,11 @@
 "use client"
 
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import { Card, CardHeader } from '@/components/ui/card'
-import DataTable, { CustomPagination, DataTableColumnHeader } from '@/components/ui/datatable'
-import { ColumnDef, PaginationState, SortingState, Table as TanstackTable, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table'
-import { useRouter } from 'next/navigation'
+import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
+import { ColumnDef, PaginationState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 type ContentType = {
     deliveryDate?: string,
@@ -45,80 +45,214 @@ const dashboardColumns: ColumnDef<ContentType, any>[] = [
     {
         accessorKey: "deliveryDate",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Date" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Date"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-center text-nowrap'>{row.getValue('deliveryDate')}</div>
+        }
     },
     {
         accessorKey: "advertiser",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Advertiser" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Advertiser"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-center'>{row.getValue('advertiser')}</div>
+        }
     },
     {
         accessorKey: "sspUser",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="SSP" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="SSP"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-center'>{row.getValue('sspUser')}</div>
+        }
     },
     {
         accessorKey: "bids",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Bids" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Bids"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('bids')}</div>
+        }
     },
     {
         accessorKey: "impressions",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Impressions" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Impressions"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('impressions')}</div>
+        }
     },
     {
         accessorKey: "clicks",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Clicks" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Clicks"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('clicks')}</div>
+        }
     },
     {
         accessorKey: "spends",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Spends" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Spends($)"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('spends')}</div>
+        }
     },
     {
         accessorKey: "cost",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Costs" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Costs($)"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('cost')}</div>
+        }
     },
     {
         accessorKey: "gmDollar",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="GM" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="GM($)"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('gmDollar')}</div>
+        }
     },
     {
         accessorKey: "gmPercentage",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="GM" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="GM(%)"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('gmPercentage')}</div>
+        }
     },
     {
         accessorKey: "winRate",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Win Rate" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Win Rate(%)"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('winRate')}</div>
+        }
     },
     {
         accessorKey: "ctr",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="CTR" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="CTR(%)"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('ctr')}</div>
+        }
     },
     {
         accessorKey: "ecpm",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="eCPM" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="eCPM(%)"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('ecpm')}</div>
+        }
     }
 ]
 
@@ -126,38 +260,98 @@ const todayOrYesterdayColumns: ColumnDef<TYContentData, any>[] = [
     {
         accessorKey: "hour",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Hour" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Hour"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('hour')}</div>
+        }
     },
     {
         accessorKey: "impressions",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Impressions" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Impressions"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('impressions')}</div>
+        }
     },
     {
         accessorKey: "clicks",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Clicks" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Clicks"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('clicks')}</div>
+        }
     },
     {
         accessorKey: "ctr",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="CTR" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="CTR"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('ctr')}</div>
+        }
     },
     {
         accessorKey: "installs",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Installs" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Installs"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('installs')}</div>
+        }
     },
     {
         accessorKey: "spends",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Spends" className='justify-center' />
-        )
+            <CustomHeader
+                column={column}
+                title="Spends"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        cell: ({ row }) => {
+            return <div className='text-end'>{row.getValue('spends')}</div>
+        }
     },
 ]
 
@@ -174,14 +368,28 @@ export default function AdminDashboardDatatable({
 }) {
 
     const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString())
+            params.set(name, value)
+            if (name !== "pageSize") params.set("pageSize", pageSize.toString())
+            else params.set("pageNo", '0')
+            return params.toString()
+        },
+        [searchParams]
+    )
+
     const columns = interval === "TODAY" || interval === "YESTERDAY" ? todayOrYesterdayColumns : dashboardColumns
 
-    const [sorting, setSorting] = useState<SortingState>([{ id: "date", desc: true }])
     const pagination = useMemo<PaginationState>(() => ({ pageIndex: pageNo, pageSize: data.pageSize }), [pageNo, pageSize])
 
     const table = useReactTable({
         data: data.content,
         columns,
+        getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
         rowCount: data.totalElements,
@@ -196,13 +404,11 @@ export default function AdminDashboardDatatable({
             <DataTable table={table} columns={columns} />
             <CustomPagination
                 table={table}
-                goToFirstPage={() => router.push(`/admin-dashboard?pageNo=0&pageSize=${pageSize}`)}
-                goToPreviousPage={() => router.push(`/admin-dashboard?pageNo=${pageNo - 1}&pageSize=${pageSize}`)}
-                goToNextPage={() => router.push(`/admin-dashboard?pageNo=${pageNo + 1}&pageSize=${pageSize}`)}
-                goToLastPage={() => router.push(`/admin-dashboard?pageNo=${data.totalPages - 1}&pageSize=${pageSize}`)}
-                onRowNumberChange={(value) => {
-                    router.push(`/admin-dashboard?pageNo=${pageNo}&pageSize=${value}`)
-                }}
+                goToFirstPage={() => router.push(`${pathname}?${createQueryString('pageNo', '0')}`)}
+                goToPreviousPage={() => router.push(`${pathname}?${createQueryString('pageNo', (pageNo - 1).toString())}`)}
+                goToNextPage={() => router.push(`${pathname}?${createQueryString('pageNo', (pageNo + 1).toString())}`)}
+                goToLastPage={() => router.push(`${pathname}?${createQueryString('pageNo', (data.totalPages - 1).toString())}`)}
+                onRowNumberChange={(value) => router.push(`${pathname}?${createQueryString('pageSize', value)}`)}
             />
         </Card>
     )
