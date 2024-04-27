@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { Table as TanstackTable, Column, ColumnDef, flexRender } from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -21,7 +21,8 @@ export type CustomPaginationProps<TData> = DataTablePaginationProps<TData> & {
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[],
-    table: TanstackTable<TData>
+    table: TanstackTable<TData>,
+    ExpandedRows?: React.ComponentType<any>;
 }
 
 interface DataTablePaginationProps<TData> {
@@ -90,7 +91,8 @@ export function CustomHeader<TData, TValue>({
 
 export default function DataTable<TData, TValue>({
     columns,
-    table
+    table,
+    ExpandedRows
 }: DataTableProps<TData, TValue>) {
     return (
         <div>
@@ -117,16 +119,24 @@ export default function DataTable<TData, TValue>({
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
+                                <Fragment key={row.id}>
+                                    <TableRow
+                                        data-state={row.getIsSelected() && "selected"}
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell key={cell.id}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                    {row.getIsExpanded() && ExpandedRows && (
+                                        <TableRow>
+                                            <TableCell colSpan={columns.length}>
+                                                <ExpandedRows row={row} />
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                </Fragment>
                             ))
                         ) : (
                             <TableRow>

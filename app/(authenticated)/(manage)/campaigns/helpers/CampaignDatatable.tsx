@@ -1,18 +1,28 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Progress } from '@/components/ui/progress'
 import { getStatusAvatar, handleStatus } from '@/components/utility/utils/JSXUtils'
 import { formatNumbers, getDateForPosix, getUpdateStatus } from '@/components/utility/utils/Utils'
-import { ColumnDef, PaginationState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
-import { Copy, Edit, Ellipsis, PieChart, Trash, Trash2 } from 'lucide-react'
+import { ColumnDef, ExpandedState, PaginationState, Row, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import { ChevronDown, ChevronUp, Copy, Edit, Ellipsis, PieChart, Trash, Trash2 } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
 const columns: ColumnDef<CampaignType, any>[] = [
+    {
+        accessorKey: "",
+        id: "expand",
+        enableSorting: false,
+        cell: ({ row }) => {
+            return <div className='flex justify-center p-2 rounded-full hover:bg-slate-800' onClick={() => row.toggleExpanded()}>
+                {row.getIsExpanded() ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+            </div>
+        }
+    },
     {
         accessorKey: "",
         id: "edit",
@@ -230,22 +240,61 @@ export default function CampaignDatatable({
     )
 
     const pagination = useMemo<PaginationState>(() => ({ pageIndex: pageNo, pageSize: data.pageSize }), [pageNo, data.pageSize])
+    const [expanded, setExpanded] = useState<ExpandedState>({})
 
     const table = useReactTable({
         data: data.content,
         columns,
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
+        getExpandedRowModel: getExpandedRowModel(),
         manualPagination: true,
+        onExpandedChange: setExpanded,
         rowCount: data.totalElements,
         state: {
-            pagination
+            pagination,
+            expanded
         }
     })
 
+    const ExpandedRows = ({ row }: { row: Row<CampaignType> }) => {
+        return (
+            <div className='px-20 m-1'>
+                <div className='m-2'>
+                    <span>Exchanges:</span>
+                    <span className='ml-3'>{row.original.supplyType}</span>
+                </div>
+                <div className='m-2'>
+                    <span>Countries:</span>
+                    <span className='ml-3'>{row.original.countries}</span>
+                </div>
+                <div className='m-2'>
+                    <span>Carrier:</span>
+                    <span className='ml-3'>{row.original.carriers}</span>
+                </div>
+                <div className='m-2'>
+                    <span>Platforms:</span>
+                    <span className='ml-3'>{row.original.platforms}</span>
+                </div>
+                <div className='m-2'>
+                    <span>Devices:</span>
+                    <span className='ml-3'>{row.original.deviceManufacturer}</span>
+                </div>
+                <div className='m-2'>
+                    <span>Connection Type:</span>
+                    <span className='ml-3'>{row.original.connectionType}</span>
+                </div>
+                <div className='m-2'>
+                    <span>Freq Cap:</span>
+                    <span className='ml-3'>{row.original.fcap}</span>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <Card className='p-3'>
-            <DataTable table={table} columns={columns} />
+            <DataTable table={table} columns={columns} ExpandedRows={ExpandedRows} />
             <CustomPagination
                 table={table}
                 goToFirstPage={() => router.push(`${pathname}?${createQueryString('pageNo', '0')}`)}
