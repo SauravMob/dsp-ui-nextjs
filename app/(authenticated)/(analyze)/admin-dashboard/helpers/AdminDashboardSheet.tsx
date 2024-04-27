@@ -37,7 +37,6 @@ export default function AdminDashboardSheet({
 }) {
 
     const path = usePathname()
-    const router = useRouter()
 
     const [advertiserOptions, setAdvertiserOptions] = useState<{ value: string, label: string }[]>([])
     const [sspOptions, setSSPOptions] = useState<{ value: string, label: string }[]>([])

@@ -44,8 +44,8 @@ export default function DashboardHeaders({ interval }: { interval: string }) {
 
     return (
         <div className='mb-4 flex justify-between'>
-            <div className='font-bold flex items-center text-2xl'>
-                <LayoutDashboard size={20} className='mr-1' /> Dashboard
+            <div className='font-bold flex items-center text-xl'>
+                <LayoutDashboard size={26} className='mr-1' /> Dashboard
             </div>
 
             <div>

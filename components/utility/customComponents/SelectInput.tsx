@@ -28,7 +28,7 @@ export interface MultiSelectInputProps {
     isClearable?: boolean
     isSearchable?: boolean
     name: string,
-    value?: SelectOption
+    value?: SelectOption[]
 }
 
 export interface AutoCompleteInputProps {

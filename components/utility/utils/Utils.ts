@@ -17,3 +17,16 @@ export const endOfThisMonth = endOfMonth(new Date())
 export const startOfLastMonth = startOfMonth(subMonths(new Date(), 1))
 export const endOfLastMonth = endOfMonth(subMonths(new Date(), 1))
 export const todayMinus3MonthsDate = subMonths(new Date(), 3)
+
+export const statusOptions = [
+    { label: 'ACTIVE', value: 'ACTIVE' },
+    { label: 'INACTIVE', value: 'INACTIVE' },
+    { label: 'DELETED', value: 'DELETE' },
+    { label: 'PAUSED', value: 'PAUSE' }
+]
+
+export const osOptions = [
+    { label: 'Android', value: 'ANDROID' },
+    { label: 'iOS', value: 'IOS' },
+    { label: 'Unknown', value: 'UNKNOWN' }
+]
