@@ -2,6 +2,14 @@ import React from 'react'
 import CampaignHeader from './helpers/CampaignHeader'
 import CampaignDatatable from './helpers/CampaignDatatable'
 import { fetchAllCampaigns, searchCampaign } from './actions'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: "Mobavenue | Campaigns List",
+  description: "Mobavenue DSP campaigns list"
+}
 
 export default async function page({
   params,
@@ -10,6 +18,9 @@ export default async function page({
   params: { slug: string }
   searchParams?: { [key: string]: string | undefined }
 }) {
+
+  const roleId = cookies().get('roleId')?.value
+  if (roleId === "2") redirect('/not-found')
 
   const pageNo = searchParams?.pageNo ? searchParams.pageNo : "0"
   const pageSize = searchParams?.pageSize ? searchParams.pageSize : "50"
