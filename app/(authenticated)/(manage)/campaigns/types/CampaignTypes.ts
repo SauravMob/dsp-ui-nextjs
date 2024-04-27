@@ -119,3 +119,12 @@ type CampaignFilterTypes = {
     country: string
     os: string
 }
+
+type TabularData = {
+    content: CampaignType[],
+    totalElements: number,
+    totalPages: number,
+    last: boolean,
+    pageNo: number,
+    pageSize: number
+}

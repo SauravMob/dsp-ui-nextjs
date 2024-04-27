@@ -4,7 +4,7 @@ import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/s
 import { AutoComplete, MultiSelectInput } from '@/components/utility/customComponents/SelectInput'
 import { Filter } from 'lucide-react'
 import Link from 'next/link'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { fetchCampaignIdNameList, searchCampaign } from '../actions'
 import { countryOption } from '@/components/utility/utils/GeoUtils'
 import { usePathname } from 'next/navigation'
@@ -15,19 +15,27 @@ export default function CampaignSheet({ pageNo, pageSize, campaignId, status, co
   const path = usePathname()
 
   const [campaign, setCampaign] = useState<string | undefined>(campaignId)
-  const [customCountry, setCustomCountry] = useState<string[]>(country.split(','))
-  const [customOs, setCustomOs] = useState<string[]>(os.split(','))
-  const [customStatus, setCustomStatus] = useState<string[]>(status.split(','))
+  const [customCountry, setCustomCountry] = useState<string[] | string>(country ? country.split(',') : '')
+  const [customOs, setCustomOs] = useState<string[] | string>(os ? os.split(',') : '')
+  const [customStatus, setCustomStatus] = useState<string[] | string>(status ? status.split(',') : '')
   const [campaignOptions, setCampaignOptions] = useState<{ value: string, label: string }[]>([])
 
   const campaignFilter = async (inputValue: string) => {
-    const fetch = !parseInt(inputValue) ? await fetchCampaignIdNameList(inputValue) : await searchCampaign({ pageNo: "0", pageSize: "50", filter: { campaignId: parseInt(inputValue) } })
-    const options = !parseInt(inputValue) ? fetch.map((v: { id: string, name: string }) => ({ value: v.id, label: v.name })) : fetch.content.map((v: { id: string, campaignName: string }) => ({ value: v.id, label: v.campaignName }))
+    const fetch = !parseInt(inputValue) ? await fetchCampaignIdNameList(inputValue) : await searchCampaign({ pageNo: "0", pageSize: "50", filter: { campaignId: inputValue } })
+    const options = !parseInt(inputValue) ? fetch.map((v: { id: string, name: string }) => ({ value: v.id, label: v.name })) : fetch.content.map((v: { id: number, campaignName: string }) => ({ value: v.id.toString(), label: v.campaignName }))
     setCampaignOptions(options)
     return options
   }
 
-  const uri = useMemo(() => `${path}?${campaign ? `&campaign=${campaign}` : ''}${customCountry ? `&country=${customCountry.join(',')}` : ''}${customOs ? `&os=${customOs.join(',')}` : ''}${customStatus ? `&status=${customStatus.join(',')}` : ''}&pageNo=0&pageSize=${pageSize}`, [campaign, customCountry, customOs, customStatus, pageNo, pageSize])
+  useEffect(() => {
+    const fetchValue = async () => {
+      const result = await searchCampaign({ pageNo: "0", pageSize: "50", filter: { campaignId } })
+      setCampaignOptions(result.content.map((v: { id: number, campaignName: string }) => ({ value: v.id.toString(), label: v.campaignName })))
+    }
+    fetchValue()
+  }, [campaignId])
+
+  const uri = useMemo(() => `${path}?${campaign ? `&campaignId=${campaign}` : ''}${Array.isArray(customCountry) ? `&country=${customCountry.join(',')}` : ''}${Array.isArray(customOs) ? `&os=${customOs.join(',')}` : ''}${Array.isArray(customStatus) ? `&status=${customStatus.join(',')}` : ''}&pageNo=0&pageSize=${pageSize}`, [path, campaign, customCountry, customOs, customStatus, pageSize])
 
   return (
     <Sheet>
@@ -63,7 +71,7 @@ export default function CampaignSheet({ pageNo, pageSize, campaignId, status, co
                 name="country"
                 value={countryOption.filter(v => customCountry.includes(v.value))}
                 options={countryOption}
-                onChange={(e) => setCustomCountry(e ? e.map(v => v.value) : [])}
+                onChange={(e) => setCustomCountry(e?.length ? e.map(v => v.value) : '')}
               />
             </div>
           </div>
@@ -77,7 +85,7 @@ export default function CampaignSheet({ pageNo, pageSize, campaignId, status, co
                 name="os"
                 value={osOptions.filter(v => customOs.includes(v.value))}
                 options={osOptions}
-                onChange={(e) => setCustomOs(e ? e.map(v => v.value) : [])}
+                onChange={(e) => setCustomOs(e?.length ? e.map(v => v.value) : '')}
               />
             </div>
           </div>
@@ -91,7 +99,7 @@ export default function CampaignSheet({ pageNo, pageSize, campaignId, status, co
                 name="status"
                 value={statusOptions.filter(v => customStatus.includes(v.value))}
                 options={statusOptions}
-                onChange={(e) => setCustomStatus(e ? e.map(v => v.value) : [])}
+                onChange={(e) => setCustomStatus(e?.length ? e.map(v => v.value) : '')}
               />
             </div>
           </div>

@@ -62,7 +62,7 @@ export default function AdminDashboardSheet({
         fetchData()
     }, [])
 
-    const uri = useMemo(() => `${path}?interval=${customInterval === "CUSTOM" && date ? `CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : `${customInterval}`}${customReportType ? `&reportType=${customReportType}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customSspUserId ? `&sspUserId=${customSspUserId}` : ''}&pageNo=0&pageSize=${pageSize}`, [customInterval, customReportType, customAdvertiserId, customSspUserId, pageSize])
+    const uri = useMemo(() => `${path}?interval=${customInterval === "CUSTOM" && date ? `CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : `${customInterval}`}${customReportType ? `&reportType=${customReportType}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customSspUserId ? `&sspUserId=${customSspUserId}` : ''}&pageNo=0&pageSize=${pageSize}`, [date, path, customInterval, customReportType, customAdvertiserId, customSspUserId, pageSize])
 
     return <Sheet>
         <SheetTrigger>

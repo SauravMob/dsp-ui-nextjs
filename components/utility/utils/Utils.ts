@@ -18,6 +18,24 @@ export const startOfLastMonth = startOfMonth(subMonths(new Date(), 1))
 export const endOfLastMonth = endOfMonth(subMonths(new Date(), 1))
 export const todayMinus3MonthsDate = subMonths(new Date(), 3)
 
+export const getDateForPosix = (d: number, unit: string) => {
+    const u = unit === 'SECONDS' ? 1000 : 1
+    try {
+        const date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(d * u)
+        return date
+    } catch (e) {
+        return d
+    }
+}
+
+export function formatNumbers(number: number) {
+    const formatter = Intl.NumberFormat("en", {
+        notation: "compact",
+        maximumFractionDigits: 3
+    })
+    return formatter.format(number)
+}
+
 export const statusOptions = [
     { label: 'ACTIVE', value: 'ACTIVE' },
     { label: 'INACTIVE', value: 'INACTIVE' },
@@ -30,3 +48,17 @@ export const osOptions = [
     { label: 'iOS', value: 'IOS' },
     { label: 'Unknown', value: 'UNKNOWN' }
 ]
+
+
+export function getUpdateStatus(status: string) {
+    switch (status) {
+        case 'ACTIVE':
+            return 'PAUSE'
+        case 'PAUSE':
+            return 'ACTIVE'
+        case 'INACTIVE':
+            return 'ACTIVE'
+        default:
+            return 'DELETED'
+    }
+}
