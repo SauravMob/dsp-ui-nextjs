@@ -1,13 +1,18 @@
 "use server"
 
 import { HttpRequestApi } from "@/components/services/HttpRequestApi"
+import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 
-export async function fetchCampaignIdNameList(
-    name?: string
-) {
+export async function fetchAllCampaigns({
+    pageNo,
+    pageSize
+}: {
+    pageNo?: string,
+    pageSize?: string
+}) {
     const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
-    const url = `/campaigns/idName?row=5${name ? `&name=${name}` : ''}${userId}`
+    const url = `/campaigns?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc${userId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -35,16 +40,34 @@ export async function searchCampaign({
     return await result.json()
 }
 
-export async function fetchAllCampaigns({
-    pageNo,
-    pageSize
-}: {
-    pageNo?: string,
-    pageSize?: string
-}) {
+export async function updateCampaign(
+    id: number,
+    campaign: CampaignType
+) {
+    const url = `/campaigns/${id}`
+    const result = await HttpRequestApi('PUT', url, campaign)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath("/campaigns")
+    return await result.text()
+}
+
+export async function fetchCampaignIdNameList(
+    name?: string
+) {
     const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
-    const url = `/campaigns?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc${userId}`
+    const url = `/campaigns/idName?row=5${name ? `&name=${name}` : ''}${userId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function cloneCampaign(
+    id: number
+) {
+    const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
+    const url = `/campaigns/clone?id=${id}${userId}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath("/campaigns")
     return await result.json()
 }

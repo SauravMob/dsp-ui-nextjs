@@ -5,12 +5,34 @@ import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Progress } from '@/components/ui/progress'
+import ConfirmDialog from '@/components/utility/customComponents/ConfirmDialog'
 import { getStatusAvatar, handleStatus } from '@/components/utility/utils/JSXUtils'
 import { formatNumbers, getDateForPosix, getUpdateStatus } from '@/components/utility/utils/Utils'
 import { ColumnDef, ExpandedState, PaginationState, Row, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { ChevronDown, ChevronUp, Copy, Edit, Ellipsis, PieChart, Trash, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo, useState } from 'react'
+import { cloneCampaign, updateCampaign } from '../actions'
+import { toast } from '@/components/ui/use-toast'
+
+const updateStatus = async (status: string, campaign: CampaignType) => {
+    const cr = { ...campaign }
+    cr.status = status
+    await updateCampaign(cr.id, cr)
+    toast({
+        title: `Updated Successfully`,
+        description: `Sucessfully updated ${cr.campaignName} campaign`
+    })
+}
+
+const cloneHandler = async (row: CampaignType) => {
+    await cloneCampaign(row.id)
+    toast({
+        title: `Cloned Successfully`,
+        description: `Created new campaign with name ${row.campaignName}`
+    })
+}
 
 const columns: ColumnDef<CampaignType, any>[] = [
     {
@@ -18,7 +40,7 @@ const columns: ColumnDef<CampaignType, any>[] = [
         id: "expand",
         enableSorting: false,
         cell: ({ row }) => {
-            return <div className='flex justify-center p-2 rounded-full hover:bg-slate-800' onClick={() => row.toggleExpanded()}>
+            return <div className='flex justify-center p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer' onClick={() => row.toggleExpanded()}>
                 {row.getIsExpanded() ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
             </div>
         }
@@ -37,11 +59,21 @@ const columns: ColumnDef<CampaignType, any>[] = [
                             <div className='border rounded-md p-1'><Ellipsis size={18} /></div>
                         </PopoverTrigger>
                         <PopoverContent className='p-2 flex flex-col'>
-                            <Button variant="ghost" size="sm" className='justify-start'><Edit size={18} className='mr-2' />Edit</Button>
-                            <Button variant="ghost" size="sm" className='justify-start'><Copy size={18} className='mr-2' />Clone</Button>
-                            <Button variant="ghost" size="sm" className='justify-start'>{handleStatus(row.getValue("status"))}{getUpdateStatus(row.getValue("status"))}</Button>
-                            <Button variant="ghost" size="sm" className='justify-start'><Trash size={18} className='mr-2' />Delete</Button>
-                            <Button variant="ghost" size="sm" className='justify-start'><PieChart size={18} className='mr-2' />View Report</Button>
+                            <Link href={`/campaigns/edit/${row.original.id}`} className='flex items-center justify-start px-2 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
+                            <ConfirmDialog
+                                title='Do you want to clone this Campaign?'
+                                description='Ad creatives associated with this campaign will not be cloned.'
+                                buttonContent={<><Copy size={18} className='mr-2' />Clone</>}
+                                onConfirm={() => cloneHandler(row.original)}
+                            />
+                            <Button variant="ghost" size="sm" className='justify-start' onClick={() => updateStatus(getUpdateStatus(row.getValue("status")), row.original)}>{handleStatus(row.getValue("status"))}{getUpdateStatus(row.getValue("status"))}</Button>
+                            <ConfirmDialog
+                                title='Do you want to delete this campaign?'
+                                description='Deleted action cannot be reverted.'
+                                buttonContent={<><Trash size={18} className='mr-2' />Delete</>}
+                                onConfirm={() => updateStatus("DELETE", row.original)}
+                            />
+                            <Link href={`/campaign-report?campaignId=${row.original.id}`} className='flex items-center justify-start px-2 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><PieChart size={18} className='mr-2' />View Report</Link>
                         </PopoverContent>
                     </Popover>
                 </>}

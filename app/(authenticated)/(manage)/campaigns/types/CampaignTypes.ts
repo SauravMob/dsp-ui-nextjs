@@ -65,7 +65,7 @@ type CampaignType = {
     geoLatlonFilename?: string,
     geoPostalCodeFilePath?: string,
     iabCategoryId?: string,
-    id?: number
+    id: number
     impTrackUrl?: string,
     impressionCap?: number
     impressionCapTotal?: number

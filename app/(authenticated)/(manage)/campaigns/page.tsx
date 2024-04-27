@@ -25,7 +25,7 @@ export default async function page({
   const pageNo = searchParams?.pageNo ? searchParams.pageNo : "0"
   const pageSize = searchParams?.pageSize ? searchParams.pageSize : "50"
   const campaignId = searchParams?.campaignId || ''
-  const status = searchParams?.status || ''
+  const status = searchParams?.status || 'ACTIVE'
   const country = searchParams?.country || ''
   const os = searchParams?.os || ''
 

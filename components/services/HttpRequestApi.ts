@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 import { SERVER_URL } from "../constants/ApiConfigConstants"
 
 export const HttpRequestApi = async (
-    method: string,
+    method: "GET" | "POST" | "PUT" | "DELETE",
     url: string,
     data?: object
 ) => {
@@ -17,7 +17,7 @@ export const HttpRequestApi = async (
         }
     }
 
-    if (method === "POST") init['body'] = JSON.stringify(data)
+    if (method === "POST" || method === "PUT") init['body'] = JSON.stringify(data)
 
     try {
         const res = await fetch(`${SERVER_URL}${url}`, init)
