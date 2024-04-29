@@ -120,7 +120,7 @@ type CampaignFilterTypes = {
     os: string
 }
 
-type TabularData = {
+type CampaignTabularData = {
     content: CampaignType[],
     totalElements: number,
     totalPages: number,

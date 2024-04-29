@@ -49,6 +49,33 @@ export const osOptions = [
     { label: 'Unknown', value: 'UNKNOWN' }
 ]
 
+export const creativeSizeOptions = [
+    { value: '320x480', label: '320x480' },
+    { value: '320x50', label: '320x50' },
+    { value: '160x600', label: '160x600' },
+    { value: '600x600', label: '600x600' },
+    { value: '300x600', label: '300x600' },
+    { value: '768x1024', label: '768x1024' },
+    { value: '300x250', label: '300x250' },
+    { value: '300x50', label: '300x50' },
+    { value: '320x100', label: '320x100' },
+    { value: '468x60', label: '468x60' },
+    { value: '728x90', label: '728x90' },
+    { value: '300x1050', label: '300x1050' },
+    { value: '1080x1080', label: '1080x1080' },
+    { value: '480x320', label: '480x320' },
+    { value: '1024x768', label: '1024x768' },
+    { value: '640x360', label: '640x360' },
+    { value: '1200x627', label: '1200x627' },
+    { value: '336x280', label: '336x280' }
+]
+
+export const creativeTypeOptions = [
+    { value: 'BANNER', label: 'BANNER' },
+    { value: 'JS', label: 'RICHMEDIA' },
+    { value: 'VIDEO', label: 'VIDEO' }
+]
+
 
 export function getUpdateStatus(status: string) {
     switch (status) {
@@ -61,4 +88,10 @@ export function getUpdateStatus(status: string) {
         default:
             return 'DELETED'
     }
+}
+
+export function getContentWithLimit(str: string, limit: number) {
+    if (str !== undefined && str !== null) return str.length > limit ? `${str.substring(0, limit)}...` : str
+    else return str
+
 }

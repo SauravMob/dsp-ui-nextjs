@@ -5,8 +5,8 @@ import React, { useCallback, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { AutoComplete, SelectInput } from '@/components/utility/customComponents/SelectInput'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { fetchCreativeIdNameList } from '@/app/(authenticated)/(analyze)/actions'
 import { fetchCampaignIdNameList } from '../../(manage)/campaigns/actions'
+import { fetchCreativeIdNameList } from '../../(assets)/creatives/actions'
 
 type ReportData = {
     bids: null

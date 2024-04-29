@@ -48,7 +48,7 @@ export async function updateCampaign(
     const result = await HttpRequestApi('PUT', url, campaign)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     revalidatePath("/campaigns")
-    return await result.text()
+    return { status: 200, message: await result.text() }
 }
 
 export async function fetchCampaignIdNameList(

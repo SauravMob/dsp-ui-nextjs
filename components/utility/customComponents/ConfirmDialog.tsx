@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { PopoverClose } from '@radix-ui/react-popover'
 import React, { ReactNode } from 'react'
 
 export default function ConfirmDialog({
@@ -28,7 +29,9 @@ export default function ConfirmDialog({
                         <Button>Back</Button>
                     </DialogTrigger>
                     <DialogTrigger asChild>
-                        <Button type="submit" onClick={onConfirm}>Continue</Button>
+                        <PopoverClose asChild>
+                            <Button type="submit" onClick={onConfirm}>Continue</Button>
+                        </PopoverClose>
                     </DialogTrigger>
                 </DialogFooter>
             </DialogContent>

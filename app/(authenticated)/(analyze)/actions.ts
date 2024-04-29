@@ -85,16 +85,6 @@ export async function getBarChartData(
     return await result.json()
 }
 
-export async function fetchCreativeIdNameList(
-    name?: string
-) {
-    const userId = cookies().get('userId')?.value
-    const url = `/creatives/idName?row=5${name ? `&name=${name}` : ''}&userId=${userId}`
-    const result = await HttpRequestApi('GET', url)
-    if (!result.ok) return { status: 400, message: "Error in fetching data" }
-    return await result.json()
-}
-
 
 // Admin Dashboard APIS
 export async function getImpressionChartData(

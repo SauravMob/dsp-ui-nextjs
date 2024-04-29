@@ -4,36 +4,29 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Progress } from '@/components/ui/progress'
 import ConfirmDialog from '@/components/utility/customComponents/ConfirmDialog'
 import { getStatusAvatar, handleStatus } from '@/components/utility/utils/JSXUtils'
-import { formatNumbers, getDateForPosix, getUpdateStatus } from '@/components/utility/utils/Utils'
+import { getContentWithLimit, getUpdateStatus } from '@/components/utility/utils/Utils'
 import { ColumnDef, ExpandedState, PaginationState, Row, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
-import { ChevronDown, ChevronUp, Copy, Edit, Ellipsis, PieChart, Trash, Trash2 } from 'lucide-react'
+import { ChevronDown, ChevronUp, Edit, Ellipsis, PieChart, Trash, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo, useState } from 'react'
-import { cloneCampaign, updateCampaign } from '../actions'
+import { updateCreative } from '../actions'
 import { toast } from '@/components/ui/use-toast'
 import { PopoverClose } from '@radix-ui/react-popover'
+import AttachCampaign from '@/app/(authenticated)/(manage)/campaigns/helpers/AttachCampaign'
+import DetachCampaign from '@/app/(authenticated)/(manage)/campaigns/helpers/DetachCampaign'
 
-const updateStatus = async (status: string, campaign: CampaignType) => {
-    const cr = { ...campaign }
+const updateStatus = async (status: string, creative: CreativeType) => {
+    const cr = { ...creative }
     cr.status = status
-    const result = await updateCampaign(cr.id, cr)
-    if (result.status === 200) toast({ title: `Updated Successfully`, description: `Sucessfully updated ${cr.campaignName} campaign` })
+    const result = await updateCreative(cr.id, cr)
+    if (result.status === 200) toast({ title: `Updated Successfully`, description: `Sucessfully updated ${cr.adName} creative` })
     else toast({ title: `Error occured`, description: result.message })
 }
 
-const cloneHandler = async (row: CampaignType) => {
-    await cloneCampaign(row.id)
-    toast({
-        title: `Cloned Successfully`,
-        description: `Created new campaign with name ${row.campaignName}`
-    })
-}
-
-const columns: ColumnDef<CampaignType, any>[] = [
+const columns: ColumnDef<CreativeType, any>[] = [
     {
         accessorKey: "",
         id: "expand",
@@ -58,16 +51,12 @@ const columns: ColumnDef<CampaignType, any>[] = [
                             <div className='border rounded-md p-1'><Ellipsis size={18} /></div>
                         </PopoverTrigger>
                         <PopoverContent className='p-2 flex flex-col'>
-                            <Link href={`/campaigns/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
-                            <ConfirmDialog
-                                title='Do you want to clone this Campaign?'
-                                description='Ad creatives associated with this campaign will not be cloned.'
-                                buttonContent={<><Copy size={18} className='mr-2' />Clone</>}
-                                onConfirm={() => cloneHandler(row.original)}
-                            />
+                            <Link href={`/creatives/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
                             <PopoverClose asChild>
                                 <Button variant="ghost" size="sm" className='justify-start' onClick={() => updateStatus(getUpdateStatus(row.getValue("status")), row.original)}>{handleStatus(row.getValue("status"))}{getUpdateStatus(row.getValue("status"))}</Button>
                             </PopoverClose>
+                            <AttachCampaign creative={row.original} />
+                            <DetachCampaign creative={row.original} />
                             <ConfirmDialog
                                 title='Do you want to delete this campaign?'
                                 description='Deleted action cannot be reverted.'
@@ -98,11 +87,11 @@ const columns: ColumnDef<CampaignType, any>[] = [
         }
     },
     {
-        accessorKey: "campaignName",
+        accessorKey: "adName",
         header: ({ column }) => (
             <CustomHeader
                 column={column}
-                title="Campaign Name"
+                title="Name"
                 className='justify-center'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}
@@ -111,15 +100,15 @@ const columns: ColumnDef<CampaignType, any>[] = [
         ),
         enableSorting: false,
         cell: ({ row }) => {
-            return <div className='text-start'>{row.getValue('campaignName')}</div>
+            return <div className='text-start'>{row.getValue('adName')}</div>
         }
     },
     {
-        accessorKey: "brandName",
+        accessorKey: "creativeType",
         header: ({ column }) => (
             <CustomHeader
                 column={column}
-                title="Brands"
+                title="Ad Format"
                 className='justify-center'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}
@@ -128,7 +117,58 @@ const columns: ColumnDef<CampaignType, any>[] = [
         ),
         enableSorting: false,
         cell: ({ row }) => {
-            return <div className='text-start'>{row.getValue('brandName')}</div>
+            return <div className='text-start'>{row.getValue('creativeType') === "JS" ? "RICHMEDIA" : row.getValue("creativeType")}</div>
+        }
+    },
+    {
+        accessorKey: "creativeSize",
+        header: ({ column }) => (
+            <CustomHeader
+                column={column}
+                title="Ad Size"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        enableSorting: false,
+        cell: ({ row }) => {
+            return <div className='text-start'>{row.getValue('creativeSize')}</div>
+        }
+    },
+    {
+        accessorKey: "creative_preview",
+        header: ({ column }) => (
+            <CustomHeader
+                column={column}
+                title="Preview"
+                className='justify-center'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        enableSorting: false,
+        cell: ({ row }) => {
+            return <div className='text-start'>Preview</div>
+        }
+    },
+    {
+        accessorKey: "advDomain",
+        header: ({ column }) => (
+            <CustomHeader
+                column={column}
+                title="Advertiser Domain"
+                className='justify-start'
+                onSortAsc={() => column.toggleSorting(false)}
+                onSortDesc={() => column.toggleSorting(true)}
+                onHide={() => column.toggleVisibility(false)}
+            />
+        ),
+        enableSorting: false,
+        cell: ({ row }) => {
+            return <div className='text-start'>{getContentWithLimit(row.getValue("advDomain"), 18)}</div>
         }
     },
     {
@@ -145,16 +185,15 @@ const columns: ColumnDef<CampaignType, any>[] = [
         ),
         enableSorting: false,
         cell: ({ row }) => {
-            const isExpired = row.getValue("endDate") as number < Math.floor(new Date().getTime() / 1000)
-            return <div className='text-center'>{getStatusAvatar(isExpired ? "EXPIRED" : row.getValue("status"))}</div>
+            return <div className='text-center'>{row.getValue("status") === "INACTIVE" && row.original.deactiveFlag === 1 ? getStatusAvatar("DEACTIVE") : getStatusAvatar(row.getValue("status"))}</div>
         }
     },
     {
-        accessorKey: "startDate",
+        accessorKey: "runningCampaigns",
         header: ({ column }) => (
             <CustomHeader
                 column={column}
-                title="Start At"
+                title="Running on Campaigns"
                 className='justify-center'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}
@@ -162,15 +201,15 @@ const columns: ColumnDef<CampaignType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-center'>{getDateForPosix(row.getValue('startDate'), "SECONDS")}</div>
+            return <div className='text-center'>{row.getValue('runningCampaigns')}</div>
         }
     },
     {
-        accessorKey: "endDate",
+        accessorKey: "pausedCamapigns",
         header: ({ column }) => (
             <CustomHeader
                 column={column}
-                title="End At"
+                title="Paused on Campaigns"
                 className='justify-center'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}
@@ -178,83 +217,20 @@ const columns: ColumnDef<CampaignType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-center'>{getDateForPosix(row.getValue('endDate'), "SECONDS")}</div>
-        }
-    },
-    {
-        accessorKey: "maxBudget",
-        header: ({ column }) => (
-            <CustomHeader
-                column={column}
-                title="Max Budget ($)"
-                className='justify-center'
-                onSortAsc={() => column.toggleSorting(false)}
-                onSortDesc={() => column.toggleSorting(true)}
-                onHide={() => column.toggleVisibility(false)}
-            />
-        ),
-        cell: ({ row }) => {
-            const amountSpent = row.original.amountSpent
-            const maxBudget = row.original.maxBudget
-            const per = amountSpent && maxBudget ? ((amountSpent / maxBudget) * 100).toFixed(2) : "0"
-            return <div className='text-center'>
-                <Progress value={parseInt(per)} />
-                <div className='mt-0.5 text-[12px]'>
-                    {`${amountSpent ? formatNumbers(amountSpent) : 0.00} / ${maxBudget ? formatNumbers(maxBudget) : 0.00} (${per})%`}
-                </div>
-            </div>
-        }
-    },
-    {
-        accessorKey: "budgetPerDay",
-        header: ({ column }) => (
-            <CustomHeader
-                column={column}
-                title="Daily Budget ($)"
-                className='justify-center'
-                onSortAsc={() => column.toggleSorting(false)}
-                onSortDesc={() => column.toggleSorting(true)}
-                onHide={() => column.toggleVisibility(false)}
-            />
-        ),
-        cell: ({ row }) => {
-            const dailyAmountSpent = row.original.dailyAmountSpent || 0
-            const budgetPerDay = row.original.budgetPerDay
-            const per = budgetPerDay && budgetPerDay ? ((dailyAmountSpent / budgetPerDay) * 100).toFixed(2) : "0"
-            return <div className='text-center'>
-                <Progress value={parseInt(per)} />
-                <div className='mt-0.5 text-[12px]'>
-                    {`${dailyAmountSpent ? formatNumbers(dailyAmountSpent) : 0.00} / ${budgetPerDay ? formatNumbers(budgetPerDay) : 0.00} (${per})%`}
-                </div>
-            </div>
-        }
-    },
-    {
-        accessorKey: "bidPrice",
-        header: ({ column }) => (
-            <CustomHeader
-                column={column}
-                title="Bid Price ($)"
-                className='justify-center'
-                onSortAsc={() => column.toggleSorting(false)}
-                onSortDesc={() => column.toggleSorting(true)}
-                onHide={() => column.toggleVisibility(false)}
-            />
-        ),
-        cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue("bidPrice")}</div>
+            return <div className='text-center'>{row.getValue('pausedCamapigns')}</div>
         }
     }
 ]
 
-export default function CampaignDatatable({
+
+export default function CreativeDatatable({
     pageNo,
     pageSize,
     data
 }: {
     pageNo: number,
     pageSize: number
-    data: CampaignTabularData
+    data: CreativeTabularData
 }) {
 
     const router = useRouter()
@@ -290,37 +266,69 @@ export default function CampaignDatatable({
         }
     })
 
-    const ExpandedRows = ({ row }: { row: Row<CampaignType> }) => {
+    const ExpandedRows = ({ row }: { row: Row<CreativeType> }) => {
         return (
             <div className='px-20 m-1'>
                 <div className='m-2'>
-                    <span>Exchanges:</span>
-                    <span className='ml-3'>{row.original.supplyType}</span>
+                    <span>Campaigns:</span>
+                    <span className='ml-3'>{row.original.campaigns?.length ? row.original.campaigns.map(campaign => {
+                        return <label key={campaign.id}>{campaign.name} {(campaign.id)}</label>
+                    }) : '-'}</span>
                 </div>
                 <div className='m-2'>
-                    <span>Countries:</span>
-                    <span className='ml-3'>{row.original.countries}</span>
+                    <span>Redirect URL:</span>
+                    <span className='ml-3'>{row.original.redirectUrl || '-'}</span>
                 </div>
                 <div className='m-2'>
-                    <span>Carrier:</span>
-                    <span className='ml-3'>{row.original.carriers}</span>
+                    <span>Ad Attribute:</span>
+                    <span className='ml-3'>{row.original.iabAdAttribute || '-'}</span>
                 </div>
                 <div className='m-2'>
-                    <span>Platforms:</span>
-                    <span className='ml-3'>{row.original.platforms}</span>
+                    <span>Adv Domain:</span>
+                    <span className='ml-3'>{row.original.advDomain || '-'}</span>
                 </div>
                 <div className='m-2'>
-                    <span>Devices:</span>
-                    <span className='ml-3'>{row.original.deviceManufacturer}</span>
+                    <span>Secure:</span>
+                    <span className='ml-3'>{row.original.secureTag ? "YES" : "NO"}</span>
                 </div>
-                <div className='m-2'>
-                    <span>Connection Type:</span>
-                    <span className='ml-3'>{row.original.connectionType}</span>
-                </div>
-                <div className='m-2'>
-                    <span>Freq Cap:</span>
-                    <span className='ml-3'>{row.original.fcap}</span>
-                </div>
+                {row.original.creativeType === "JS" && <div className='m-2'>
+                    <span>JS / Richmedia:</span>
+                    <span className='ml-3'>{getContentWithLimit(row.original.rmaContent || '-', 128)}</span>
+                </div>}
+                {row.original.creativeType === "VIDEO" && <>
+                    <div className='m-2'>
+                        <span>Video Content:</span>
+                        <span className='ml-3'>{getContentWithLimit(row.original.videoContent || '-', 128)}</span>
+                    </div>
+                    <div className='m-2'>
+                        <span>Creative Size:</span>
+                        <span className='ml-3'>{row.original.videoCreativeSize || '-'}</span>
+                    </div>
+                    <div className='m-2'>
+                        <span>API Framework:</span>
+                        <span className='ml-3'>{row.original.apiFramework || '-'}</span>
+                    </div>
+                    <div className='m-2'>
+                        <span>MimeType:</span>
+                        <span className='ml-3'>{row.original.videoMimeType || '-'}</span>
+                    </div>
+                    <div className='m-2'>
+                        <span>Max Duration:</span>
+                        <span className='ml-3'>{row.original.maxDuration || '-'}</span>
+                    </div>
+                    <div className='m-2'>
+                        <span>Protocols:</span>
+                        <span className='ml-3'>{row.original.protocols || '-'}</span>
+                    </div>
+                    <div className='m-2'>
+                        <span>Playback Method:</span>
+                        <span className='ml-3'>{row.original.playbackmethod || '-'}</span>
+                    </div>
+                    <div className='m-2'>
+                        <span>Skip:</span>
+                        <span className='ml-3'>{row.original.skip || '-'}</span>
+                    </div>
+                </>}
             </div>
         )
     }

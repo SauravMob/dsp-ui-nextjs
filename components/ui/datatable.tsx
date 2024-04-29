@@ -57,7 +57,7 @@ export function CustomHeader<TData, TValue>({
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="-ml-3 h-8 data-[state=open]:bg-accent"
+                        className="-ml-3 h-8 text-[13px] data-[state=open]:bg-accent"
                     >
                         <span>{title}</span>
                         {column.getIsSorted() === "desc" ? (
@@ -97,7 +97,7 @@ export default function DataTable<TData, TValue>({
     return (
         <div>
             <div className="rounded-md border">
-                <Table className='text-sm'>
+                <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
