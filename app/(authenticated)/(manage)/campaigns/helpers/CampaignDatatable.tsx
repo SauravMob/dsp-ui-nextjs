@@ -146,7 +146,7 @@ const columns: ColumnDef<CampaignType, any>[] = [
         enableSorting: false,
         cell: ({ row }) => {
             const isExpired = row.getValue("endDate") as number < Math.floor(new Date().getTime() / 1000)
-            return <div className='text-center'>{getStatusAvatar(isExpired ? "EXPIRED" : row.getValue("status"))}</div>
+            return <div className='w-fit'>{getStatusAvatar(isExpired ? "EXPIRED" : row.getValue("status"))}</div>
         }
     },
     {

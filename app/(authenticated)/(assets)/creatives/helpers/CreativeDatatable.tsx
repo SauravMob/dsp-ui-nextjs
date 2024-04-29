@@ -185,7 +185,7 @@ const columns: ColumnDef<CreativeType, any>[] = [
         ),
         enableSorting: false,
         cell: ({ row }) => {
-            return <div className='text-center'>{row.getValue("status") === "INACTIVE" && row.original.deactiveFlag === 1 ? getStatusAvatar("DEACTIVE") : getStatusAvatar(row.getValue("status"))}</div>
+            return <div className='w-fit'>{row.getValue("status") === "INACTIVE" && row.original.deactiveFlag === 1 ? getStatusAvatar("DEACTIVE") : getStatusAvatar(row.getValue("status"))}</div>
         }
     },
     {

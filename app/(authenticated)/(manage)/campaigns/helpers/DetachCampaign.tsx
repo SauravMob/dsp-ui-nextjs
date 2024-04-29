@@ -14,7 +14,10 @@ export default function DetachCampaign({
 }) {
 
     const [selectedCampaigns, setSelectedCampaigns] = useState<string[]>([])
-    const campaignOptions = useMemo<{ value: string, label: string }[]>(() => creative.campaigns?.length ? creative.campaigns.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })) : [], [creative])
+    const campaignOptions = useMemo<{ value: string, label: string }[]>(() => {
+        if (creative.campaigns?.length) return creative.campaigns.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name }))
+        else return []
+    }, [creative])
 
     const onSubmit = async () => {
         const result = await deleteAttachedCampaigns(creative.id, creative.userId, selectedCampaigns.join(","))
@@ -32,7 +35,7 @@ export default function DetachCampaign({
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Detach from Campaigns</DialogTitle>
-                    <DialogDescription>Displaying campaigns for the creative "{creative.adName}"</DialogDescription>
+                    <DialogDescription>Displaying campaigns for the creative &quot;{creative.adName}</DialogDescription>
                 </DialogHeader>
                 <MultiSelectInput
                     placeholder="Select campaigns to detach"

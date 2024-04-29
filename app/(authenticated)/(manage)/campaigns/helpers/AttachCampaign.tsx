@@ -22,7 +22,7 @@ export default function AttachCampaign({
             setCampaignOptions(res.map((v: { id: string, name: string }) => ({ value: v.id, label: v.name })))
         }
         fetchData()
-    }, [])
+    }, [creative])
 
     const onSubmit = async () => {
         const cr = { ...creative }
@@ -42,7 +42,7 @@ export default function AttachCampaign({
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Attach to additional Campaigns</DialogTitle>
-                    <DialogDescription>Displaying campaigns for the creative "{creative.adName}"</DialogDescription>
+                    <DialogDescription>Displaying campaigns for the creative &quot;{creative.adName}</DialogDescription>
                 </DialogHeader>
                 <MultiSelectInput
                     placeholder="Select campaigns to attach"
