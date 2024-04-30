@@ -93,5 +93,4 @@ export function getUpdateStatus(status: string) {
 export function getContentWithLimit(str: string, limit: number) {
     if (str !== undefined && str !== null) return str.length > limit ? `${str.substring(0, limit)}...` : str
     else return str
-
 }

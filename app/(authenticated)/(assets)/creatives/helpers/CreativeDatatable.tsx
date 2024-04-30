@@ -5,10 +5,10 @@ import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import ConfirmDialog from '@/components/utility/customComponents/ConfirmDialog'
-import { getStatusAvatar, handleStatus } from '@/components/utility/utils/JSXUtils'
+import { HtmlSanitized, getStatusAvatar, handleStatus } from '@/components/utility/utils/JSXUtils'
 import { getContentWithLimit, getUpdateStatus } from '@/components/utility/utils/Utils'
 import { ColumnDef, ExpandedState, PaginationState, Row, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
-import { ChevronDown, ChevronUp, Edit, Ellipsis, PieChart, Trash, Trash2 } from 'lucide-react'
+import { ChevronDown, ChevronUp, Edit, Ellipsis, PieChart, Trash, Trash2, Video } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo, useState } from 'react'
@@ -17,6 +17,7 @@ import { toast } from '@/components/ui/use-toast'
 import { PopoverClose } from '@radix-ui/react-popover'
 import AttachCampaign from '@/app/(authenticated)/(manage)/campaigns/helpers/AttachCampaign'
 import DetachCampaign from '@/app/(authenticated)/(manage)/campaigns/helpers/DetachCampaign'
+import Image from 'next/image'
 
 const updateStatus = async (status: string, creative: CreativeType) => {
     const cr = { ...creative }
@@ -151,7 +152,17 @@ const columns: ColumnDef<CreativeType, any>[] = [
         ),
         enableSorting: false,
         cell: ({ row }) => {
-            return <div className='text-start'>Preview</div>
+            return <div className='flex justify-center items-center'>
+                {row.original.bannerAdtype === 2 ? <>
+                    <Image src={row.original.creativePath || ''} alt='' width={50} height={50} />
+                </> : row.original.bannerAdtype === 3 ? <>
+                    <div className='max-h-12 max-w-12'>
+                        <HtmlSanitized html={row.original.rmaContent} />
+                    </div>
+                </> : <>
+                    <Video size={32} />
+                </>}
+            </div>
         }
     },
     {
