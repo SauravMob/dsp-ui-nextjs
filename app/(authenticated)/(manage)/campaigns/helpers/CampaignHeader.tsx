@@ -3,7 +3,7 @@ import React from 'react'
 import CampaignSheet from './CampaignSheet'
 import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 
-export default function CampaignHeader({ pageNo, pageSize, campaignId, status, country, os }: CampaignFilterTypes) {
+export default function CampaignHeader({ pageSize, campaignId, status, country, os }: CampaignFilterTypes) {
     return (
         <>
             <CustomBreadCrumb secondItem='Campaign' secondLink='/campaigns' />
@@ -14,7 +14,6 @@ export default function CampaignHeader({ pageNo, pageSize, campaignId, status, c
 
                 <div>
                     <CampaignSheet
-                        pageNo={pageNo}
                         pageSize={pageSize}
                         campaignId={campaignId}
                         status={status}

@@ -6,7 +6,7 @@ type CampaignType = {
     adminSupplyType?: string,
     advertiserId?: number
     age?: string,
-    amountSpent?: number
+    amountSpent: number
     appOpFlag?: number
     approvedOn?: string,
     auctionType?: string,
@@ -41,7 +41,7 @@ type CampaignType = {
     creativeId?: string,
     creativeType?: string,
     custImpPacing?: number
-    dailyAmountSpent?: number
+    dailyAmountSpent: number
     dailyRunStatus?: number
     dailySspCost?: number
     dcFlag?: string,
@@ -76,7 +76,7 @@ type CampaignType = {
     isEndDateEnabled?: number
     isIpTargetingCampaign?: number
     isPredictEnabled?: true,
-    lastModifiedOn?: string,
+    lastModifiedOn: string,
     latlonRadiusDistance?: number
     maxBudget?: number
     maxMargin?: number
@@ -112,12 +112,14 @@ type CampaignType = {
 }
 
 type CampaignFilterTypes = {
-    pageNo: string
-    pageSize: string
-    campaignId: string
-    status: string
-    country: string
-    os: string
+    pageNo?: string
+    pageSize?: string
+    campaignId?: string
+    status?: string
+    country?: string
+    os?: string
+    accountManagerId?: string
+    advertiserId?: string
 }
 
 type CampaignTabularData = {

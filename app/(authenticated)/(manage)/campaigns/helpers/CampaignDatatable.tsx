@@ -111,7 +111,7 @@ const columns: ColumnDef<CampaignType, any>[] = [
         ),
         enableSorting: false,
         cell: ({ row }) => {
-            return <div className='text-start'>{row.getValue('campaignName')}</div>
+            return <div className='text-start'>{<Link href={`/creatives?campaignId=${row.getValue("id")}`}>{row.getValue('campaignName')}</Link>}</div>
         }
     },
     {

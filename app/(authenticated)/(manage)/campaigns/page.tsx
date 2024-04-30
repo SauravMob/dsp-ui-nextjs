@@ -34,7 +34,6 @@ export default async function page({
   return (
     <div>
       <CampaignHeader
-        pageNo={pageNo}
         pageSize={pageSize}
         campaignId={campaignId}
         status={status}

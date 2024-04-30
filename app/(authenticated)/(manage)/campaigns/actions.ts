@@ -3,6 +3,7 @@
 import { HttpRequestApi } from "@/components/services/HttpRequestApi"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
+import { SettingsFormData } from "../campaign-manager/helpers/SettingsModal"
 
 export async function fetchAllCampaigns({
     pageNo,
@@ -31,6 +32,8 @@ export async function searchCampaign({
         name?: string,
         os?: string,
         status?: string
+        advertiserId?: string,
+        accountManagerId?: string
     }
 }) {
     const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
@@ -71,3 +74,20 @@ export async function cloneCampaign(
     revalidatePath("/campaigns")
     return await result.json()
 }
+
+export async function fetchAccountManagerAndAdmins() {
+    const url = `/users/acc_managers`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath("/campaigns")
+    return await result.json()
+}
+
+export async function updateCampaignSetting(id: number, setting: SettingsFormData) {
+    const url = `/campaigns/setting?id=${id}`
+    const result = await HttpRequestApi('PUT', url, setting)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath("/campaign-manager")
+    return { status: 200, message: "Successfully updated the campaign setting" }
+}
+

@@ -10,7 +10,7 @@ import { countryOption } from '@/components/utility/utils/GeoUtils'
 import { usePathname } from 'next/navigation'
 import { osOptions, statusOptions } from '@/components/utility/utils/Utils'
 
-export default function CampaignSheet({ pageNo, pageSize, campaignId, status, country, os }: CampaignFilterTypes) {
+export default function CampaignSheet({ pageSize, campaignId, status, country, os }: CampaignFilterTypes) {
 
   const path = usePathname()
 
