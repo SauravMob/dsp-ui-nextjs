@@ -29,7 +29,7 @@ const columns: ColumnDef<CampaignType, any>[] = [
             <PopoverContent className='p-2 flex flex-col'>
               <Link href={`/campaigns/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
               <SettingsModal campaign={row.original} />
-              <Link href={`/campaign-report?campaignId=${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><PieChart size={18} className='mr-2' />View Report</Link>
+              <Link href={`/campaign-report?campaignName=${row.original.campaignName}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><PieChart size={18} className='mr-2' />View Report</Link>
             </PopoverContent>
           </Popover>
         </>}

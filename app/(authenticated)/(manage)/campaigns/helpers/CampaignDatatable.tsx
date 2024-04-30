@@ -74,7 +74,7 @@ const columns: ColumnDef<CampaignType, any>[] = [
                                 buttonContent={<><Trash size={18} className='mr-2' />Delete</>}
                                 onConfirm={() => updateStatus("DELETE", row.original)}
                             />
-                            <Link href={`/campaign-report?campaignId=${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><PieChart size={18} className='mr-2' />View Report</Link>
+                            <Link href={`/campaign-report?campaignName=${row.original.campaignName}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><PieChart size={18} className='mr-2' />View Report</Link>
                         </PopoverContent>
                     </Popover>
                 </>}
@@ -242,7 +242,7 @@ const columns: ColumnDef<CampaignType, any>[] = [
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-end'>{row.getValue("bidPrice")}</div>
+            return <div className='text-center'>{row.getValue("bidPrice")}</div>
         }
     }
 ]

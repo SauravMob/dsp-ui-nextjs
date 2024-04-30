@@ -1,6 +1,6 @@
 import { fetchUserByRole } from '@/app/(authenticated)/(analyze)/actions'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogFooter, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
@@ -32,7 +32,7 @@ const formSchema = z.object({
     fcapKeyFlag: z.boolean(),
     adminBlockedAdclient: z.string(),
     stopLoss: z.number(),
-    boostFactor: z.number().min(1, { message: "Minimum should be 1%!" }).max(100, { message: "Maximum should be 100%!" })
+    boostFactor: z.number().min(0, { message: "Minimum should be 1%!" }).max(100, { message: "Maximum should be 100%!" })
 })
 
 export type SettingsFormData = z.infer<typeof formSchema>
@@ -72,7 +72,7 @@ export default function SettingsModal({ campaign }: { campaign: CampaignType }) 
             fcapKeyFlag: campaign.fcapKeyFlag || false,
             adminBlockedAdclient: campaign.adminBlockedAdclient || '',
             stopLoss: campaign.stopLoss || 0,
-            boostFactor: campaign.boostFactor || 1
+            boostFactor: campaign.boostFactor || 0
         }
     })
 
@@ -91,6 +91,9 @@ export default function SettingsModal({ campaign }: { campaign: CampaignType }) 
                 </Button>
             </DialogTrigger>
             <DialogContent className='min-w-max'>
+                <DialogHeader>
+                    <DialogTitle>Settings: {campaign.campaignName}</DialogTitle>
+                </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
                         <div className='grid grid-cols-3 space-x-3'>
