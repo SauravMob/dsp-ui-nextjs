@@ -2,29 +2,28 @@
 
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useMemo, useState } from 'react'
-import { fetchAccountManagerAndAdmins, fetchCampaignIdNameList, searchCampaign } from '../../campaigns/actions'
+import { fetchCampaignIdNameList, searchCampaign } from '../../campaigns/actions'
+import { fetchCreativeIdNameList } from '@/app/(authenticated)/(assets)/creatives/actions'
+import { fetchUserByRole } from '@/app/(authenticated)/(analyze)/actions'
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Filter } from 'lucide-react'
-import { AutoComplete, MultiSelectInput, SelectInput } from '@/components/utility/customComponents/SelectInput'
-import { countryOption } from '@/components/utility/utils/GeoUtils'
-import { osOptions, statusOptions } from '@/components/utility/utils/Utils'
+import { AutoComplete, SelectInput } from '@/components/utility/customComponents/SelectInput'
+import { creativeSizeOptions, creativeTypeOptions } from '@/components/utility/utils/Utils'
 import Link from 'next/link'
-import { fetchUserByRole } from '@/app/(authenticated)/(analyze)/actions'
 
-export default function CampaignManagerSheet({
-    pageSize, advertiserId, accountManagerId, country, os, status, campaignId
-}: CampaignFilterTypes) {
+export default function CreativeManagerSheet({
+    pageSize, campaignId, advertiserId, creativeId, creativeSize, creativeType
+}: CreativeFilterTypes) {
 
     const path = usePathname()
     const [campaign, setCampaign] = useState<string | undefined>(campaignId)
-    const [customCountry, setCustomCountry] = useState<string[] | string>(country ? country.split(',') : '')
-    const [customOs, setCustomOs] = useState<string[] | string>(os ? os.split(',') : '')
-    const [customStatus, setCustomStatus] = useState<string[] | string>(status ? status.split(',') : '')
+    const [creative, setCreative] = useState<string | undefined>(creativeId)
     const [customAdvertiserId, setCustomAdvertiserId] = useState<string | undefined>(advertiserId)
-    const [customAccountManagerId, setCustomAccountManagerId] = useState<string | undefined>(accountManagerId)
+    const [customCreativeSize, setCustomCreativeSize] = useState<string | undefined>(creativeSize)
+    const [customCreativeType, setCustomCreativeType] = useState<string | undefined>(creativeType)
 
     const [campaignOptions, setCampaignOptions] = useState<{ value: string, label: string }[]>([])
-    const [accManagersOptions, setAccManagersOptions] = useState<{ value: string, label: string }[]>([])
+    const [creativeOptions, setCreativeOptions] = useState<{ value: string, label: string }[]>([])
     const [advertisersOptions, setAdvertisersOptions] = useState<{ value: string, label: string }[]>([])
 
     const campaignFilter = async (inputValue: string) => {
@@ -34,27 +33,38 @@ export default function CampaignManagerSheet({
         return options
     }
 
+    const creativeFilter = async (inputValue: string) => {
+        const fetch = await fetchCreativeIdNameList(inputValue)
+        const options = !parseInt(inputValue) ? fetch.map((v: { id: string, name: string }) => ({ value: v.id, label: v.name })) : fetch.content.map((v: { id: number, creativeName: string }) => ({ value: v.id.toString(), label: v.creativeName }))
+        setCreativeOptions(options)
+        return options
+    }
+
     useEffect(() => {
-        const fetchCampaigns = async () => {
+        const fetchValue = async () => {
             const result = await searchCampaign({ pageNo: "0", pageSize: "50", filter: { campaignId } })
             setCampaignOptions(result.content.map((v: { id: number, campaignName: string }) => ({ value: v.id.toString(), label: v.campaignName })))
         }
-        fetchCampaigns()
+        fetchValue()
+    }, [campaignId])
 
-        const fetchAccountManagers = async () => {
-            const result = await fetchAccountManagerAndAdmins()
-            setAccManagersOptions(result.map((v: { id: number, email: string }) => ({ value: v.id.toString(), label: v.email })))
+    useEffect(() => {
+        const fetchValue = async () => {
+            const result = await fetchCreativeIdNameList('', creativeId)
+            setCreativeOptions(result.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
         }
-        fetchAccountManagers()
+        fetchValue()
+    }, [creativeId])
 
-        const fetchUser = async () => {
+    useEffect(() => {
+        const fetchValue = async () => {
             const result = await fetchUserByRole("ADVERTISER")
             setAdvertisersOptions(result.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
         }
-        fetchUser()
-    }, [campaignId, advertiserId, accountManagerId])
+        fetchValue()
+    }, [advertiserId])
 
-    const uri = useMemo(() => `${path}?${campaign ? `&campaignId=${campaign}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customAccountManagerId ? `&accountManagerId=${customAccountManagerId}` : ''}${Array.isArray(customCountry) ? `&country=${customCountry.join(',')}` : ''}${Array.isArray(customOs) ? `&os=${customOs.join(',')}` : ''}${Array.isArray(customStatus) ? `&status=${customStatus.join(',')}` : ''}&pageNo=0&pageSize=${pageSize}`, [path, campaign, customCountry, customOs, customStatus, customAdvertiserId, customAccountManagerId, pageSize])
+    const uri = useMemo(() => `${path}?${campaign ? `&campaignId=${campaign}` : ''}${creative ? `&creativeId=${creative}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customCreativeSize ? `&creativeSize=${customCreativeSize}` : ''}${customCreativeType ? `&creativeType=${customCreativeType}` : ''}&pageNo=0&pageSize=${pageSize}`, [path, campaign, creative, customCreativeSize, customCreativeType, customAdvertiserId, pageSize])
 
     return (
         <Sheet>
@@ -81,44 +91,44 @@ export default function CampaignManagerSheet({
                         </div>
                     </div>
                     <div className='grid grid-cols-3 mt-4'>
-                        <div className='col-span-1 text-md flex items-center'>Country</div>
+                        <div className='col-span-1 text-md flex items-center'>Creatives</div>
                         <div className='col-span-2 flex items-center'>
-                            <MultiSelectInput
-                                placeholder="Country"
+                            <AutoComplete
+                                placeholder="Creatives..."
                                 isClearable={true}
                                 isSearchable={true}
-                                name="country"
-                                value={countryOption.filter(v => customCountry.includes(v.value))}
-                                options={countryOption}
-                                onChange={(e) => setCustomCountry(e?.length ? e.map(v => v.value) : '')}
+                                name="creatives"
+                                value={creativeOptions.filter(v => v.value === creative)[0]}
+                                loadOptions={creativeFilter}
+                                onChange={(e) => setCreative(e ? e.value : '')}
                             />
                         </div>
                     </div>
                     <div className='grid grid-cols-3 mt-4'>
-                        <div className='col-span-1 text-md flex items-center'>OS</div>
+                        <div className='col-span-1 text-md flex items-center'>Resolution</div>
                         <div className='col-span-2 flex items-center'>
-                            <MultiSelectInput
-                                placeholder="OS"
+                            <SelectInput
+                                placeholder="Ad Format"
                                 isClearable={true}
                                 isSearchable={true}
-                                name="os"
-                                value={osOptions.filter(v => customOs.includes(v.value))}
-                                options={osOptions}
-                                onChange={(e) => setCustomOs(e?.length ? e.map(v => v.value) : '')}
+                                name="creativeSize"
+                                value={creativeSizeOptions.filter(v => v.value === customCreativeSize)[0]}
+                                options={creativeSizeOptions}
+                                onChange={(e) => setCustomCreativeSize(e ? e.value : '')}
                             />
                         </div>
                     </div>
                     <div className='grid grid-cols-3 mt-4'>
-                        <div className='col-span-1 text-md flex items-center'>Status</div>
+                        <div className='col-span-1 text-md flex items-center'>Ad Format</div>
                         <div className='col-span-2 flex items-center'>
-                            <MultiSelectInput
-                                placeholder="Staus"
+                            <SelectInput
+                                placeholder="Ad Format"
                                 isClearable={true}
                                 isSearchable={true}
-                                name="status"
-                                value={statusOptions.filter(v => customStatus.includes(v.value))}
-                                options={statusOptions}
-                                onChange={(e) => setCustomStatus(e?.length ? e.map(v => v.value) : '')}
+                                name="creativeType"
+                                value={creativeTypeOptions.filter(v => v.value === customCreativeType)[0]}
+                                options={creativeTypeOptions}
+                                onChange={(e) => setCustomCreativeType(e ? e.value : '')}
                             />
                         </div>
                     </div>
@@ -126,27 +136,13 @@ export default function CampaignManagerSheet({
                         <div className='col-span-1 text-md flex items-center'>Advertiser</div>
                         <div className='col-span-2 flex items-center'>
                             <SelectInput
-                                placeholder="Advertiser Id"
+                                placeholder="Advertiser"
                                 isClearable={true}
                                 isSearchable={true}
                                 name="advertiserId"
                                 value={advertisersOptions.filter(v => v.value === customAdvertiserId)[0]}
                                 options={advertisersOptions}
                                 onChange={(e) => setCustomAdvertiserId(e ? e.value : '')}
-                            />
-                        </div>
-                    </div>
-                    <div className='grid grid-cols-3 mt-4'>
-                        <div className='col-span-1 text-md flex items-center'>Account Manager</div>
-                        <div className='col-span-2 flex items-center'>
-                            <SelectInput
-                                placeholder="Account Manager Id"
-                                isClearable={true}
-                                isSearchable={true}
-                                name="accountManagerId"
-                                value={accManagersOptions.filter(v => v.value === customAccountManagerId)[0]}
-                                options={accManagersOptions}
-                                onChange={(e) => setCustomAccountManagerId(e ? e.value : '')}
                             />
                         </div>
                     </div>

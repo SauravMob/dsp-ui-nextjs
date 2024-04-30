@@ -1,11 +1,12 @@
 type CreativeFilterTypes = {
-    pageNo: string
-    pageSize: string
-    campaignId: string
-    creativeId: string
-    status: string
-    creativeSize: string
-    creativeType: string
+    pageSize?: string
+    campaignId?: string
+    creativeId?: string
+    status?: string
+    creativeSize?: string
+    creativeType?: string
+    advertiserId?: string
+    accountManagerId?: string
 }
 
 type CreativeType = {

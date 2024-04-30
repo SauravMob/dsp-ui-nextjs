@@ -29,7 +29,6 @@ export async function searchCampaign({
     filter: {
         campaignId?: string,
         country?: string,
-        name?: string,
         os?: string,
         status?: string
         advertiserId?: string,

@@ -30,7 +30,9 @@ export async function searchCreative({
         creativeId: string,
         creativeSize: string,
         creativeType: string,
-        status: string
+        status?: string,
+        accountManagerId?: string,
+        advertiserId?: string
     }
 }) {
     const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
@@ -67,8 +69,8 @@ export async function fetchCreativeIdNameList(
     name?: string,
     id?: string
 ) {
-    const userId = cookies().get('userId')?.value
-    const url = `/creatives/idName?row=5${name ? `&name=${name}` : ''}${id ? `&id=${id}` : ''}&userId=${userId}`
+    const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
+    const url = `/creatives/idName?row=5${name ? `&name=${name}` : ''}${id ? `&id=${id}` : ''}${userId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()

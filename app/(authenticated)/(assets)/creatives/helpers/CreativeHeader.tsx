@@ -3,7 +3,7 @@ import { Camera } from 'lucide-react'
 import React from 'react'
 import CreativeSheet from './CreativeSheet'
 
-export default function CreativeHeader({ pageNo, pageSize, campaignId, status, creativeId, creativeSize, creativeType }: CreativeFilterTypes) {
+export default function CreativeHeader({ pageSize, campaignId, status, creativeId, creativeSize, creativeType }: CreativeFilterTypes) {
     return (
         <>
             <CustomBreadCrumb secondItem='Creative' secondLink='/creatives' />
@@ -14,7 +14,6 @@ export default function CreativeHeader({ pageNo, pageSize, campaignId, status, c
 
                 <div>
                     <CreativeSheet
-                        pageNo={pageNo}
                         pageSize={pageSize}
                         campaignId={campaignId}
                         status={status}

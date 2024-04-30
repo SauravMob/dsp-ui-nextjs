@@ -10,7 +10,7 @@ import { AutoComplete, MultiSelectInput, SelectInput } from '@/components/utilit
 import { creativeSizeOptions, creativeTypeOptions, statusOptions } from '@/components/utility/utils/Utils'
 import Link from 'next/link'
 
-export default function CreativeSheet({ pageNo, pageSize, campaignId, status, creativeSize, creativeId, creativeType }: CreativeFilterTypes) {
+export default function CreativeSheet({ pageSize, campaignId, status, creativeSize, creativeId, creativeType }: CreativeFilterTypes) {
 
     const path = usePathname()
 
