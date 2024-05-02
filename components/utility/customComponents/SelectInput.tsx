@@ -17,7 +17,8 @@ export interface SelectInputProps {
     isClearable?: boolean
     isSearchable?: boolean
     name: string,
-    value?: SelectOption
+    value?: SelectOption,
+    isDisabled?: boolean
 }
 
 export interface MultiSelectInputProps {
@@ -68,7 +69,7 @@ const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputPro
 MultiSelectInput.displayName = "MultiSelectInput"
 
 const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
-    ({ className, options, value, ...props }, ref) => {
+    ({ className, options, value, isDisabled, ...props }, ref) => {
         return (
             <Select
                 unstyled
@@ -83,6 +84,7 @@ const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
                 }}
                 classNamePrefix="select"
                 options={options}
+                isDisabled={isDisabled}
                 {...props}
             />
         )

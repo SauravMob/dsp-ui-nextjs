@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { getStatusAvatar } from '@/components/utility/utils/JSXUtils'
-import { ColumnDef, PaginationState, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnDef, PaginationState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { Bell, Camera, DollarSign, Ellipsis, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -182,12 +182,9 @@ export default function AdvertiserDatatable({
         columns,
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
-        getExpandedRowModel: getExpandedRowModel(),
         manualPagination: true,
         rowCount: data.totalElements,
-        state: {
-            pagination
-        }
+        state: { pagination }
     })
 
     return (
