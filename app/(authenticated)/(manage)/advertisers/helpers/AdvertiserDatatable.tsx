@@ -9,6 +9,7 @@ import { Bell, Camera, DollarSign, Ellipsis, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo } from 'react'
+import AddFundsModal from './AddFundsModal'
 
 const columns: ColumnDef<AdvertiserType, any>[] = [
     {
@@ -25,7 +26,7 @@ const columns: ColumnDef<AdvertiserType, any>[] = [
                         <Link href={`/campaigns/create/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Bell size={18} className='mr-2' />New Campaign</Link>
                         <Link href={`/creatives/create?${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Camera size={18} className='mr-2' />New Creative</Link>
                         <Link href={`/audiences/create?${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Users size={18} className='mr-2' />New Audience</Link>
-                        <Link href={`/audiences/create?${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><DollarSign size={18} className='mr-2' />Add Funds</Link>
+                        <AddFundsModal row={row.original} />
                     </PopoverContent>
                 </Popover>
             </div>
