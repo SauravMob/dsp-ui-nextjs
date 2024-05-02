@@ -49,6 +49,12 @@ export const statusWithoutInactiveOptions = [
     { label: 'PAUSED', value: 'PAUSE' }
 ]
 
+export const statusWithoutPauseOptions = [
+    { label: 'ACTIVE', value: 'ACTIVE' },
+    { label: 'INACTIVE', value: 'INACTIVE' },
+    { label: 'DELETED', value: 'DELETE' }
+]
+
 export const osOptions = [
     { label: 'Android', value: 'ANDROID' },
     { label: 'iOS', value: 'IOS' },
