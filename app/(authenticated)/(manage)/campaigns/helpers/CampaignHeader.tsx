@@ -1,7 +1,9 @@
-import { Bell } from 'lucide-react'
+import { Bell, Plus } from 'lucide-react'
 import React from 'react'
 import CampaignSheet from './CampaignSheet'
 import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function CampaignHeader({ pageSize, campaignId, status, country, os }: CampaignFilterTypes) {
     return (
@@ -13,6 +15,11 @@ export default function CampaignHeader({ pageSize, campaignId, status, country, 
                 </div>
 
                 <div>
+                    <Link href="/campaigns/create">
+                        <Button size="sm" className='mr-2'>
+                            <Plus size={20} className='mr-1' />Create
+                        </Button>
+                    </Link>
                     <CampaignSheet
                         pageSize={pageSize}
                         campaignId={campaignId}

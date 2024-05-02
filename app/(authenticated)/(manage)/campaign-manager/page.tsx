@@ -4,6 +4,12 @@ import React from 'react'
 import CampaignManagerHeader from './helpers/CampaignManagerHeader'
 import { fetchAllCampaigns, searchCampaign } from '../campaigns/actions'
 import CampaignManagerDatatable from './helpers/CampaignManagerDatatable'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: "Mobavenue | Campaign Manager",
+    description: "Mobavenue DSP campaign manager"
+}
 
 export default async function page({
     params,

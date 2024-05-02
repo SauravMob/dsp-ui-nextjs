@@ -125,7 +125,7 @@ export default function CreativeSheet({ pageSize, campaignId, status, creativeSi
                         <div className='col-span-1 text-md flex items-center'>Status</div>
                         <div className='col-span-2 flex items-center'>
                             <MultiSelectInput
-                                placeholder="Staus"
+                                placeholder="Status"
                                 isClearable={true}
                                 isSearchable={true}
                                 name="status"

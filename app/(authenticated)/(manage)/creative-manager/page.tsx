@@ -4,6 +4,12 @@ import React from 'react'
 import { fetchAllCreatives, searchCreative } from '../../(assets)/creatives/actions'
 import CreativeManagerHeader from './helpers/CreativeManagerHeader'
 import CreativeManagerDatatable from './helpers/CreativeManagerDatatable'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: "Mobavenue | Creative Manager",
+    description: "Mobavenue DSP creative manager"
+}
 
 export default async function page({
     params,

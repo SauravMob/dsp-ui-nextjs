@@ -3,9 +3,9 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: 'https',
-                hostname: 'assets.mobavenue.com',
-                port: '',
+                protocol: process.env.NODE_ENV === "production" ? 'https' : "http",
+                hostname: process.env.NODE_ENV === "production" ?'assets.mobavenue.com' : "localhost",
+                port: process.env.NODE_ENV === "production" ? '' : "8080",
                 pathname: '/assets/**',
             },
         ],
