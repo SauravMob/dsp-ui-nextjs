@@ -1,30 +1,40 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import ConfirmDialog from '@/components/utility/customComponents/ConfirmDialog'
 import { getStatusAvatar, handleStatus } from '@/components/utility/utils/JSXUtils'
-import { getUpdateStatus } from '@/components/utility/utils/Utils'
+import { getDateForPosix, getUpdateStatus } from '@/components/utility/utils/Utils'
 import { PopoverClose } from '@radix-ui/react-popover'
-import { ColumnDef, PaginationState, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
-import { Edit, Ellipsis, Trash, Trash2 } from 'lucide-react'
+import { ColumnDef, ExpandedState, PaginationState, Row, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import { ChevronDown, ChevronUp, Edit, Ellipsis, Trash, Trash2 } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useMemo } from 'react'
-import { updateAudience } from '../actions'
+import React, { useCallback, useMemo, useState } from 'react'
+import { updateApp } from '../actions'
 import { toast } from '@/components/ui/use-toast'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { Card } from '@/components/ui/card'
 
-const updateStatus = async (status: string, audience: AudienceType) => {
-    const cr = { ...audience }
+const updateStatus = async (status: string, app: ApplistType) => {
+    const cr = { ...app }
     cr.status = status
-    const result = await updateAudience(cr.id, cr)
-    if (result.status === 200) toast({ title: `Updated Successfully`, description: `Sucessfully updated ${cr.name} audience` })
+    const result = await updateApp(cr.id, cr)
+    if (result.status === 200) toast({ title: `Updated Successfully`, description: `Sucessfully updated ${cr.name} app` })
     else toast({ title: `Error occured`, description: result.message })
 }
 
-const columns: ColumnDef<AudienceType, any>[] = [
+const columns: ColumnDef<ApplistType, any>[] = [
+    {
+        accessorKey: "",
+        id: "expand",
+        enableSorting: false,
+        cell: ({ row }) => {
+            return <div className='flex justify-center p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer' onClick={() => row.toggleExpanded()}>
+                {row.getIsExpanded() ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+            </div>
+        }
+    },
     {
         accessorKey: "",
         id: "edit",
@@ -44,7 +54,7 @@ const columns: ColumnDef<AudienceType, any>[] = [
                                 <Button variant="ghost" size="sm" className='justify-start' onClick={() => updateStatus(getUpdateStatus(row.getValue("status")), row.original)}>{handleStatus(row.getValue("status"))}{getUpdateStatus(row.getValue("status"))}</Button>
                             </PopoverClose>
                             <ConfirmDialog
-                                title='Do you want to delete this audience?'
+                                title='Do you want to delete this app?'
                                 description='Deleted action cannot be reverted.'
                                 buttonContent={<><Trash size={18} className='mr-2' />Delete</>}
                                 onConfirm={() => updateStatus("DELETE", row.original)}
@@ -73,11 +83,11 @@ const columns: ColumnDef<AudienceType, any>[] = [
         }
     },
     {
-        accessorKey: "description",
+        accessorKey: "bundle_count",
         header: ({ column }) => (
             <CustomHeader
                 column={column}
-                title="Description"
+                title="No. of Bundles"
                 className='justify-center'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}
@@ -86,57 +96,7 @@ const columns: ColumnDef<AudienceType, any>[] = [
         ),
         enableSorting: false,
         cell: ({ row }) => {
-            return <div className='text-start'>{row.getValue('description')}</div>
-        }
-    },
-    {
-        accessorKey: "uploadType",
-        header: ({ column }) => (
-            <CustomHeader
-                column={column}
-                title="Upload Type"
-                className='justify-center text-nowrap'
-                onSortAsc={() => column.toggleSorting(false)}
-                onSortDesc={() => column.toggleSorting(true)}
-                onHide={() => column.toggleVisibility(false)}
-            />
-        ),
-        enableSorting: false,
-        cell: ({ row }) => {
-            return <div className='text-center'>{row.getValue('uploadType')}</div>
-        }
-    },
-    {
-        accessorKey: "mmp",
-        header: ({ column }) => (
-            <CustomHeader
-                column={column}
-                title="MMP"
-                className='justify-center'
-                onSortAsc={() => column.toggleSorting(false)}
-                onSortDesc={() => column.toggleSorting(true)}
-                onHide={() => column.toggleVisibility(false)}
-            />
-        ),
-        enableSorting: false,
-        cell: ({ row }) => {
-            return <div className='text-start'>{row.getValue('mmp')}</div>
-        }
-    },
-    {
-        accessorKey: "days",
-        header: ({ column }) => (
-            <CustomHeader
-                column={column}
-                title="Days"
-                className='justify-center'
-                onSortAsc={() => column.toggleSorting(false)}
-                onSortDesc={() => column.toggleSorting(true)}
-                onHide={() => column.toggleVisibility(false)}
-            />
-        ),
-        cell: ({ row }) => {
-            return <div className='text-center'>{row.getValue('days') ? row.getValue('days') : 'NA'}</div>
+            return <div className='text-center'>{row.getValue('bundle_count')}</div>
         }
     },
     {
@@ -145,7 +105,7 @@ const columns: ColumnDef<AudienceType, any>[] = [
             <CustomHeader
                 column={column}
                 title="Status"
-                className='justify-center'
+                className='justify-start'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}
                 onHide={() => column.toggleVisibility(false)}
@@ -157,74 +117,48 @@ const columns: ColumnDef<AudienceType, any>[] = [
         }
     },
     {
-        accessorKey: "bundle",
+        accessorKey: "created_by",
         header: ({ column }) => (
             <CustomHeader
                 column={column}
-                title="Bundle"
-                className='justify-center'
+                title="Created By"
+                className='justify-start'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}
                 onHide={() => column.toggleVisibility(false)}
             />
         ),
-        enableSorting: false,
         cell: ({ row }) => {
-            return <div className='text-start'>{row.getValue('bundle')}</div>
+            return <div className='text-start'>{row.getValue('created_by')}</div>
         }
     },
     {
-        accessorKey: "rules",
+        accessorKey: "updatedAt",
         header: ({ column }) => (
             <CustomHeader
                 column={column}
-                title="Rules"
-                className='justify-center'
-                onSortAsc={() => column.toggleSorting(false)}
-                onSortDesc={() => column.toggleSorting(true)}
-                onHide={() => column.toggleVisibility(false)}
-            />
-        ),
-        enableSorting: false,
-        cell: ({ row }) => {
-            const list = row.original.rules ? row.original.rules.split(',') : undefined
-            return <div className='text-start'>
-                {row.original.rules ? <>
-                    {list?.map((v, k) => {
-                        return <div key={k}>{v}</div>
-                    })}
-                </> : "NA"}
-            </div>
-        }
-    },
-    {
-        accessorKey: "dmpPartner",
-        header: ({ column }) => (
-            <CustomHeader
-                column={column}
-                title="DMP"
-                className='justify-center'
+                title="Last Updated"
+                className='justify-start'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}
                 onHide={() => column.toggleVisibility(false)}
             />
         ),
         cell: ({ row }) => {
-            return <div className='text-start'>{row.getValue('dmpPartner') ? row.getValue('dmpPartner') : "NA"}</div>
+            return <div className='text-start'>{getDateForPosix(row.getValue('updatedAt'), "SECONDS")}</div>
         }
     }
 ]
 
-export default function AudienceDatatable({
+export default function ApplistDatatable({
     pageNo,
     pageSize,
     data
 }: {
     pageNo: number,
     pageSize: number
-    data: AudienceTabularData
+    data: ApplistTabularData
 }) {
-
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
@@ -241,6 +175,7 @@ export default function AudienceDatatable({
     )
 
     const pagination = useMemo<PaginationState>(() => ({ pageIndex: pageNo, pageSize: data.pageSize }), [pageNo, data.pageSize])
+    const [expanded, setExpanded] = useState<ExpandedState>({})
 
     const table = useReactTable({
         data: data.content,
@@ -249,12 +184,31 @@ export default function AudienceDatatable({
         getCoreRowModel: getCoreRowModel(),
         getExpandedRowModel: getExpandedRowModel(),
         rowCount: data.totalElements,
-        state: { pagination }
+        manualPagination: true,
+        onExpandedChange: setExpanded,
+        state: { pagination, expanded }
     })
+
+    const ExpandedRows = ({ row }: { row: Row<ApplistType> }) => {
+        return (
+            <div className='px-20 m-1'>
+                <div className='m-2 grid grid-cols-5'>
+                    <div className='col-span-1'>Bundles:</div>
+                    <div className='col-span-4'>{row.original.bundles.split(',').map((v, k) => {
+                        return <div key={k}>{v}</div>
+                    })}</div>
+                </div>
+                <div className='m-2 grid grid-cols-5'>
+                    <div className='col-span-1'>Description:</div>
+                    <div className='col-span-4'>{row.original.description || '-'}</div>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <Card className='p-3'>
-            <DataTable table={table} columns={columns} />
+            <DataTable table={table} columns={columns} ExpandedRows={ExpandedRows} />
             <CustomPagination
                 table={table}
                 goToFirstPage={() => router.push(`${pathname}?${createQueryString('pageNo', '0')}`)}
