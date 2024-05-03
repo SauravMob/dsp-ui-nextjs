@@ -22,7 +22,8 @@ export type CustomPaginationProps<TData> = DataTablePaginationProps<TData> & {
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[],
     table: TanstackTable<TData>,
-    ExpandedRows?: React.ComponentType<any>;
+    ExpandedRows?: React.ComponentType<any>,
+    TableFooterProps?: React.ComponentType<any>,
 }
 
 interface DataTablePaginationProps<TData> {
@@ -92,7 +93,8 @@ export function CustomHeader<TData, TValue>({
 export default function DataTable<TData, TValue>({
     columns,
     table,
-    ExpandedRows
+    ExpandedRows,
+    TableFooterProps,
 }: DataTableProps<TData, TValue>) {
     return (
         <div>
@@ -146,6 +148,7 @@ export default function DataTable<TData, TValue>({
                             </TableRow>
                         )}
                     </TableBody>
+                    {TableFooterProps && <TableFooterProps />}
                 </Table>
             </div>
         </div>

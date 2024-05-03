@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
+import { TableCell, TableFooter, TableRow } from '@/components/ui/table'
 import { numFormatter } from '@/components/utility/utils/Utils'
 import { ColumnDef, PaginationState, SortingState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -283,9 +284,24 @@ export default function TrafficReportDatatable({
         state: { pagination, sorting }
     })
 
+    const TableFooterProps = () => {
+        return (
+            <TableFooter>
+                <TableRow>
+                    <TableCell colSpan={3}>Total</TableCell>
+                    <TableCell className="text-right">{numFormatter(data.content.reduce((bids, item) => bids + item.bids, 0))}</TableCell>
+                    <TableCell className="text-right">{numFormatter(data.content.reduce((impressions, item) => impressions + item.impressions, 0))}</TableCell>
+                    <TableCell className="text-right">{numFormatter(data.content.reduce((clicks, item) => clicks + item.clicks, 0))}</TableCell>
+                    <TableCell className="text-right">{numFormatter(data.content.reduce((spends, item) => spends + item.spends, 0))}</TableCell>
+                    <TableCell className="text-right">{numFormatter(data.content.reduce((cost, item) => cost + item.cost, 0))}</TableCell>
+                </TableRow>
+            </TableFooter>
+        )
+    }
+
     return (
         <Card className='p-3'>
-            <DataTable table={table} columns={columns(isTodayOrYesterday)} />
+            <DataTable table={table} columns={columns(isTodayOrYesterday)} TableFooterProps={TableFooterProps} />
             <CustomPagination
                 table={table}
                 goToFirstPage={() => router.push(`${pathname}?${createQueryString('pageNo', '0')}`)}

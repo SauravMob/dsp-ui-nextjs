@@ -11,21 +11,21 @@ type TrafficReportFilter = {
 type TrafficReportType = {
     advertiser?: string,
     advertiserId?: number,
-    bids?: number,
-    clicks?: number,
-    cost?: number,
+    bids: number,
+    clicks: number,
+    cost: number,
     ctr?: number,
     deliveryDate?: string,
     ecpm?: number,
     gmDollar?: number,
     gmPercentage?: number,
     hour?: number,
-    impressions?: number,
-    installs?: number,
-    spends?: number,
+    impressions: number,
+    installs: number,
+    spends: number,
     sspUser?: string,
     sspUserId?: number,
-    winRate?: number
+    winRate: number
 }
 
 type TrafficReportTabularData = {
