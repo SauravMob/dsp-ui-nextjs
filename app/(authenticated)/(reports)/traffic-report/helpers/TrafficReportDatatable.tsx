@@ -51,9 +51,6 @@ const columns = (isTodayOrYesterday: boolean) => {
                     column={column}
                     title="Advertiser"
                     className='justify-center'
-                    onSortAsc={() => column.toggleSorting(false)}
-                    onSortDesc={() => column.toggleSorting(true)}
-                    onHide={() => column.toggleVisibility(false)}
                 />
             ),
             enableSorting: false,
@@ -68,11 +65,9 @@ const columns = (isTodayOrYesterday: boolean) => {
                     column={column}
                     title="SSP"
                     className='justify-center'
-                    onSortAsc={() => column.toggleSorting(false)}
-                    onSortDesc={() => column.toggleSorting(true)}
-                    onHide={() => column.toggleVisibility(false)}
                 />
             ),
+            enableSorting: false,
             cell: ({ row }) => {
                 return <div className='text-center'>{row.getValue('sspUser')}</div>
             }

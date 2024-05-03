@@ -27,6 +27,7 @@ export async function searchCampaign({
     pageNo?: string,
     pageSize?: string,
     filter: {
+        name?: string,
         campaignId?: string,
         country?: string,
         os?: string,

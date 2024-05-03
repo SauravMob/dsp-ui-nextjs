@@ -34,9 +34,9 @@ export interface DataTableColumnHeaderProps<TData, TValue>
     extends React.HTMLAttributes<HTMLDivElement> {
     column: Column<TData, TValue>
     title: string,
-    onSortAsc: () => void,
-    onSortDesc: () => void,
-    onHide: () => void
+    onSortAsc?: () => void,
+    onSortDesc?: () => void,
+    onHide?: () => void
 }
 
 export function CustomHeader<TData, TValue>({
