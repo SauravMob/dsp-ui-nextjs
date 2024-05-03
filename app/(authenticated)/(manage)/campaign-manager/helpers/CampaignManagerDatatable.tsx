@@ -5,7 +5,7 @@ import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datat
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { getStatusAvatar } from '@/components/utility/utils/JSXUtils'
 import { getDateForPosix } from '@/components/utility/utils/Utils'
-import { ColumnDef, PaginationState, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnDef, PaginationState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { Edit, Ellipsis, PieChart, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -218,12 +218,9 @@ export default function CampaignManagerDatatable({
     columns,
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
-    getExpandedRowModel: getExpandedRowModel(),
     manualPagination: true,
     rowCount: data.totalElements,
-    state: {
-      pagination
-    }
+    state: { pagination }
   })
 
   return (
