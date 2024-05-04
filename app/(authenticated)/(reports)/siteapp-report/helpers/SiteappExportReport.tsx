@@ -1,50 +1,49 @@
 "use client"
 
 import React, { useState } from 'react'
-import { exportCreativeReport } from '../actions'
+import { exportSiteAppReport } from '../actions'
 import FileSaver from 'file-saver'
+import { toast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
 import { Download } from 'lucide-react'
-import { toast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 
-export default function CreativeExportReport({
-    reportType,
-    campaignId,
-    creativeId,
-    creativeName,
+export default function SiteappExportReport({
     interval,
     from,
     to,
+    reportType,
     advertiserId,
+    exchangeId,
+    campaignName,
+    creativeName,
     tabularData
 }: {
-    reportType: string,
-    campaignId: string,
-    creativeId: string,
-    creativeName: string,
-    from: string,
-    to: string,
-    interval: string,
-    advertiserId: string,
-    tabularData: CreativeReportTabularData | undefined
+    interval: string
+    from: string
+    to: string
+    reportType: string
+    advertiserId: string
+    exchangeId: string
+    campaignName: string
+    creativeName: string
+    tabularData: SiteAppReportTabularData | undefined
 }) {
-
     const [isLoading, setIsLoading] = useState(false)
 
     const exportData = async () => {
         setIsLoading(true)
-        const res = await exportCreativeReport({ userId: advertiserId, filter: { startDate: from, endDate: to, creativeId: parseInt(creativeId), campaignId: parseInt(campaignId), creativeName, interval, reportType } })
+        const res = await exportSiteAppReport({ reportType, interval, from, to, campaignName, creativeName, advertiserId, exchangeId })
         if (res.status === 200) {
             const blob = new Blob([res.message], { type: 'application/octet-stream' })
             const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '')
-            FileSaver.saveAs(blob, `creative_${currentDate}.csv`)
+            FileSaver.saveAs(blob, `siteapp_${currentDate}.csv`)
         } else toast({ title: "Error while export", description: "Couldn't export successfully" })
         setIsLoading(false)
     }
 
     return (
-        <Button size="sm" className='mr-2' onClick={exportData} disabled={isLoading || tabularData?.content.length === 0}>
+        <Button size="sm" className={'mr-2'} onClick={exportData} disabled={isLoading || tabularData?.content.length === 0}>
             <Download size={20} className={cn('mr-1', isLoading && 'animate-bounce')} /> Export
         </Button>
     )

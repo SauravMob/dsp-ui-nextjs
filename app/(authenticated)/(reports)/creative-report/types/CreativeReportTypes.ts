@@ -1,18 +1,3 @@
-type CreativeReportFilter = {
-    interval: string,
-    from: string,
-    to: string,
-    advertiserId: string,
-    campaignId: string,
-    creativeId: string,
-    creativeName: string,
-    reportType: string,
-    pageNo?: string,
-    pageSize: string,
-    isAdmin: boolean,
-    tabularData?: CreativeReportTabularData
-}
-
 type CreativeReportType = {
     bids: number,
     campaignId: number,
@@ -39,4 +24,19 @@ type CreativeReportTabularData = {
     last: boolean,
     pageNo: number,
     pageSize: number
+}
+
+type CreativeReportFilter = {
+    interval: string,
+    from: string,
+    to: string,
+    advertiserId: string,
+    campaignId: string,
+    creativeId: string,
+    creativeName: string,
+    reportType: string,
+    pageNo?: string,
+    pageSize: string,
+    isAdmin: boolean,
+    tabularData?: CreativeReportTabularData
 }

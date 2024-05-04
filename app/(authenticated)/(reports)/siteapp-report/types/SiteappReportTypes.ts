@@ -1,23 +1,30 @@
-type CampaignReportType = {
+type SiteAppReportType = {
     bids: number,
+    bundleId: string,
     campaignId: number,
     campaignName: string,
     clicks: number,
-    converions: number,
+    conversions: number,
+    creativeId: number,
+    creativeName: string,
     ctr?: number,
-    dailyBudget?: number,
     date: string,
     ecpm?: number,
     impressions: number,
+    installs: number,
     purchaseConversions?: number,
     registrationConversions?: number,
     repeatEventConversions?: number,
     spends: number,
-    winRate?: number
+    videoCompletion?: number
+    siteAppId: number,
+    siteAppName: string,
+    sspName: string,
+    winRate: number
 }
 
-type CampaignReportTabularData = {
-    content: CampaignReportType[],
+type SiteAppReportTabularData = {
+    content: SiteAppReportType[],
     totalElements: number,
     totalPages: number,
     last: boolean,
@@ -25,18 +32,17 @@ type CampaignReportTabularData = {
     pageSize: number
 }
 
-type CampaignReportFilter = {
+type SiteAppReportFilter = {
     interval: string,
     from: string,
     to: string,
     advertiserId: string,
-    exchange: string,
-    country: string,
-    os: string,
-    reportType: string,
     campaignName: string,
+    creativeName: string,
+    exchangeId: string,
+    reportType: string,
     pageNo?: string,
     pageSize: string,
     isAdmin: boolean,
-    tabularData?: CampaignReportTabularData | undefined
+    tabularData?: SiteAppReportTabularData
 }

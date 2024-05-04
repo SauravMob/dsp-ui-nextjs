@@ -1,15 +1,15 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
-import { FolderKanban } from 'lucide-react'
+import { Package } from 'lucide-react'
 import React from 'react'
 
 export default function loading() {
     return (
         <div>
-            <CustomBreadCrumb secondItem='Creative Reports' secondLink='/creative-report' />
+            <CustomBreadCrumb secondItem='SiteApp Reports' secondLink='/siteapp-report' />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
-                    <FolderKanban size={26} className='mr-1' /> Creative Reports
+                    <Package size={26} className='mr-1' /> SiteApp Reports
                 </div>
 
                 <div>

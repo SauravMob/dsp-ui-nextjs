@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { exportCampaignReport } from '../actions'
 import FileSaver from 'file-saver'
 import { toast } from '@/components/ui/use-toast'
+import { cn } from '@/lib/utils'
 
 export default function CampaignExportReport({
     reportType,
@@ -45,7 +46,7 @@ export default function CampaignExportReport({
 
     return (
         <Button size="sm" className='mr-2' onClick={exportData} disabled={isLoading || tabularData?.content.length === 0}>
-            <Download size={20} className='mr-1' /> Export
+            <Download size={20} className={cn('mr-1', isLoading && 'animate-bounce')} /> Export
         </Button>
     )
 }
