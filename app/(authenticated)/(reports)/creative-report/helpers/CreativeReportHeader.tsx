@@ -2,6 +2,7 @@ import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadC
 import { FolderKanban } from 'lucide-react'
 import React from 'react'
 import CreativeReportSheet from './CreativeReportSheet'
+import CreativeExportReport from './CreativeExportReport'
 
 export default function CreativeReportHeader({
     pageSize,
@@ -13,7 +14,8 @@ export default function CreativeReportHeader({
     creativeName,
     campaignId,
     reportType,
-    isAdmin
+    isAdmin,
+    tabularData
 }: CreativeReportFilter) {
     return (
         <>
@@ -24,6 +26,17 @@ export default function CreativeReportHeader({
                 </div>
 
                 <div>
+                    <CreativeExportReport
+                        interval={interval}
+                        from={from}
+                        to={to}
+                        advertiserId={advertiserId}
+                        reportType={reportType}
+                        campaignId={campaignId}
+                        creativeId={creativeId}
+                        creativeName={creativeName}
+                        tabularData={tabularData}
+                    />
                     <CreativeReportSheet
                         pageSize={pageSize}
                         interval={interval}

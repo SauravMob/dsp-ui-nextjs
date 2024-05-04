@@ -9,7 +9,8 @@ type CreativeReportFilter = {
     reportType: string,
     pageNo?: string,
     pageSize: string,
-    isAdmin: boolean
+    isAdmin: boolean,
+    tabularData?: CreativeReportTabularData
 }
 
 type CreativeReportType = {

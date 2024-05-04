@@ -51,6 +51,7 @@ export default async function page({
                 creativeId={creativeId}
                 creativeName={creativeName}
                 isAdmin={isAdmin}
+                tabularData={tabularData}
             />
             <div className='mt-5'>
                 <CreativeReportDatatable customFeatures={customFeatures} pageNo={parseInt(pageNo)} pageSize={parseInt(pageSize)} data={tabularData} reportType={reportType} />

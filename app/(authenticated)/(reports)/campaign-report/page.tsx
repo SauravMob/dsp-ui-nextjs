@@ -51,6 +51,7 @@ export default async function page({
                 country={country}
                 os={os}
                 isAdmin={isAdmin}
+                tabularData={tabularData}
             />
             <div className='mt-5'>
                 <CampaignReportDatatable pageNo={parseInt(pageNo)} pageSize={parseInt(pageSize)} data={tabularData} reportType={reportType} />

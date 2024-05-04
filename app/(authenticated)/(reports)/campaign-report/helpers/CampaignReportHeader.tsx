@@ -2,20 +2,12 @@ import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadC
 import { PieChart } from 'lucide-react'
 import React from 'react'
 import CampaignReportSheet from './CampaignReportSheet'
+import CampaignExportReport from './CampaignExportReport'
 
 export default function CampaignReportHeader({
-    pageSize,
-    interval,
-    from,
-    to,
-    advertiserId,
-    campaignName,
-    exchange,
-    country,
-    os,
-    reportType,
-    isAdmin
+    pageSize, interval, from, to, advertiserId, campaignName, exchange, country, os, reportType, isAdmin, tabularData
 }: CampaignReportFilter) {
+
     return (
         <>
             <CustomBreadCrumb secondItem='Campaign Reports' secondLink='/campaign-report' />
@@ -25,6 +17,17 @@ export default function CampaignReportHeader({
                 </div>
 
                 <div>
+                    <CampaignExportReport
+                        from={from}
+                        to={to}
+                        advertiserId={advertiserId}
+                        exchange={exchange}
+                        campaignName={campaignName}
+                        reportType={reportType}
+                        country={country}
+                        os={os}
+                        tabularData={tabularData}
+                    />
                     <CampaignReportSheet
                         pageSize={pageSize}
                         interval={interval}

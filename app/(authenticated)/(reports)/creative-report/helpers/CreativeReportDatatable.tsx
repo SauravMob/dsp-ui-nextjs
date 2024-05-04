@@ -143,7 +143,7 @@ const columns = (isCumulative: boolean, hasVideoCompletion: boolean, onSort: (ne
                 <CustomHeader
                     column={column}
                     title="Video Completion"
-                    className='justify-center'
+                    className='justify-center text-nowrap'
                 />
             ),
             enableSorting: false,

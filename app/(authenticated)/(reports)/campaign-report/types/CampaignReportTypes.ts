@@ -10,7 +10,8 @@ type CampaignReportFilter = {
     campaignName: string,
     pageNo?: string,
     pageSize: string,
-    isAdmin: boolean
+    isAdmin: boolean,
+    tabularData?: CampaignReportTabularData | undefined
 }
 
 type CampaignReportType = {
