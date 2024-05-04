@@ -25,7 +25,7 @@ export async function getCampaignReport({
     }
 }) {
     const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
-    const url = `/reports/campaign?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDirection}&reportType=${reportType}${userId}`
+    const url = `/reports/campaign?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}&reportType=${reportType}${userId}`
     const result = await HttpRequestApi('POST', url, reportingSearchFilter)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
