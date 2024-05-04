@@ -1,14 +1,14 @@
+import { formatQryDate } from '@/components/utility/utils/Utils'
 import { Metadata } from 'next'
 import React from 'react'
-import CampaignReportHeader from './helpers/CampaignReportHeader'
-import { getCampaignReport } from './actions'
-import { formatQryDate } from '@/components/utility/utils/Utils'
-import CampaignReportDatatable from './helpers/CampaignReportDatatable'
+import { getCreativeReport } from './actions'
+import CreativeReportHeader from './helpers/CreativeReportHeader'
 import { cookies } from 'next/headers'
+import CreativeReportDatatable from './helpers/CreativeReportDatatable'
 
 export const metadata: Metadata = {
-    title: "Mobavenue | Campaign Report",
-    description: "Mobavenue DSP campaign reports"
+    title: "Mobavenue | Creative Report",
+    description: "Mobavenue DSP creative reports"
 }
 
 export default async function page({
@@ -23,37 +23,37 @@ export default async function page({
     const from = searchParams?.from || `${formatQryDate(new Date())}`
     const to = searchParams?.to || `${formatQryDate(new Date())}`
     const advertiserId = searchParams?.advertiserId ? searchParams.advertiserId : ""
-    const exchange = searchParams?.exchange ? searchParams.exchange : ""
-    const country = searchParams?.country ? searchParams.country : ""
-    const os = searchParams?.os ? searchParams.os : ""
+    const campaignId = searchParams?.campaignId ? searchParams.campaignId : ""
+    const creativeId = searchParams?.creativeId ? searchParams?.creativeId : ""
+    const creativeName = searchParams?.creativeName ? searchParams?.creativeName : ""
     const reportType = searchParams?.reportType ? searchParams.reportType : "DATEWISE"
-    const campaignName = searchParams?.campaignName ? searchParams.campaignName : ""
     const pageNo = searchParams?.pageNo ? searchParams.pageNo : "0"
     const pageSize = searchParams?.pageSize ? searchParams.pageSize : "50"
     const sortBy = searchParams?.sortBy ? searchParams.sortBy : "date"
     const sortDirection = searchParams?.sortDirection ? searchParams.sortDirection : "DESC"
 
+    const customFeatures = cookies().get('userCustomFeatures')?.value || ''
     const isAdmin = cookies().get('roleId')?.value === '2'
 
-    const tabularData = await getCampaignReport({ pageNo, pageSize, sortBy, sortDirection, reportType, reportingSearchFilter: { startDate: from, endDate: to, campaignName, advertiserId: parseInt(advertiserId), country, os, exchange } })
+    const tabularData = await getCreativeReport({ pageNo, pageSize, sortBy, sortDirection, userId: advertiserId, filter: { startDate: from, endDate: to, creativeName, creativeId: parseInt(creativeId), campaignId: parseInt(campaignId), interval, reportType } })
+
 
     return (
         <div>
-            <CampaignReportHeader
+            <CreativeReportHeader
                 pageSize={pageSize}
                 interval={interval}
                 from={from}
                 to={to}
                 advertiserId={advertiserId}
-                exchange={exchange}
-                campaignName={campaignName}
                 reportType={reportType}
-                country={country}
-                os={os}
+                campaignId={campaignId}
+                creativeId={creativeId}
+                creativeName={creativeName}
                 isAdmin={isAdmin}
             />
             <div className='mt-5'>
-                <CampaignReportDatatable pageNo={parseInt(pageNo)} pageSize={parseInt(pageSize)} data={tabularData} reportType={reportType} />
+                <CreativeReportDatatable customFeatures={customFeatures} pageNo={parseInt(pageNo)} pageSize={parseInt(pageSize)} data={tabularData} reportType={reportType} />
             </div>
         </div>
     )

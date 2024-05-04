@@ -1,38 +1,38 @@
-type CampaignReportFilter = {
+type CreativeReportFilter = {
     interval: string,
     from: string,
     to: string,
     advertiserId: string,
-    exchange: string,
-    country: string,
-    os: string,
+    campaignId: string,
+    creativeId: string,
+    creativeName: string,
     reportType: string,
-    campaignName: string,
     pageNo?: string,
     pageSize: string,
     isAdmin: boolean
 }
 
-type CampaignReportType = {
+type CreativeReportType = {
     bids: number,
     campaignId: number,
     campaignName: string,
     clicks: number,
-    converions: number,
+    creativeId: number,
+    creativeName: string,
     ctr?: number,
-    dailyBudget?: number,
     date: string,
     ecpm?: number,
     impressions: number,
+    installs: number,
     purchaseConversions?: number,
     registrationConversions?: number,
     repeatEventConversions?: number,
     spends: number,
-    winRate?: number
+    videoCompletion?: number
 }
 
-type CampaignReportTabularData = {
-    content: CampaignReportType[],
+type CreativeReportTabularData = {
+    content: CreativeReportType[],
     totalElements: number,
     totalPages: number,
     last: boolean,

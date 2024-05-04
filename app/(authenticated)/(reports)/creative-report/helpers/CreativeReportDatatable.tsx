@@ -8,8 +8,8 @@ import { ColumnDef, PaginationState, SortingState, getCoreRowModel, getSortedRow
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo, useState } from 'react'
 
-const columns = (isCumulative: boolean, onSort: (newValue: SortingState) => void) => {
-    const data: ColumnDef<CampaignReportType, any>[] = [
+const columns = (isCumulative: boolean, hasVideoCompletion: boolean, onSort: (newValue: SortingState) => void) => {
+    const data: ColumnDef<CreativeReportType, any>[] = [
         {
             accessorKey: "date",
             id: "date",
@@ -28,33 +28,33 @@ const columns = (isCumulative: boolean, onSort: (newValue: SortingState) => void
             }
         },
         {
-            accessorKey: "campaignId",
+            accessorKey: "creativeId",
             header: ({ column }) => (
                 <CustomHeader
                     column={column}
                     title="ID"
                     className='justify-center'
-                    onSortAsc={() => onSort([{ id: 'campaignId', desc: false }])}
-                    onSortDesc={() => onSort([{ id: 'campaignId', desc: true }])}
+                    onSortAsc={() => onSort([{ id: 'creativeId', desc: false }])}
+                    onSortDesc={() => onSort([{ id: 'creativeId', desc: true }])}
                     onHide={() => column.toggleVisibility(false)}
                 />
             ),
             cell: ({ row }) => {
-                return <div className='text-end'>{row.getValue('campaignId')}</div>
+                return <div className='text-end'>{row.getValue('creativeId')}</div>
             }
         },
         {
-            accessorKey: "campaignName",
+            accessorKey: "creativeName",
             header: ({ column }) => (
                 <CustomHeader
                     column={column}
-                    title="Campaign Name"
+                    title="Creative Name"
                     className='justify-center text-nowrap'
                 />
             ),
             enableSorting: false,
             cell: ({ row }) => {
-                return <div className='text-start min-w-72'>{row.getValue('campaignName')}</div>
+                return <div className='text-start min-w-72'>{row.getValue('creativeName')}</div>
             }
         },
         {
@@ -122,19 +122,33 @@ const columns = (isCumulative: boolean, onSort: (newValue: SortingState) => void
             }
         },
         {
-            accessorKey: "converions",
+            accessorKey: "installs",
             header: ({ column }) => (
                 <CustomHeader
                     column={column}
                     title="Installs"
                     className='justify-center'
-                    onSortAsc={() => onSort([{ id: 'conversions', desc: false }])}
-                    onSortDesc={() => onSort([{ id: 'conversions', desc: true }])}
+                    onSortAsc={() => onSort([{ id: 'installs', desc: false }])}
+                    onSortDesc={() => onSort([{ id: 'installs', desc: true }])}
                     onHide={() => column.toggleVisibility(false)}
                 />
             ),
             cell: ({ row }) => {
-                return <div className='text-right'>{numFormatter(row.getValue("converions"))}</div>
+                return <div className='text-right'>{numFormatter(row.getValue("installs"))}</div>
+            }
+        },
+        {
+            accessorKey: "videoCompletion",
+            header: ({ column }) => (
+                <CustomHeader
+                    column={column}
+                    title="Video Completion"
+                    className='justify-center'
+                />
+            ),
+            enableSorting: false,
+            cell: ({ row }) => {
+                return <div className='text-right'>{numFormatter(row.getValue("videoCompletion"))}</div>
             }
         },
         {
@@ -154,22 +168,6 @@ const columns = (isCumulative: boolean, onSort: (newValue: SortingState) => void
             }
         },
         {
-            accessorKey: "registrationConversions",
-            header: ({ column }) => (
-                <CustomHeader
-                    column={column}
-                    title="Registration Events"
-                    className='justify-center'
-                    onSortAsc={() => onSort([{ id: 'registrationConversions', desc: false }])}
-                    onSortDesc={() => onSort([{ id: 'registrationConversions', desc: true }])}
-                    onHide={() => column.toggleVisibility(false)}
-                />
-            ),
-            cell: ({ row }) => {
-                return <div className='text-right'>{row.getValue("registrationConversions")}</div>
-            }
-        },
-        {
             accessorKey: "repeatEventConversions",
             header: ({ column }) => (
                 <CustomHeader
@@ -183,34 +181,6 @@ const columns = (isCumulative: boolean, onSort: (newValue: SortingState) => void
             ),
             cell: ({ row }) => {
                 return <div className='text-right'>{row.getValue("repeatEventConversions")}</div>
-            }
-        },
-        {
-            accessorKey: "winRate",
-            header: ({ column }) => (
-                <CustomHeader
-                    column={column}
-                    title="Win Rate"
-                    className='justify-center text-nowrap'
-                />
-            ),
-            enableSorting: false,
-            cell: ({ row }) => {
-                return <div className='text-right'>{row.getValue("winRate")}</div>
-            }
-        },
-        {
-            accessorKey: "dailyBudget",
-            header: ({ column }) => (
-                <CustomHeader
-                    column={column}
-                    title="Daily Cap($)"
-                    className='justify-center text-nowrap'
-                />
-            ),
-            enableSorting: false,
-            cell: ({ row }) => {
-                return <div className='text-right'>{row.getValue("dailyBudget")}</div>
             }
         },
         {
@@ -243,24 +213,28 @@ const columns = (isCumulative: boolean, onSort: (newValue: SortingState) => void
         }
     ]
 
-    return isCumulative ? data.filter(v => v.id !== 'date') : data
+    const videoCompletionFilter = hasVideoCompletion ? data : data.filter(v => v.id !== 'videoCompletion')
+    return isCumulative ? videoCompletionFilter.filter(v => v.id !== 'date') : videoCompletionFilter
 }
 
-export default function CampaignReportDatatable({
+export default function CreativeReportDatatable({
     pageNo,
     pageSize,
     data,
-    reportType
+    reportType,
+    customFeatures
 }: {
     pageNo: number,
     pageSize: number,
     reportType: string,
-    data: CampaignReportTabularData
+    customFeatures: string,
+    data: CreativeReportTabularData
 }) {
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
+    const hasVideoCompletion = customFeatures.split(',').includes('VIDEO TRACKING')
     const isCumulative = reportType === 'CUMULATIVE'
     const [sorting, setSorting] = useState<SortingState>([{ id: "date", desc: true }])
 
@@ -288,7 +262,7 @@ export default function CampaignReportDatatable({
 
     const table = useReactTable({
         data: data.content,
-        columns: columns(isCumulative, onSort),
+        columns: columns(isCumulative, hasVideoCompletion, onSort),
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
@@ -306,7 +280,7 @@ export default function CampaignReportDatatable({
                     <TableCell className="text-right">{numFormatter(data.content.reduce((impressions, item) => impressions + item.impressions, 0))}</TableCell>
                     <TableCell className="text-right">{numFormatter(data.content.reduce((clicks, item) => clicks + item.clicks, 0))}</TableCell>
                     <TableCell className="text-right">{numFormatter(data.content.reduce((spends, item) => spends + item.spends, 0))}</TableCell>
-                    <TableCell className="text-right">{numFormatter(data.content.reduce((converions, item) => converions + item.converions, 0))}</TableCell>
+                    <TableCell className="text-right">{numFormatter(data.content.reduce((installs, item) => installs + item.installs, 0))}</TableCell>
                 </TableRow>
             </TableFooter>
         )
@@ -314,7 +288,7 @@ export default function CampaignReportDatatable({
 
     return (
         <Card className='p-3'>
-            <DataTable table={table} columns={columns(isCumulative, onSort)} TableFooterProps={TableFooterProps} />
+            <DataTable table={table} columns={columns(isCumulative, hasVideoCompletion, onSort)} TableFooterProps={TableFooterProps} />
             <CustomPagination
                 table={table}
                 goToFirstPage={() => router.push(`${pathname}?${createQueryString('pageNo', '0')}`)}

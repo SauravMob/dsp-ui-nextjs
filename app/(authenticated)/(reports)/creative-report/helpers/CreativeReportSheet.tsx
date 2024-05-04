@@ -1,6 +1,7 @@
 "use client"
 
 import { fetchUserByRole } from '@/app/(authenticated)/(analyze)/actions'
+import { fetchCreativeIdNameList } from '@/app/(authenticated)/(assets)/creatives/actions'
 import { fetchCampaignIdNameList, searchCampaign } from '@/app/(authenticated)/(manage)/campaigns/actions'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -9,8 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { AutoComplete, SelectInput } from '@/components/utility/customComponents/SelectInput'
-import { countryOption } from '@/components/utility/utils/GeoUtils'
-import { formatQryDate, endOfLastMonth, endOfThisMonth, osOptions, startOfLastMonth, startOfThisMonth, todayDate, todayMinus3MonthsDate, todayMinus7Date, yesterdayDate } from '@/components/utility/utils/Utils'
+import { formatQryDate, endOfLastMonth, endOfThisMonth, startOfLastMonth, startOfThisMonth, todayDate, todayMinus3MonthsDate, todayMinus7Date, yesterdayDate } from '@/components/utility/utils/Utils'
 import { cn } from '@/lib/utils'
 import { CalendarIcon, Filter } from 'lucide-react'
 import Link from 'next/link'
@@ -18,9 +18,18 @@ import { usePathname } from 'next/navigation'
 import React, { useEffect, useMemo, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 
-export default function CampaignReportSheet({
-    pageSize, interval, from, to, advertiserId, campaignName, exchange, country, os, reportType, isAdmin
-}: CampaignReportFilter) {
+export default function CreativeReportSheet({
+    pageSize,
+    interval,
+    from,
+    to,
+    advertiserId,
+    creativeId,
+    creativeName,
+    campaignId,
+    reportType,
+    isAdmin
+}: CreativeReportFilter) {
 
     const path = usePathname()
 
@@ -31,16 +40,14 @@ export default function CampaignReportSheet({
 
     const [customInterval, setCustomInterval] = useState<string>(interval)
     const [customAdvertiserId, setCustomAdvertiserId] = useState<string>(advertiserId)
-    const [customExchange, setCustomExchange] = useState<string>(exchange)
-    const [customCountry, setCustomCountry] = useState<string>(country)
-    const [customOs, setCustomOs] = useState<string>(os)
-    const [customCampaignName, setCustomCampaignName] = useState<string>(campaignName)
+    const [customCreativeName, setCustomCreativeName] = useState<string>(creativeName)
+    const [customCreativeId, setCustomCreativeId] = useState<string>(creativeId)
+    const [customCampaignId, setCustomCampaignId] = useState<string>(campaignId)
     const [customReportType, setCustomReportType] = useState<string>(reportType)
 
-    const customOsOptions = osOptions.filter(v => v.value !== "UNKNOWN")
     const [campaignOptions, setCampaignOptions] = useState<{ value: string, label: string }[]>([])
+    const [creativeOptions, setCreativeOptions] = useState<{ value: string, label: string }[]>([])
     const [advertiserOptions, setAdvertiserOptions] = useState<{ value: string, label: string }[]>([])
-    const [exchangeOptions, setExchangeOptions] = useState<{ value: string, label: string }[]>([])
 
     useEffect(() => {
         const fetchAdvertiser = async () => {
@@ -48,17 +55,17 @@ export default function CampaignReportSheet({
             setAdvertiserOptions(advertiserList.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
         }
         if (isAdmin) fetchAdvertiser()
-        const fetchSSP = async () => {
-            const sspList = await fetchUserByRole('SSP')
-            setExchangeOptions(sspList.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
-        }
-        fetchSSP()
-        const fetchValue = async () => {
-            const result = await searchCampaign({ pageNo: "0", pageSize: "50", filter: { name: campaignName } })
+        const fetchCampaign = async () => {
+            const result = await searchCampaign({ pageNo: "0", pageSize: "50", filter: { campaignId } })
             setCampaignOptions(result.content.map((v: { id: number, campaignName: string }) => ({ value: v.id.toString(), label: v.campaignName })))
         }
-        fetchValue()
-    }, [exchange, advertiserId, campaignName, isAdmin])
+        fetchCampaign()
+        const fetchCreative = async () => {
+            const result = await fetchCreativeIdNameList('', creativeId)
+            setCreativeOptions(result.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
+        }
+        fetchCreative()
+    }, [advertiserId, campaignId, creativeId, isAdmin])
 
     const campaignFilter = async (inputValue: string) => {
         const fetch = !parseInt(inputValue) ? await fetchCampaignIdNameList(inputValue) : await searchCampaign({ pageNo: "0", pageSize: "50", filter: { campaignId: inputValue } })
@@ -67,7 +74,14 @@ export default function CampaignReportSheet({
         return options
     }
 
-    const uri = useMemo(() => `${path}?interval=${date ? `${customInterval}&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : ''}${customCampaignName ? `&campaignName=${customCampaignName}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customExchange ? `&exchange=${customExchange}` : ''}${customCountry ? `&country=${customCountry}` : ''}${customOs ? `&os=${customOs}` : ''}${customReportType ? `&reportType=${customReportType}` : ''}&pageNo=0&pageSize=${pageSize}`, [date, path, customInterval, customAdvertiserId, customCampaignName, customCountry, customOs, customExchange, customReportType, pageSize])
+    const creativeFilter = async (inputValue: string) => {
+        const fetch = await fetchCreativeIdNameList(inputValue)
+        const options = !parseInt(inputValue) ? fetch.map((v: { id: string, name: string }) => ({ value: v.id, label: v.name })) : fetch.content.map((v: { id: number, creativeName: string }) => ({ value: v.id.toString(), label: v.creativeName }))
+        setCreativeOptions(options)
+        return options
+    }
+
+    const uri = useMemo(() => `${path}?interval=${date ? `${customInterval}&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : ''}${customCampaignId ? `&campaignId=${customCampaignId}` : ''}${customCreativeId ? `&creativeId=${customCreativeId}` : ''}${customCreativeName ? `&creativeName=${customCreativeName}` : ''}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customReportType ? `&reportType=${customReportType}` : ''}&pageNo=0&pageSize=${pageSize}`, [date, path, customInterval, customCampaignId, customCreativeId, customCreativeName, customAdvertiserId, customReportType, pageSize])
 
     return (
         <Sheet>
@@ -143,37 +157,26 @@ export default function CampaignReportSheet({
                             isClearable={true}
                             isSearchable={true}
                             name="campaign"
-                            value={campaignOptions.filter(v => v.label === customCampaignName)[0]}
+                            value={campaignOptions.filter(v => v.value === customCampaignId)[0]}
                             loadOptions={campaignFilter}
-                            onChange={(e) => setCustomCampaignName(e ? e.label : '')}
+                            onChange={(e) => setCustomCampaignId(e ? e.value : '')}
                         />
                     </div>
                 </div>
                 <div className='grid grid-cols-3 mt-4'>
-                    <div className='col-span-1 text-md flex items-center'>Country</div>
+                    <div className='col-span-1 text-md flex items-center'>Creatives</div>
                     <div className='col-span-2 flex items-center'>
-                        <SelectInput
-                            placeholder="Country"
+                        <AutoComplete
+                            placeholder="Creatives..."
                             isClearable={true}
                             isSearchable={true}
-                            name="country"
-                            value={countryOption.filter(v => v.value === customCountry)[0]}
-                            options={countryOption}
-                            onChange={(e) => setCustomCountry(e ? e.value : '')}
-                        />
-                    </div>
-                </div>
-                <div className='grid grid-cols-3 mt-4'>
-                    <div className='col-span-1 text-md flex items-center'>OS</div>
-                    <div className='col-span-2 flex items-center'>
-                        <SelectInput
-                            placeholder="OS"
-                            isClearable={true}
-                            isSearchable={true}
-                            name="os"
-                            value={customOsOptions.filter(v => v.value === customOs)[0]}
-                            options={customOsOptions}
-                            onChange={(e) => setCustomOs(e ? e.value : '')}
+                            name="creatives"
+                            value={creativeOptions.filter(v => v.label === customCreativeName)[0]}
+                            loadOptions={creativeFilter}
+                            onChange={(e) => {
+                                setCustomCreativeId(e ? e.value : '')
+                                setCustomCreativeName(e ? e.label : '')
+                            }}
                         />
                     </div>
                 </div>
@@ -191,20 +194,6 @@ export default function CampaignReportSheet({
                         />
                     </div>
                 </div>}
-                <div className='grid grid-cols-3 mt-4'>
-                    <div className='col-span-1 text-md flex items-center'>Exchange</div>
-                    <div className='col-span-2 flex items-center'>
-                        <SelectInput
-                            placeholder="ExchangeId"
-                            isClearable={true}
-                            isSearchable={true}
-                            name="exchange"
-                            value={exchangeOptions.filter(v => v.label === customExchange)[0]}
-                            options={exchangeOptions}
-                            onChange={(e) => setCustomExchange(e ? e.label : '')}
-                        />
-                    </div>
-                </div>
                 <div className='grid grid-cols-3 mt-4'>
                     <div className='col-span-1 text-md flex items-center'>Cumulative</div>
                     <div className='col-span-2 flex items-center'>
