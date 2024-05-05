@@ -10,6 +10,7 @@ import { DollarSign, Ellipsis } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo, useState } from 'react'
+import AttachApplist from './AttachApplist'
 
 const columns = (isCumulative: boolean, hasVideoCompletion: boolean, hasBidMultiplier: boolean, existingBids: number[], onSort: (newValue: SortingState) => void) => {
     const data: ColumnDef<SiteAppReportType, any>[] = [
@@ -25,6 +26,7 @@ const columns = (isCumulative: boolean, hasVideoCompletion: boolean, hasBidMulti
                             <div className='border rounded-md p-1'><Ellipsis size={18} /></div>
                         </PopoverTrigger>
                         <PopoverContent className='p-2 flex flex-col'>
+                            <AttachApplist siteApp={row.original} />
                             {hasBidMultiplier && <Link href={bidMultiplierCheck ? `/bid-multiplier/edit/${row.original.campaignId}/${row.original.sspName}/${row.original.bundleId}` : `/bid-multiplier/create/${row.original.campaignId}/${row.original.sspName}/${row.original.bundleId}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'>
                                 <DollarSign size={18} className='mr-2' />{bidMultiplierCheck ? 'Edit' : 'Create'} Bid Multiplier
                             </Link>}
