@@ -1,9 +1,7 @@
 import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
-import { Download, MapPin } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import React from 'react'
 import GeoReportSheet from './GeoReportSheet'
-import { CSVLink } from 'react-csv'
-import { Button } from '@/components/ui/button'
 import GeoExportReport from './GeoExportReport'
 
 export default function GeoReportHeader({
