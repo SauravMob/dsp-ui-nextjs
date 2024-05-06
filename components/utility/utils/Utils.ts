@@ -49,6 +49,21 @@ export function getUpdateStatus(status: string) {
     }
 }
 
+export const getRole = (role: string) => {
+    switch (role) {
+        case '1':
+            return 'ADVERTISER'
+        case '2':
+            return 'ADMIN'
+        case '3':
+            return 'ACCOUNT MANAGER'
+        case '4':
+            return 'SSP'
+        default:
+            return 'DELETED'
+    }
+}
+
 export function getContentWithLimit(str: string, limit: number) {
     if (str !== undefined && str !== null) return str.length > limit ? `${str.substring(0, limit)}...` : str
     else return str
@@ -109,4 +124,11 @@ export const creativeTypeOptions = [
     { value: 'BANNER', label: 'BANNER' },
     { value: 'JS', label: 'RICHMEDIA' },
     { value: 'VIDEO', label: 'VIDEO' }
+]
+
+export const roleOptions = [
+    { value: '1', label: 'Advertiser' },
+    { value: '2', label: 'Admin' },
+    { value: '4', label: 'SSP' },
+    { value: '3', label: 'Account Manager' }
 ]
