@@ -21,7 +21,7 @@ export default async function page({
     const pageNo = searchParams?.pageNo ? searchParams.pageNo : "0"
     const pageSize = searchParams?.pageSize ? searchParams.pageSize : "50"
     const status = searchParams?.status || ''
-    const campaignId = searchParams?.audName || ''
+    const campaignId = searchParams?.campaignId || ''
 
     const tabularData = !status && !campaignId ? await fetchAllBidMultiplier({ pageNo, pageSize }) : await searchBidMultiplier({ pageNo, pageSize, campaignId, status })
 

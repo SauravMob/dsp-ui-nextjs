@@ -47,7 +47,7 @@ const columns = (isAdmin: boolean, campaignList: { id: number, name: string }[],
                                     <Button variant="ghost" size="sm" className='justify-start' onClick={() => updateStatus(getUpdateStatus(row.getValue("status")), row.original)}>{handleStatus(row.getValue("status"))}{getUpdateStatus(row.getValue("status"))}</Button>
                                 </PopoverClose>
                                 <ConfirmDialog
-                                    title='Do you want to delete this audience?'
+                                    title='Do you want to delete this Bidmultiplier?'
                                     description='Deleted action cannot be reverted.'
                                     buttonContent={<><Trash size={18} className='mr-2' />Delete</>}
                                     onConfirm={() => updateStatus("DELETE", row.original)}
