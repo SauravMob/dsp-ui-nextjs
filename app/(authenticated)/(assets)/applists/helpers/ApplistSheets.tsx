@@ -2,6 +2,8 @@
 
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { SelectInput } from '@/components/utility/customComponents/SelectInput'
+import { statusWithoutInactiveOptions } from '@/components/utility/utils/Utils'
 import { Filter } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -9,16 +11,21 @@ import React, { useMemo, useState } from 'react'
 
 export default function ApplistSheets({
     pageSize,
-    searchParam
+    searchParam,
+    status,
+    isAdmin
 }: {
     pageSize: string,
-    searchParam: string
+    searchParam: string,
+    status: string,
+    isAdmin: boolean
 }) {
 
     const path = usePathname()
     const [customSearchParam, setCustomSearchParam] = useState<string>(searchParam || '')
+    const [customStatus, setCustomStatus] = useState<string>(status || '')
 
-    const url = useMemo(() => `${path}?${customSearchParam ? `&searchParam=${customSearchParam}` : ''}&pageNo=0&pageSize=${pageSize}`, [path, customSearchParam, pageSize])
+    const url = useMemo(() => `${path}?${customSearchParam ? `&searchParam=${customSearchParam}` : ''}${customStatus ? `&status=${customStatus}` : ''}&pageNo=0&pageSize=${pageSize}`, [path, customSearchParam, customStatus, pageSize])
 
     return (
         <Sheet>
@@ -30,6 +37,20 @@ export default function ApplistSheets({
             </SheetTrigger>
             <SheetContent className="w-[400px] sm:w-[540px]">
                 <div className='mt-10'>
+                    {isAdmin && <div className='grid grid-cols-3 mt-4'>
+                        <div className='col-span-1 text-md flex items-center'>Status</div>
+                        <div className='col-span-2 flex items-center'>
+                            <SelectInput
+                                placeholder="Status"
+                                isClearable={true}
+                                isSearchable={true}
+                                name="status"
+                                value={statusWithoutInactiveOptions.filter(v => v.value === customStatus)[0]}
+                                options={statusWithoutInactiveOptions}
+                                onChange={(e) => setCustomStatus(e ? e.value : '')}
+                            />
+                        </div>
+                    </div>}
                     <div className='grid grid-cols-3 mt-4'>
                         <div className='col-span-1 text-md flex items-center'>Applist / Bundle</div>
                         <div className='col-span-2 flex items-center'>

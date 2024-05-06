@@ -6,7 +6,7 @@ import React from 'react'
 import AudienceSheet from './AudienceSheet'
 
 export default function AudienceHeader(
-    { pageSize, status, audName }: AudienceFilter
+    { pageSize, status, audName, uploadType, isAdmin }: AudienceFilter
 ) {
     return (
         <>
@@ -26,6 +26,8 @@ export default function AudienceHeader(
                         pageSize={pageSize}
                         status={status}
                         audName={audName}
+                        uploadType={uploadType}
+                        isAdmin={isAdmin}
                     />
                 </div>
             </div>

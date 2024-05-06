@@ -3,7 +3,7 @@
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { SelectInput } from '@/components/utility/customComponents/SelectInput'
-import { statusWithoutInactiveOptions } from '@/components/utility/utils/Utils'
+import { statusWithoutInactiveOptions, uploadTypeOptions } from '@/components/utility/utils/Utils'
 import { Filter } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -12,14 +12,17 @@ import React, { useMemo, useState } from 'react'
 export default function AudienceSheet({
     pageSize,
     audName,
-    status
+    uploadType,
+    status,
+    isAdmin
 }: AudienceFilter) {
 
     const path = usePathname()
     const [customAudName, setCustomAudName] = useState<string>(audName || '')
     const [customStatus, setCustomStatus] = useState<string>(status || '')
+    const [customUploadType, setCustomUploadType] = useState<string>(uploadType || '')
 
-    const url = useMemo(() => `${path}?${customAudName ? `&audName=${customAudName}` : ''}${customStatus ? `&status=${customStatus}` : ''}&pageNo=0&pageSize=${pageSize}`, [path, customAudName, customStatus, pageSize])
+    const url = useMemo(() => `${path}?${customAudName ? `&audName=${customAudName}` : ''}${customStatus ? `&status=${customStatus}` : ''}${customUploadType ? `&uploadType=${customUploadType}` : ''}&pageNo=0&pageSize=${pageSize}`, [path, customAudName, customStatus, customUploadType, pageSize])
 
     return (
         <Sheet>
@@ -56,6 +59,20 @@ export default function AudienceSheet({
                             />
                         </div>
                     </div>
+                    {isAdmin && <div className='grid grid-cols-3 mt-4'>
+                        <div className='col-span-1 text-md flex items-center'>Upload Type</div>
+                        <div className='col-span-2 flex items-center'>
+                            <SelectInput
+                                placeholder="Upload Type"
+                                isClearable={true}
+                                isSearchable={true}
+                                name="uploadType"
+                                value={uploadTypeOptions.filter(v => v.value === customUploadType)[0]}
+                                options={uploadTypeOptions}
+                                onChange={(e) => setCustomUploadType(e ? e.value : '')}
+                            />
+                        </div>
+                    </div>}
                     <div className='flex justify-center my-5'>
                         <SheetClose asChild>
                             <Link href={url}>

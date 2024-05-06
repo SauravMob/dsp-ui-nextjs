@@ -2,6 +2,8 @@ type AudienceFilter = {
     pageSize?: string
     audName?: string
     status?: string
+    uploadType?: string
+    isAdmin?: boolean
 }
 
 type AudienceType = {

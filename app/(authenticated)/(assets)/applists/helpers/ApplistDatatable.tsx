@@ -121,7 +121,7 @@ const columns: ColumnDef<ApplistType, any>[] = [
         header: ({ column }) => (
             <CustomHeader
                 column={column}
-                title="Created By"
+                title="Account"
                 className='justify-start'
                 onSortAsc={() => column.toggleSorting(false)}
                 onSortDesc={() => column.toggleSorting(true)}

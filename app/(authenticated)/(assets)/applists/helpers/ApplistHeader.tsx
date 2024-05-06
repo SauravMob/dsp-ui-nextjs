@@ -7,10 +7,14 @@ import ApplistSheets from './ApplistSheets'
 
 export default function ApplistHeader({
     pageSize,
-    searchParam
+    searchParam,
+    status,
+    isAdmin
 }: {
     pageSize: string,
-    searchParam: string
+    searchParam: string,
+    status: string,
+    isAdmin: boolean
 }) {
     return (
         <>
@@ -29,6 +33,8 @@ export default function ApplistHeader({
                     <ApplistSheets
                         pageSize={pageSize}
                         searchParam={searchParam}
+                        status={status}
+                        isAdmin={isAdmin}
                     />
                 </div>
             </div>

@@ -2,10 +2,6 @@ import { endOfMonth, endOfWeek, format, startOfMonth, startOfWeek, subDays, subM
 
 export const kFormatter = (num: number) => (num > 10 ? `${(num / 1000).toFixed(1)}k` : num)
 export const numFormatter = (num: number) => (new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(num))
-export const formatQryDate = (value: Date | undefined) => {
-    if (value) return format(value, 'yyyy-MM-dd')
-    else return value
-}
 export const todayDate = new Date()
 export const yesterdayDate = subDays(new Date(), 1)
 export const todayMinus2Date = subDays(new Date(), 2)
@@ -17,6 +13,10 @@ export const endOfThisMonth = endOfMonth(new Date())
 export const startOfLastMonth = startOfMonth(subMonths(new Date(), 1))
 export const endOfLastMonth = endOfMonth(subMonths(new Date(), 1))
 export const todayMinus3MonthsDate = subMonths(new Date(), 3)
+export const formatQryDate = (value: Date | undefined) => {
+    if (value) return format(value, 'yyyy-MM-dd')
+    else return value
+}
 
 export const getDateForPosix = (d: number, unit: string) => {
     const u = unit === 'SECONDS' ? 1000 : 1
@@ -34,6 +34,24 @@ export function formatNumbers(number: number) {
         maximumFractionDigits: 3
     })
     return formatter.format(number)
+}
+
+export function getUpdateStatus(status: string) {
+    switch (status) {
+        case 'ACTIVE':
+            return 'PAUSE'
+        case 'PAUSE':
+            return 'ACTIVE'
+        case 'INACTIVE':
+            return 'ACTIVE'
+        default:
+            return 'DELETED'
+    }
+}
+
+export function getContentWithLimit(str: string, limit: number) {
+    if (str !== undefined && str !== null) return str.length > limit ? `${str.substring(0, limit)}...` : str
+    else return str
 }
 
 export const statusOptions = [
@@ -59,6 +77,11 @@ export const osOptions = [
     { label: 'Android', value: 'ANDROID' },
     { label: 'iOS', value: 'IOS' },
     { label: 'Unknown', value: 'UNKNOWN' }
+]
+
+export const uploadTypeOptions = [
+    { value: "manual", label: "MANUAL" },
+    { value: "mmp", label: "MMP" }
 ]
 
 export const creativeSizeOptions = [
@@ -87,22 +110,3 @@ export const creativeTypeOptions = [
     { value: 'JS', label: 'RICHMEDIA' },
     { value: 'VIDEO', label: 'VIDEO' }
 ]
-
-
-export function getUpdateStatus(status: string) {
-    switch (status) {
-        case 'ACTIVE':
-            return 'PAUSE'
-        case 'PAUSE':
-            return 'ACTIVE'
-        case 'INACTIVE':
-            return 'ACTIVE'
-        default:
-            return 'DELETED'
-    }
-}
-
-export function getContentWithLimit(str: string, limit: number) {
-    if (str !== undefined && str !== null) return str.length > limit ? `${str.substring(0, limit)}...` : str
-    else return str
-}
