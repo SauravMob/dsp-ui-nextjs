@@ -63,8 +63,8 @@ export const statusOptions = [
 
 export const statusWithoutInactiveOptions = [
     { label: 'ACTIVE', value: 'ACTIVE' },
-    { label: 'DELETED', value: 'DELETE' },
-    { label: 'PAUSED', value: 'PAUSE' }
+    { label: 'PAUSED', value: 'PAUSE' },
+    { label: 'DELETED', value: 'DELETE' }
 ]
 
 export const statusWithoutPauseOptions = [

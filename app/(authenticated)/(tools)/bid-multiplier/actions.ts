@@ -4,40 +4,42 @@ import { HttpRequestApi } from "@/components/services/HttpRequestApi"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 
-export async function fetchAllAudience({
+export async function fetchAllBidMultiplier({
     pageNo,
     pageSize
 }: {
-    pageNo?: string,
+    pageNo?: string
     pageSize?: string
 }) {
     const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
-    const url = `/audiences?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc${userId}`
+    const url = `/bid-multiplier?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc${userId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }
 
-export async function searchAudience({
+export async function searchBidMultiplier({
     pageNo,
     pageSize,
-    filter
+    campaignId,
+    status
 }: {
-    pageNo?: string,
-    pageSize?: string,
-    filter: AudienceFilter
+    pageNo?: string
+    pageSize?: string
+    campaignId?: string
+    status?: string
 }) {
     const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
-    const url = `/audiences/search?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc${userId}`
-    const result = await HttpRequestApi('POST', url, filter)
+    const url = `/bid-multiplier/search?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc${campaignId ? `&campaignId=${parseInt(campaignId)}` : ''}${status ? `&status=${status}` : ''}${userId}`
+    const result = await HttpRequestApi('POST', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }
 
-export async function updateAudience(id: number, audience: AudienceType) {
-    const url = `/audiences/${id}`
-    const result = await HttpRequestApi('PUT', url, audience)
+export async function updateBidMultiplier(id: number, bids: BidMultiType) {
+    const url = `/bid-multiplier/${id}`
+    const result = await HttpRequestApi('PUT', url, bids)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
-    revalidatePath('/audiences')
+    revalidatePath('/bid-multiplier')
     return { status: 200, message: await result.text() }
 }
