@@ -24,6 +24,7 @@ export default function CustomBreadCrumb(
                 <BreadcrumbItem>
                     <BreadcrumbLink href={secondLink}>{secondItem}</BreadcrumbLink>
                 </BreadcrumbItem>
+                {thirdItem && <BreadcrumbSeparator />}
                 <BreadcrumbItem>
                     <BreadcrumbLink href={thirdLink}>{thirdItem}</BreadcrumbLink>
                 </BreadcrumbItem>
