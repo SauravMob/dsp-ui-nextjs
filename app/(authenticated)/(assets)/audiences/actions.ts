@@ -41,3 +41,10 @@ export async function updateAudience(id: number, audience: AudienceType) {
     revalidatePath('/audiences')
     return { status: 200, message: await result.text() }
 }
+
+export async function getAudEvents() {
+    const url = `/audience/event`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
