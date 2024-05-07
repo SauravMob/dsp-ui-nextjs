@@ -4,10 +4,11 @@ import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { ColumnDef, PaginationState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import DataModal from './DataModal'
+import { fetchAllUsers } from '../../../manage-users/actions'
 
-const columns = () => {
+const columns = (userList: { id: number, email: string }[]) => {
     const data: ColumnDef<EventLogsType, any>[] = [
         {
             accessorKey: "logId",
@@ -95,12 +96,13 @@ const columns = () => {
                 <CustomHeader
                     column={column}
                     title="User"
-                    className='justify-center'
+                    className='justify-start'
                 />
             ),
             enableSorting: false,
             cell: ({ row }) => {
-                return <div className='text-center'>{row.getValue('userId')}</div>
+                const userEmail = userList.filter((v) => v.id === row.original.userId)[0]
+                return <div className='text-start'>{userEmail?.email} ({row.original.userId})</div>
             }
         },
         {
@@ -147,9 +149,19 @@ export default function EventLogsDatatable({
 
     const pagination = useMemo<PaginationState>(() => ({ pageIndex: pageNo, pageSize: data.pageSize }), [pageNo, data.pageSize])
 
+    const [userList, setUserList] = useState<{ id: number, email: string }[]>([])
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const userList = await fetchAllUsers({ pageNo: '0', pageSize: '512' })
+            setUserList(userList.content.map((v: { id: number, email: string }) => ({ id: v.email === "admin@mobavenue.com" ? -1 : v.id, email: v.email })))
+        }
+        fetchUser()
+    }, [])
+
     const table = useReactTable({
         data: data.content,
-        columns: columns(),
+        columns: columns(userList),
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         rowCount: data.totalElements,
@@ -159,7 +171,7 @@ export default function EventLogsDatatable({
 
     return (
         <Card className='p-3'>
-            <DataTable table={table} columns={columns()} />
+            <DataTable table={table} columns={columns(userList)} />
             <CustomPagination
                 table={table}
                 goToFirstPage={() => router.push(`${pathname}?${createQueryString('pageNo', '0')}`)}

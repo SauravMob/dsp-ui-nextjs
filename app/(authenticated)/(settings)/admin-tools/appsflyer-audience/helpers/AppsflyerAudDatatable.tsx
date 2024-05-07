@@ -124,7 +124,7 @@ export default function AppsflyerAudDatatable({ data }: { data: AppsflyerAudienc
         data,
         columns: columns(),
         getSortedRowModel: getSortedRowModel(),
-        getCoreRowModel: getCoreRowModel(),
+        getCoreRowModel: getCoreRowModel()
     })
 
     return (

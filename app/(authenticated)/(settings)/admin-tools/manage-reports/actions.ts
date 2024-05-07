@@ -10,7 +10,7 @@ export async function fetchAllCalcFilter({
     const url = `/calcFilter?${status ? `&status=${status}` : ''}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
-    let res;
+    let res
     try {
         res = await result.json()
     } catch (error) {

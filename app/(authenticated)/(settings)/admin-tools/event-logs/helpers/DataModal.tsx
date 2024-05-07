@@ -11,7 +11,7 @@ export default function DataModal({ row }: { row: EventLogsType }) {
             <DialogTrigger className='flex justify-start' asChild>
                 <Button variant="ghost" size="sm" className='justify-start w-full bg-green-200 dark:text-black'><Eye size={18} className='mr-2' />Expand</Button>
             </DialogTrigger>
-            <DialogContent className='w-[1200px] max-w-[1200px]'>
+            <DialogContent className='max-w-[1200px] max-h-full overflow-scroll'>
                 <DialogHeader>
                     <DialogTitle>{row.entityType} ({row.entityId})</DialogTitle>
                     <DialogDescription>Event type: {row.eventType}</DialogDescription>

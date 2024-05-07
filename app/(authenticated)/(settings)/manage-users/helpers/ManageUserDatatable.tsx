@@ -103,7 +103,7 @@ const columns = () => {
             ),
             enableSorting: false,
             cell: ({ row }) => {
-                return <div className='text-start'>{getRole(row.getValue("role"))}</div>
+                return <div className='text-start'>{getRole(`${row.getValue("role")}`)}</div>
             }
         },
         {

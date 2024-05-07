@@ -12,9 +12,9 @@ export default function EventsDataModal({ row, type }: { row: MmpSettingType, ty
     return (
         <Dialog>
             <DialogTrigger className='flex justify-start' asChild>
-                <Button variant="ghost" disabled={type === "EVENTS" && !row.mmpEvents || type === "BUNDLE" && !row.suppressedData} size="sm" className={cn('justify-start w-full', type === "EVENTS" && row.mmpEvents && 'bg-green-200 dark:text-black', type === "BUNDLE" && row.suppressedData && 'bg-green-200 dark:text-black')}><Eye size={18} className='mr-2' />Expand</Button>
+                <Button variant="ghost" disabled={(type === "EVENTS" && !row.mmpEvents) || (type === "BUNDLE" && !row.suppressedData)} size="sm" className={cn('justify-start w-full', type === "EVENTS" && row.mmpEvents && 'bg-green-200 dark:text-black', type === "BUNDLE" && row.suppressedData && 'bg-green-200 dark:text-black')}><Eye size={18} className='mr-2' />Expand</Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className='max-w-[1200px] max-h-full overflow-scroll'>
                 <DialogHeader>
                     <DialogTitle>{row.bundle} ({row.id})</DialogTitle>
                     <DialogDescription>{type === "EVENTS" ? "MMP Events" : "MMP Bundle"}</DialogDescription>

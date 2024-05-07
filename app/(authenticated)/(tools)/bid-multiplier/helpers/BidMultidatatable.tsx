@@ -87,7 +87,7 @@ const columns = (isAdmin: boolean, campaignList: { id: number, name: string }[],
             enableSorting: false,
             cell: ({ row }) => {
                 const campName = campaignList.filter(v => v.id !== row.original.campaignId)[0]
-                return <div className='text-start'>{campName?.name}</div>
+                return <div className='text-start min-w-40'>{campName?.name}</div>
             }
         },
         {

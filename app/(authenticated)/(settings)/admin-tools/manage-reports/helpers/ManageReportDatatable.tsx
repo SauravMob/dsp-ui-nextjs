@@ -138,7 +138,7 @@ export default function ManageReportDatatable({ tabularData }: { tabularData: Ma
         data: tabularData,
         columns: columns(),
         getSortedRowModel: getSortedRowModel(),
-        getCoreRowModel: getCoreRowModel(),
+        getCoreRowModel: getCoreRowModel()
     })
 
     return (
