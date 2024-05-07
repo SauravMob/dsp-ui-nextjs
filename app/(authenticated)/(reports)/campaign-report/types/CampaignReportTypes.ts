@@ -1,42 +1,42 @@
 type CampaignReportType = {
-    bids: number,
-    campaignId: number,
-    campaignName: string,
-    clicks: number,
-    converions: number,
-    ctr?: number,
-    dailyBudget?: number,
-    date: string,
-    ecpm?: number,
-    impressions: number,
-    purchaseConversions?: number,
-    registrationConversions?: number,
-    repeatEventConversions?: number,
-    spends: number,
+    bids: number
+    campaignId: number
+    campaignName: string
+    clicks: number
+    converions: number
+    ctr?: number
+    dailyBudget?: number
+    date: string
+    ecpm?: number
+    impressions: number
+    purchaseConversions?: number
+    registrationConversions?: number
+    repeatEventConversions?: number
+    spends: number
     winRate?: number
 }
 
 type CampaignReportTabularData = {
-    content: CampaignReportType[],
-    totalElements: number,
-    totalPages: number,
-    last: boolean,
-    pageNo: number,
+    content: CampaignReportType[]
+    totalElements: number
+    totalPages: number
+    last: boolean
+    pageNo: number
     pageSize: number
 }
 
 type CampaignReportFilter = {
-    interval: string,
-    from: string,
-    to: string,
-    advertiserId: string,
-    exchange: string,
-    country: string,
-    os: string,
-    reportType: string,
-    campaignName: string,
-    pageNo?: string,
-    pageSize: string,
-    isAdmin: boolean,
+    interval: string
+    from: string
+    to: string
+    advertiserId: string
+    exchange: string
+    country: string
+    os: string
+    reportType: string
+    campaignName: string
+    pageNo?: string
+    pageSize: string
+    isAdmin: boolean
     tabularData?: CampaignReportTabularData | undefined
 }

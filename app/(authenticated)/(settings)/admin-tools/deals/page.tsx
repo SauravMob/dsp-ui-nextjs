@@ -3,6 +3,8 @@ import React from 'react'
 import { getAllDeals } from './actions'
 import PmpHeader from './helpers/PmpHeader'
 import PmpDatatable from './helpers/PmpDatatable'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
     title: "Mobavenue | PMP Deals List",
@@ -16,6 +18,9 @@ export default async function page({
     params: { slug: string }
     searchParams?: { [key: string]: string | undefined }
 }) {
+
+    const roleId = cookies().get('roleId')?.value
+    if (roleId !== "2") redirect('/not-found')
 
     const pageNo = searchParams?.pageNo ? searchParams.pageNo : "0"
     const pageSize = searchParams?.pageSize ? searchParams.pageSize : "50"

@@ -3,6 +3,8 @@ import React from 'react'
 import { getAllAppsFlyerAud } from './actions'
 import AppsflyerAudHeader from './helpers/AppsflyerAudHeader'
 import AppsflyerAudDatatable from './helpers/AppsflyerAudDatatable'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
     title: "Mobavenue | Appsflyer Audience List",
@@ -10,6 +12,9 @@ export const metadata: Metadata = {
 }
 
 export default async function page() {
+
+    const roleId = cookies().get('roleId')?.value
+    if (roleId !== "2") redirect('/not-found')
 
     const tabularData = await getAllAppsFlyerAud()
 

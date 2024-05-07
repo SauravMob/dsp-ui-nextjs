@@ -66,6 +66,6 @@ export default function EventsDataModal({ row, type }: { row: MmpSettingType, ty
                     </DialogTrigger>
                 </DialogFooter>
             </DialogContent>
-        </Dialog >
+        </Dialog>
     )
 }

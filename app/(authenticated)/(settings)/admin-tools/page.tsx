@@ -2,7 +2,9 @@ import { Card, CardContent } from '@/components/ui/card'
 import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Coffee, Package, PenTool, Pocket, ShoppingBag, Users } from 'lucide-react'
 import { Metadata } from 'next'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 export const metadata: Metadata = {
@@ -11,6 +13,10 @@ export const metadata: Metadata = {
 }
 
 export default async function page() {
+
+    const roleId = cookies().get('roleId')?.value
+    if (roleId !== "2") redirect('/not-found')
+
     return (
         <>
             <CustomBreadCrumb secondItem='Admin Tools' secondLink='/admin-tools' />

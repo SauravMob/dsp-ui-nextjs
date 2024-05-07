@@ -14,10 +14,10 @@ export default function MmpSettingHeader({
 }: MmpSettingFilter) {
     return (
         <>
-            <CustomBreadCrumb secondItem='Admin Tools' secondLink='/admin-tools' thirdItem='MMP Settings' thirdLink='/mmp-settings' />
+            <CustomBreadCrumb secondItem='Admin Tools' secondLink='/admin-tools' thirdItem='Postback MMP Settings' thirdLink='/mmp-settings' />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
-                    <Package size={26} className='mr-1' /> MMP Settings
+                    <Package size={26} className='mr-1' /> Postback MMP Settings
                 </div>
 
                 <div>
