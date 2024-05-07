@@ -25,7 +25,8 @@ export default function GeoReportSheet({
     country,
     ssp,
     advertiserId,
-    pageSize
+    pageSize,
+    exchangeFilterNotAllowed
 }: GeoReportFilter) {
 
     const path = usePathname()
@@ -55,7 +56,7 @@ export default function GeoReportSheet({
             const exchangeList = await fetchUserByRole('SSP')
             setSspOptions(exchangeList.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
         }
-        fetchExchange()
+        if (!exchangeFilterNotAllowed) fetchExchange()
         const fetchCampaign = async () => {
             const result = await searchCampaign({ pageNo: "0", pageSize: "50", filter: { campaignId } })
             setCampaignOptions(result.content.map((v: { id: number, campaignName: string }) => ({ value: v.id.toString(), label: v.campaignName })))
@@ -180,7 +181,7 @@ export default function GeoReportSheet({
                         />
                     </div>
                 </div>
-                <div className='grid grid-cols-3 mt-4'>
+                {!exchangeFilterNotAllowed && <div className='grid grid-cols-3 mt-4'>
                     <div className='col-span-1 text-md flex items-center'>Exchange</div>
                     <div className='col-span-2 flex items-center'>
                         <SelectInput
@@ -193,7 +194,7 @@ export default function GeoReportSheet({
                             onChange={(e) => setCustomSsp(e ? e.label : '')}
                         />
                     </div>
-                </div>
+                </div>}
                 <div className='flex justify-center my-5'>
                     <SheetClose asChild>
                         <Link href={uri}>

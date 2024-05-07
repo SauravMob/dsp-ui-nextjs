@@ -28,7 +28,8 @@ export default function SiteappReportSheet({
     campaignName,
     exchangeId,
     reportType,
-    isAdmin
+    isAdmin,
+    exchangeFilterNotAllowed
 }: SiteAppReportFilter) {
 
     const path = usePathname()
@@ -60,7 +61,7 @@ export default function SiteappReportSheet({
             const exchangeList = await fetchUserByRole('SSP')
             setExchangeOptions(exchangeList.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
         }
-        fetchExchange()
+        if (!exchangeFilterNotAllowed) fetchExchange()
         const fetchCampaign = async () => {
             const result = await searchCampaign({ pageNo: "0", pageSize: "50", filter: { name: campaignName } })
             setCampaignOptions(result.content.map((v: { id: number, campaignName: string }) => ({ value: v.id.toString(), label: v.campaignName })))
@@ -197,7 +198,7 @@ export default function SiteappReportSheet({
                         />
                     </div>
                 </div>}
-                <div className='grid grid-cols-3 mt-4'>
+                {!exchangeFilterNotAllowed && <div className='grid grid-cols-3 mt-4'>
                     <div className='col-span-1 text-md flex items-center'>Exchange</div>
                     <div className='col-span-2 flex items-center'>
                         <SelectInput
@@ -210,7 +211,7 @@ export default function SiteappReportSheet({
                             onChange={(e) => setCustomExchangeId(e ? e.value : '')}
                         />
                     </div>
-                </div>
+                </div>}
                 <div className='grid grid-cols-3 mt-4'>
                     <div className='col-span-1 text-md flex items-center'>Cumulative</div>
                     <div className='col-span-2 flex items-center'>

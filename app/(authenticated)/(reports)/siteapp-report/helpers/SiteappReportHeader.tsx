@@ -15,7 +15,8 @@ export default function SiteappReportHeader({
     exchangeId,
     reportType,
     isAdmin,
-    tabularData
+    tabularData,
+    exchangeFilterNotAllowed
 }: SiteAppReportFilter) {
     return (
         <>
@@ -48,6 +49,7 @@ export default function SiteappReportHeader({
                         exchangeId={exchangeId}
                         creativeName={creativeName}
                         isAdmin={isAdmin}
+                        exchangeFilterNotAllowed={exchangeFilterNotAllowed}
                     />
                 </div>
             </div>

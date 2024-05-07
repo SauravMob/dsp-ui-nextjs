@@ -19,6 +19,9 @@ export default async function page({
     searchParams?: { [key: string]: string | undefined }
 }) {
 
+    const cumulativeNotAllowed = process.env.NEXT_APP_CUMULATIVE_NOT_ALLOWED?.split(',').includes(cookies().get('emailId')?.value || '')
+    const exchangeFilterNotAllowed = process.env.NEXT_APP_EXCHANGE_FILTER_NOT_ALLOWED?.split(',').includes(cookies().get('emailId')?.value || '')
+
     const interval = searchParams?.interval || 'TODAY'
     const from = searchParams?.from || `${formatQryDate(new Date())}`
     const to = searchParams?.to || `${formatQryDate(new Date())}`
@@ -52,6 +55,8 @@ export default async function page({
                 os={os}
                 isAdmin={isAdmin}
                 tabularData={tabularData}
+                cumulativeNotAllowed={cumulativeNotAllowed}
+                exchangeFilterNotAllowed={exchangeFilterNotAllowed}
             />
             <div className='mt-5'>
                 <CampaignReportDatatable pageNo={parseInt(pageNo)} pageSize={parseInt(pageSize)} data={tabularData} reportType={reportType} />

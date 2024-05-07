@@ -9,7 +9,8 @@ export default function TrafficReportHeader({
     from,
     to,
     advertiserId,
-    sspUserId
+    sspUserId,
+    exchangeFilterNotAllowed
 }: TrafficReportFilter) {
     return (
         <>
@@ -27,6 +28,7 @@ export default function TrafficReportHeader({
                         to={to}
                         advertiserId={advertiserId}
                         sspUserId={sspUserId}
+                        exchangeFilterNotAllowed={exchangeFilterNotAllowed}
                     />
                 </div>
             </div>

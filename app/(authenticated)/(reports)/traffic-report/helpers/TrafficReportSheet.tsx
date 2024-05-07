@@ -21,7 +21,8 @@ export default function TrafficReportSheet({
     from,
     to,
     advertiserId,
-    sspUserId
+    sspUserId,
+    exchangeFilterNotAllowed
 }: TrafficReportFilter) {
 
     const path = usePathname()
@@ -48,7 +49,7 @@ export default function TrafficReportSheet({
             const sspList = await fetchUserByRole('SSP')
             setSSPOptions(sspList.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
         }
-        fetchSSP()
+        if (!exchangeFilterNotAllowed) fetchSSP()
     }, [sspUserId, advertiserId])
 
     const uri = useMemo(() => `${path}?interval=${customInterval === "CUSTOM" && date ? `CUSTOM&from=${formatQryDate(date.from)}&to=${formatQryDate(date.to)}` : `${customInterval}`}${customAdvertiserId ? `&advertiserId=${customAdvertiserId}` : ''}${customSspUserId ? `&sspUserId=${customSspUserId}` : ''}&pageNo=0&pageSize=${pageSize}`, [date, path, customInterval, customAdvertiserId, customSspUserId, pageSize])
@@ -133,7 +134,7 @@ export default function TrafficReportSheet({
                         />
                     </div>
                 </div>
-                <div className='grid grid-cols-3 mt-4'>
+                {!exchangeFilterNotAllowed && <div className='grid grid-cols-3 mt-4'>
                     <div className='col-span-1 text-md flex items-center'>SSP</div>
                     <div className='col-span-2 flex items-center'>
                         <SelectInput
@@ -146,7 +147,7 @@ export default function TrafficReportSheet({
                             onChange={(e) => setCustomSspUserId(e ? e.value : '')}
                         />
                     </div>
-                </div>
+                </div>}
                 <div className='flex justify-center my-5'>
                     <SheetClose asChild>
                         <Link href={uri}>

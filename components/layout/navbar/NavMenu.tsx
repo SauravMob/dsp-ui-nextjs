@@ -5,11 +5,11 @@ import React, { useState } from 'react'
 import { NavList } from './NavList'
 import { NavOption } from './NavbarTypes'
 
-export default function NavMenu({ roleId }: { roleId: string }) {
+export default function NavMenu({ roleId, emailId }: { roleId: string, emailId: string }) {
     const [active, setActive] = useState<string | null>(null)
     return (
         <Menu setActive={setActive}>
-            {NavList(roleId).map((item, k: number) => (
+            {NavList(roleId, emailId).map((item, k: number) => (
                 <MenuItem key={k} item={item.label} active={active} setActive={setActive}>
                     <div className="flex flex-col space-y-4 text-sm">
                         {item.options.map((option: NavOption, key: number) => (

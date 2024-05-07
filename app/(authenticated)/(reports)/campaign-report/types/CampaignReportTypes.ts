@@ -39,4 +39,6 @@ type CampaignReportFilter = {
     pageSize: string
     isAdmin: boolean
     tabularData?: CampaignReportTabularData | undefined
+    cumulativeNotAllowed: boolean | undefined
+    exchangeFilterNotAllowed: boolean | undefined
 }

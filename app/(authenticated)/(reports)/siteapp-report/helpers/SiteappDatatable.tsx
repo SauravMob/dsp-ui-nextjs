@@ -12,7 +12,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo, useState } from 'react'
 import AttachApplist from './AttachApplist'
 
-const columns = (isCumulative: boolean, hasVideoCompletion: boolean, hasBidMultiplier: boolean, existingBids: number[], onSort: (newValue: SortingState) => void) => {
+const columns = (isCumulative: boolean, hasVideoCompletion: boolean, hasBidMultiplier: boolean, existingBids: number[], sspIsAllowed: boolean | undefined, onSort: (newValue: SortingState) => void) => {
     const data: ColumnDef<SiteAppReportType, any>[] = [
         {
             accessorKey: "",
@@ -82,6 +82,7 @@ const columns = (isCumulative: boolean, hasVideoCompletion: boolean, hasBidMulti
         },
         {
             accessorKey: "sspName",
+            id: "sspName",
             header: ({ column }) => (
                 <CustomHeader
                     column={column}
@@ -293,7 +294,8 @@ const columns = (isCumulative: boolean, hasVideoCompletion: boolean, hasBidMulti
     ]
 
     const videoCompletionFilter = hasVideoCompletion ? data : data.filter(v => v.id !== 'videoCompletion')
-    return isCumulative ? videoCompletionFilter.filter(v => v.id !== 'date') : videoCompletionFilter
+    const sspFiltered = sspIsAllowed ? videoCompletionFilter : videoCompletionFilter.filter(v => v.id !== 'sspName')
+    return isCumulative ? sspFiltered.filter(v => v.id !== 'date') : sspFiltered
 }
 
 export default function SiteappDatatable({
@@ -302,13 +304,15 @@ export default function SiteappDatatable({
     data,
     reportType,
     existingBids,
-    customFeatures
+    customFeatures,
+    sspIsAllowed
 }: {
-    pageNo: number,
-    pageSize: number,
-    reportType: string,
-    customFeatures: string,
-    existingBids: number[],
+    pageNo: number
+    pageSize: number
+    reportType: string
+    customFeatures: string
+    existingBids: number[]
+    sspIsAllowed: boolean | undefined
     data: SiteAppReportTabularData
 }) {
     const router = useRouter()
@@ -345,7 +349,7 @@ export default function SiteappDatatable({
 
     const table = useReactTable({
         data: data.content,
-        columns: columns(isCumulative, hasVideoCompletion, hasBidMultiplier, existingBids, onSort),
+        columns: columns(isCumulative, hasVideoCompletion, hasBidMultiplier, existingBids, sspIsAllowed, onSort),
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
@@ -371,7 +375,7 @@ export default function SiteappDatatable({
 
     return (
         <Card className='p-3'>
-            <DataTable table={table} columns={columns(isCumulative, hasVideoCompletion, hasBidMultiplier, existingBids, onSort)} TableFooterProps={TableFooterProps} />
+            <DataTable table={table} columns={columns(isCumulative, hasVideoCompletion, hasBidMultiplier, existingBids, sspIsAllowed, onSort)} TableFooterProps={TableFooterProps} />
             <CustomPagination
                 table={table}
                 goToFirstPage={() => router.push(`${pathname}?${createQueryString('pageNo', '0')}`)}

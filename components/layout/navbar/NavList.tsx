@@ -1,7 +1,9 @@
 import { Archive, Award, Bell, Camera, Code, DollarSign, Eclipse, FolderKanban, Headphones, Layers, LayoutDashboard, MapPin, Navigation, Navigation2, Package, PenTool, PieChart, Settings, User, Users } from "lucide-react"
 
-export const NavList = (roleId: string) => {
+export const NavList = (roleId: string, emailId: string) => {
     let navList = []
+    const siteAppNotAllowed = process.env.NEXT_PUBLIC_SITEAPP_REPORT_NOT_ALLOWED?.split(',').includes(emailId)
+
     if (roleId === '2') {
         navList = [
             {
@@ -80,6 +82,13 @@ export const NavList = (roleId: string) => {
                 ]
             }
         ]
+    }
+
+    if (siteAppNotAllowed) {
+        navList = navList.map(section => {
+            if (section.label === "Reports") section.options = section.options.filter(option => option.title !== "SiteApp Report")
+            return section
+        })
     }
 
     return navList

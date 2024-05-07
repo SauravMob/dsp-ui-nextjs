@@ -22,7 +22,7 @@ export const Navbar = async ({ className }: { className: string }) => {
                     priority
                     style={{ width: '10%', height: 'auto', marginLeft: '20px' }}
                 />
-                <NavMenu roleId={ROLE_ID} />
+                <NavMenu roleId={ROLE_ID} emailId={EMAIL_ID} />
                 <NavUser emailId={EMAIL_ID} accountBalance={ACCOUNT_BALANCE} />
             </nav>
         </div>

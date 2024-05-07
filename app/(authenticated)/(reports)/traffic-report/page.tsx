@@ -21,6 +21,7 @@ export default async function page({
 
   const roleId = cookies().get('roleId')?.value
   if (roleId !== "2") redirect('/not-found')
+  const exchangeFilterNotAllowed = !process.env.NEXT_APP_EXCHANGE_FILTER_NOT_ALLOWED?.split(',').includes(cookies().get('emailId')?.value || '')
 
   const interval = searchParams?.interval || "THIS_MONTH"
   const from = searchParams?.from || ''
@@ -41,6 +42,7 @@ export default async function page({
         to={to}
         advertiserId={advertiserId}
         sspUserId={sspUserId}
+        exchangeFilterNotAllowed={exchangeFilterNotAllowed}
       />
       <div className='mt-5'>
         <TrafficReportDatatable interval={interval} pageNo={parseInt(pageNo)} pageSize={parseInt(pageSize)} data={tabularData} />

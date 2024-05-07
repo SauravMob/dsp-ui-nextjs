@@ -13,7 +13,8 @@ export default function GeoReportHeader({
     ssp,
     advertiserId,
     pageSize,
-    tabularData
+    tabularData,
+    exchangeFilterNotAllowed
 }: GeoReportFilter) {
     return (
         <>
@@ -34,6 +35,7 @@ export default function GeoReportHeader({
                         campaignId={campaignId}
                         ssp={ssp}
                         country={country}
+                        exchangeFilterNotAllowed={exchangeFilterNotAllowed}
                     />
                 </div>
             </div>

@@ -19,7 +19,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 
 export default function CampaignReportSheet({
-    pageSize, interval, from, to, advertiserId, campaignName, exchange, country, os, reportType, isAdmin
+    pageSize, interval, from, to, advertiserId, campaignName, exchange, country, os, reportType, isAdmin, cumulativeNotAllowed, exchangeFilterNotAllowed
 }: CampaignReportFilter) {
 
     const path = usePathname()
@@ -52,7 +52,7 @@ export default function CampaignReportSheet({
             const sspList = await fetchUserByRole('SSP')
             setExchangeOptions(sspList.map((v: { id: number, name: string }) => ({ value: v.id.toString(), label: v.name })))
         }
-        fetchSSP()
+        if (!exchangeFilterNotAllowed) fetchSSP()
         const fetchValue = async () => {
             const result = await searchCampaign({ pageNo: "0", pageSize: "50", filter: { name: campaignName } })
             setCampaignOptions(result.content.map((v: { id: number, campaignName: string }) => ({ value: v.id.toString(), label: v.campaignName })))
@@ -191,7 +191,7 @@ export default function CampaignReportSheet({
                         />
                     </div>
                 </div>}
-                <div className='grid grid-cols-3 mt-4'>
+                {!exchangeFilterNotAllowed && <div className='grid grid-cols-3 mt-4'>
                     <div className='col-span-1 text-md flex items-center'>Exchange</div>
                     <div className='col-span-2 flex items-center'>
                         <SelectInput
@@ -204,8 +204,8 @@ export default function CampaignReportSheet({
                             onChange={(e) => setCustomExchange(e ? e.label : '')}
                         />
                     </div>
-                </div>
-                <div className='grid grid-cols-3 mt-4'>
+                </div>}
+                {!cumulativeNotAllowed && <div className='grid grid-cols-3 mt-4'>
                     <div className='col-span-1 text-md flex items-center'>Cumulative</div>
                     <div className='col-span-2 flex items-center'>
                         <Switch
@@ -213,7 +213,7 @@ export default function CampaignReportSheet({
                             onCheckedChange={(value) => setCustomReportType(value ? "CUMULATIVE" : "")}
                         />
                     </div>
-                </div>
+                </div>}
                 <div className='flex justify-center my-5'>
                     <SheetClose asChild>
                         <Link href={uri}>

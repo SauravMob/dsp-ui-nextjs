@@ -5,7 +5,7 @@ import CampaignReportSheet from './CampaignReportSheet'
 import CampaignExportReport from './CampaignExportReport'
 
 export default function CampaignReportHeader({
-    pageSize, interval, from, to, advertiserId, campaignName, exchange, country, os, reportType, isAdmin, tabularData
+    pageSize, interval, from, to, advertiserId, campaignName, exchange, country, os, reportType, isAdmin, tabularData, cumulativeNotAllowed, exchangeFilterNotAllowed
 }: CampaignReportFilter) {
 
     return (
@@ -40,6 +40,8 @@ export default function CampaignReportHeader({
                         country={country}
                         os={os}
                         isAdmin={isAdmin}
+                        cumulativeNotAllowed={cumulativeNotAllowed}
+                        exchangeFilterNotAllowed={exchangeFilterNotAllowed}
                     />
                 </div>
             </div>
