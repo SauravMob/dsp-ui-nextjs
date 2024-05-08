@@ -15,7 +15,14 @@ export default function EventLogsHeader({
 }: EventLogsFilter) {
     return (
         <>
-            <CustomBreadCrumb secondItem='Admin Tools' secondLink='/admin-tools' thirdItem='Events Logs' thirdLink='/admin-tools/event-logs' />
+            <CustomBreadCrumb
+                secondItem='Settings'
+                secondLink='#'
+                thirdItem='Admin Tools'
+                thirdLink='/admin-tools'
+                fourthItem='Events Logs'
+                fourthLink='/admin-tools/event-logs'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <ShoppingBag size={26} className='mr-1' /> API Events Logs

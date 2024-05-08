@@ -7,14 +7,21 @@ import React from 'react'
 export default function PmpHeader() {
     return (
         <>
-            <CustomBreadCrumb secondItem='Admin Tools' secondLink='/admin-tools' thirdItem='PMP Deals' thirdLink='/admin-tools/pmp-deals' />
+            <CustomBreadCrumb
+                secondItem='Settings'
+                secondLink='#'
+                thirdItem='Admin Tools'
+                thirdLink='/admin-tools'
+                fourthItem='Deals'
+                fourthLink='/admin-tools/pmp-deals'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Pocket size={26} className='mr-1' /> PMP Deals
                 </div>
 
                 <div>
-                    <Link href="/admin-tools/pmp-deals/create">
+                    <Link href="/admin-tools/deals/create">
                         <Button size="sm" className='mr-2'>
                             <Plus size={20} className='mr-1' />Create
                         </Button>

@@ -23,7 +23,7 @@ const columns = () => {
                             <div className='border rounded-md p-1'><Ellipsis size={18} /></div>
                         </PopoverTrigger>
                         <PopoverContent className='p-2 flex flex-col'>
-                            <Link href={`/admin-tools/pmp-deals/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
+                            <Link href={`/admin-tools/deals/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
                         </PopoverContent>
                     </Popover>
                 </div >

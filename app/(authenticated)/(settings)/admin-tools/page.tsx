@@ -19,7 +19,12 @@ export default async function page() {
 
     return (
         <>
-            <CustomBreadCrumb secondItem='Admin Tools' secondLink='/admin-tools' />
+            <CustomBreadCrumb
+                secondItem='Settings'
+                secondLink='#'
+                thirdItem='Admin Tools'
+                thirdLink='/admin-tools'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <PenTool size={26} className='mr-1' /> Admin Tools

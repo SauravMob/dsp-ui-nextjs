@@ -1,8 +1,10 @@
+"use server"
+
 import React from 'react'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { cookies } from 'next/headers'
 
-export default function CustomBreadCrumb(
+export default async function CustomBreadCrumb(
     {
         secondItem,
         secondLink,
