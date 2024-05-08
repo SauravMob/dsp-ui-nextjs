@@ -1,24 +1,33 @@
 import React from 'react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import { cookies } from 'next/headers'
 
 export default function CustomBreadCrumb(
     {
         secondItem,
         secondLink,
         thirdItem,
-        thirdLink
+        thirdLink,
+        fourthItem,
+        fourthLink,
+        fifthItem,
+        fifthLink
     }: {
         secondItem: string,
         secondLink: string,
         thirdItem?: string,
-        thirdLink?: string
+        thirdLink?: string,
+        fourthItem?: string,
+        fourthLink?: string,
+        fifthItem?: string,
+        fifthLink?: string
     }
 ) {
     return (
         <Breadcrumb>
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
+                    <BreadcrumbLink href={cookies().get("roleId")?.value === '2' ? "/admin-dashboard" : "/dashboard"}>Home</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
@@ -27,6 +36,14 @@ export default function CustomBreadCrumb(
                 {thirdItem && <BreadcrumbSeparator />}
                 <BreadcrumbItem>
                     <BreadcrumbLink href={thirdLink}>{thirdItem}</BreadcrumbLink>
+                </BreadcrumbItem>
+                {fourthItem && <BreadcrumbSeparator />}
+                <BreadcrumbItem>
+                    <BreadcrumbLink href={fourthLink}>{fourthItem}</BreadcrumbLink>
+                </BreadcrumbItem>
+                {fifthItem && <BreadcrumbSeparator />}
+                <BreadcrumbItem>
+                    <BreadcrumbLink href={fifthLink}>{fifthItem}</BreadcrumbLink>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
