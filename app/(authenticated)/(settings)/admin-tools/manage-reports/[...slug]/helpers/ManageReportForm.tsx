@@ -60,7 +60,7 @@ export default function ManageReportForm({
         }
     })
 
-    const { clearErrors, setValue, getValues, watch } = form
+    const { clearErrors, setValue } = form
     const { isSubmitting } = form.formState
 
     const onSubmit: SubmitHandler<ManageReportType> = async (values: ManageReportType) => {
@@ -81,15 +81,13 @@ export default function ManageReportForm({
                         name="userId"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className='flex justify-between'>
-                                    <div>Advertiser<span className='text-red-900'>*</span></div>
-                                </FormLabel>
+                                <FormLabel>Advertiser<span className='text-red-900'>*</span></FormLabel>
                                 <FormControl className='flex justify-center items-center'>
                                     <SelectInput
                                         placeholder='Advertiser / User'
                                         id="userId"
                                         name="userId"
-                                        value={advertiserOptions.filter(v => v.value === getValues('userId').toString())[0]}
+                                        value={advertiserOptions.filter(v => v.value === field.value.toString())[0]}
                                         options={advertiserOptions}
                                         onChange={(value) => {
                                             setValue('userId', value ? parseInt(value.value) : 0)
@@ -106,16 +104,14 @@ export default function ManageReportForm({
                         name="status"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className='flex justify-between'>
-                                    <div>Status</div>
-                                </FormLabel>
+                                <FormLabel>Status</FormLabel>
                                 <FormControl>
                                     <div className='flex justify-center items-center'>
                                         <SelectInput
                                             placeholder='Status...'
                                             name="status"
                                             id="status"
-                                            value={statusWithoutInactiveOptions.filter(v => v.value === getValues('status'))[0]}
+                                            value={statusWithoutInactiveOptions.filter(v => v.value === field.value)[0]}
                                             options={statusWithoutInactiveOptions}
                                             onChange={(value) => {
                                                 setValue('status', value ? value.value : '')

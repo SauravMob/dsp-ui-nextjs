@@ -42,8 +42,34 @@ export async function updateAudience(id: number, audience: AudienceType) {
     return { status: 200, message: await result.text() }
 }
 
-export async function getAudEvents() {
-    const url = `/audience/event`
+export async function getAllMMPNames() {
+    const url = `/audience/mmp-names`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function getAllBundleIDsByMMP({
+    mmpName,
+    searchParam
+}: {
+    mmpName: string
+    searchParam?: string
+}) {
+    const url = `/audience/bundles?mmpName=${mmpName}${searchParam ? `&searchParam=${searchParam}` : ''}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function getAllEventsByBundleIDAndMMP({
+    mmpName,
+    bundleId
+}: {
+    mmpName: string
+    bundleId: string
+}) {
+    const url = `/audience/events?mmpName=${mmpName}&bundleId=${bundleId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()

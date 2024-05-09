@@ -28,3 +28,21 @@ type MmpSettingTabularData = {
     pageNo: number
     pageSize: number
 }
+
+type MMPSettingFormType = {
+    mmp: string
+    bundle: string
+    mmpEvents: {
+        [key: string]: {
+            url?: string
+            secondaryUrl?: string
+            isDay?: string
+            isMin?: string
+        }
+    }
+    status: string
+    blDeviceModels: string
+    suppressedData: {
+        [key: string]: string[]
+    }
+}

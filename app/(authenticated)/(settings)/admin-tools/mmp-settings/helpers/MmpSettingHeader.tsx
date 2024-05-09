@@ -21,7 +21,7 @@ export default function MmpSettingHeader({
                 </div>
 
                 <div>
-                    <Link href="/bid-multiplier/create">
+                    <Link href="/admin-tools/mmp-settings/create">
                         <Button size="sm" className='mr-2'>
                             <Plus size={20} className='mr-1' />Create
                         </Button>

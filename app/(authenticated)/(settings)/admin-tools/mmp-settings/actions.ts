@@ -1,6 +1,7 @@
 "use server"
 
 import { HttpRequestApi } from "@/components/services/HttpRequestApi"
+import { revalidatePath } from "next/cache"
 
 export async function fetchALLMMPSettings({
     pageNo,
@@ -21,4 +22,34 @@ export async function fetchALLMMPSettings({
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
+}
+
+export async function fetchMMPSetting(
+    id: string
+) {
+    const url = `/mmp_settings/${id}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function createMMPSetting(
+    settings: MmpSettingType
+) {
+    const url = `/mmp_settings`
+    const result = await HttpRequestApi('POST', url, settings)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath('/admin-tools/mmp-settings')
+    return { status: 200, message: `Success` }
+}
+
+export async function updateMMPSetting(
+    id: string,
+    settings: MmpSettingType
+) {
+    const url = `/mmp_settings/${id}`
+    const result = await HttpRequestApi('PUT', url, settings)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath('/admin-tools/mmp-settings')
+    return { status: 200, message: "Success" }
 }

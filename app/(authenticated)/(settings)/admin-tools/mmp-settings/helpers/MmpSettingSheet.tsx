@@ -1,6 +1,6 @@
 "use client"
 
-import { getAudEvents } from '@/app/(authenticated)/(assets)/audiences/actions'
+import { getAllMMPNames } from '@/app/(authenticated)/(assets)/audiences/actions'
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { SelectInput } from '@/components/utility/customComponents/SelectInput'
@@ -28,8 +28,8 @@ export default function MmpSettingSheet({
 
     useEffect(() => {
         const fetchMMP = async () => {
-            const mmpList = await getAudEvents()            
-            setMmpOptions(Object.keys(mmpList).map((v: string) => ({ value: v, label: v })))
+            const mmpList = await getAllMMPNames()            
+            setMmpOptions(mmpList.map((v: string) => ({ value: v, label: v })))
         }
         fetchMMP()
     }, [])
