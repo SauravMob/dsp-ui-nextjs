@@ -49,6 +49,7 @@ export default function DealsFormData({
             router.push("/admin-tools/deals")
             toast({ title: `${isEdit ? "Updated" : "Created"} deal`, description: `${values.name} ${isEdit ? "updated" : "created"} successfully` })
         } else toast({ title: `Error while ${isEdit ? "updating" : "creating"} deal`, description: `Couldn't ${isEdit ? "update" : "create"} ${values.name}` })
+        router.refresh()
     }
 
     return (

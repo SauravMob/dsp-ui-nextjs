@@ -27,13 +27,20 @@ export default function ManageReportHeader({ status }: { status: string }) {
 
     return (
         <>
-            <CustomBreadCrumb secondItem='Admin Tools' secondLink='/admin-tools' thirdItem='Manage Reports' thirdLink='/admin-tools/manage-reports' />
+            <CustomBreadCrumb
+                secondItem='Settings'
+                secondLink='#'
+                thirdItem='Admin Tools'
+                thirdLink='/admin-tools'
+                fourthItem='Manage Reports'
+                fourthLink='/admin-tools/manage-reports'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Coffee size={26} className='mr-1' /> Manage Report (Calc)
                 </div>
 
-                <div>
+                <div className='flex justify-center items-center'>
                     <Link href="/admin-tools/manage-reports/create">
                         <Button size="sm" className='mr-2'>
                             <Plus size={20} className='mr-1' />Create

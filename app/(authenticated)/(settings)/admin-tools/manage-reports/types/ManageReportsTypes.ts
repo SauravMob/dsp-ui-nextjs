@@ -1,12 +1,12 @@
 type ManageReportType = {
-    bidsCalc: number,
+    bidsCalc: number | string,
+    clksCalc: number | string,
+    impsCalc: number | string,
+    spendsCalc: number | string,
     clickMaskFlag: boolean,
-    clksCalc: number,
     date: string,
     email: string,
     id: number,
-    impsCalc: number,
-    spendsCalc: number,
     status: string,
-    userId: number
+    userId: number | string
 }

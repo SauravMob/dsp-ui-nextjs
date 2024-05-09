@@ -46,6 +46,7 @@ export default function AppsAudForm({
             router.push("/admin-tools/appsflyer-audience")
             toast({ title: `${isEdit ? "Updated" : "Created"} appsflyer audience`, description: `${values.advertiserName} ${isEdit ? "updated" : "created"} successfully` })
         } else toast({ title: `Error while ${isEdit ? "updating" : "creating"} appsflyer audience`, description: `Couldn't ${isEdit ? "update" : "create"} ${values.advertiserName}` })
+        router.refresh()
     }
 
     return (
@@ -83,21 +84,19 @@ export default function AppsAudForm({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className='flex justify-between'>
-                                <div>Status</div>
+                                Status
                             </FormLabel>
-                            <FormControl>
-                                <div className='flex justify-center items-center'>
-                                    <SelectInput
-                                        placeholder='Status...'
-                                        name="status"
-                                        value={statusWithoutPauseOptions.filter(v => v.value === getValues('status'))[0]}
-                                        options={statusWithoutPauseOptions}
-                                        onChange={(value) => {
-                                            setValue('status', value ? value.value : '')
-                                            clearErrors('status')
-                                        }}
-                                    />
-                                </div>
+                            <FormControl className='flex justify-center items-center'>
+                                <SelectInput
+                                    placeholder='Status...'
+                                    name="status"
+                                    value={statusWithoutPauseOptions.filter(v => v.value === getValues('status'))[0]}
+                                    options={statusWithoutPauseOptions}
+                                    onChange={(value) => {
+                                        setValue('status', value ? value.value : '')
+                                        clearErrors('status')
+                                    }}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

@@ -5,7 +5,11 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import NextTopLoader from 'nextjs-toploader'
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter'
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",

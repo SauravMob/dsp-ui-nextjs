@@ -1,10 +1,7 @@
-"use server"
-
 import React from 'react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
-import { cookies } from 'next/headers'
 
-export default async function CustomBreadCrumb(
+export default function CustomBreadCrumb(
     {
         secondItem,
         secondLink,
@@ -29,7 +26,7 @@ export default async function CustomBreadCrumb(
         <Breadcrumb>
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink href={cookies().get("roleId")?.value === '2' ? "/admin-dashboard" : "/dashboard"}>Home</BreadcrumbLink>
+                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>

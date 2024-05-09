@@ -18,7 +18,8 @@ export interface SelectInputProps {
     isSearchable?: boolean
     name: string,
     value?: SelectOption,
-    isDisabled?: boolean
+    isDisabled?: boolean,
+    id?: string
 }
 
 export interface MultiSelectInputProps {
@@ -29,7 +30,8 @@ export interface MultiSelectInputProps {
     isClearable?: boolean
     isSearchable?: boolean
     name: string,
-    value?: SelectOption[]
+    value?: SelectOption[],
+    id?: string
 }
 
 export interface AutoCompleteInputProps {
@@ -44,11 +46,11 @@ export interface AutoCompleteInputProps {
 }
 
 const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputProps>(
-    ({ className, options, value, ...props }, ref) => {
+    ({ className, options, value, id, ...props }, ref) => {
         return (
             <Select
                 unstyled
-                instanceId={"id"}
+                instanceId={`react-select-id-input ${id}`}
                 className={cn("w-full", className)}
                 value={value}
                 classNamePrefix="select"
@@ -69,11 +71,12 @@ const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputPro
 MultiSelectInput.displayName = "MultiSelectInput"
 
 const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
-    ({ className, options, value, isDisabled, ...props }, ref) => {
+    ({ className, options, value, isDisabled, id, ...props }, ref) => {
         return (
             <Select
                 unstyled
-                instanceId={"id"}
+                instanceId={`react-select-id-input ${id}`}
+                id={id}
                 className={cn("w-full", className)}
                 value={value}
                 classNames={{
