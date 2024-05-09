@@ -30,7 +30,7 @@ export async function fetchCalcFilter(
 }
 
 export async function createCalcFilter(
-    settings: ManageReportType
+    settings: ManageReportFormType
 ) {
     const url = `/calcFilter`
     const result = await HttpRequestApi('POST', url, settings)
@@ -41,7 +41,7 @@ export async function createCalcFilter(
 
 export async function updateCalcFilter(
     id: string,
-    settings: ManageReportType
+    settings: ManageReportFormType
 ) {
     const url = `/calcFilter/${id}`
     const result = await HttpRequestApi('PUT', url, settings)

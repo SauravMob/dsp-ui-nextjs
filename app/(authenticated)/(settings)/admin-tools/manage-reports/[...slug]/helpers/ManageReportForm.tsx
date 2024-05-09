@@ -17,7 +17,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { CalendarIcon } from 'lucide-react'
 import { Calendar } from '@/components/ui/calendar'
-import { DateRange } from 'react-day-picker'
 
 export default function ManageReportForm({
     id,
@@ -27,7 +26,7 @@ export default function ManageReportForm({
 }: {
     id: string,
     isEdit: boolean,
-    editData: ManageReportType | null,
+    editData: ManageReportType,
     advertiserList: { id: string, name: string }[]
 }) {
 
@@ -41,29 +40,38 @@ export default function ManageReportForm({
         impsCalc: z.coerce.number().min(1, { message: "Required field" }),
         spendsCalc: z.coerce.number().min(1, { message: "Required field" }),
         status: z.string(),
-        date: z.coerce.string(),
         clickMaskFlag: z.boolean(),
-        userId: z.coerce.number().min(1, { message: "Required Field" })
+        userId: z.coerce.number().min(1, { message: "Required Field" }),
+        date: z.object({
+            from: z.date(),
+            to: z.date().optional()
+        }).transform((date) => {
+            if (date.to) return `${formatQryDate(date.from)}~${formatQryDate(date.to)}`
+            return formatQryDate(date.from)
+        })
     })
 
-    const form = useForm<ManageReportType>({
+    const form = useForm<ManageReportFormType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            bidsCalc: editData?.bidsCalc || '',
-            clksCalc: editData?.clksCalc || '',
-            impsCalc: editData?.impsCalc || '',
-            spendsCalc: editData?.spendsCalc || '',
-            status: editData?.status || '',
-            date: editData?.date || `${formatQryDate(new Date())}~${formatQryDate(new Date())}`,
-            clickMaskFlag: editData?.clickMaskFlag !== undefined ? editData?.clickMaskFlag : true,
-            userId: editData?.userId || ''
+            bidsCalc: isEdit ? editData.bidsCalc : '',
+            clksCalc: isEdit ? editData.clksCalc : '',
+            impsCalc: isEdit ? editData.impsCalc : '',
+            spendsCalc: isEdit ? editData.spendsCalc : '',
+            status: isEdit ? editData.status : '',
+            clickMaskFlag: isEdit ? editData.clickMaskFlag : true,
+            userId: isEdit ? editData.userId : '',
+            date: {
+                from: isEdit ? new Date(editData.date.split('~')[0]) : new Date(),
+                to: isEdit ? editData?.date.split('~')[1] ? new Date(editData?.date.split('~')[1]) : undefined : new Date()
+            }
         }
     })
 
     const { clearErrors, setValue } = form
     const { isSubmitting } = form.formState
 
-    const onSubmit: SubmitHandler<ManageReportType> = async (values: ManageReportType) => {
+    const onSubmit: SubmitHandler<ManageReportFormType> = async (values: ManageReportFormType) => {
         const result = isEdit ? await updateCalcFilter(id, values) : await createCalcFilter(values)
         if (result?.status === 200) {
             router.push("/admin-tools/manage-reports")
@@ -198,7 +206,7 @@ export default function ManageReportForm({
                                                     !field.value && "text-muted-foreground"
                                                 )}
                                             >
-                                                {field.value.split('~').length === 1 ? `${field.value.split('~')[0]}` : `${field.value.split('~')[0]} - ${field.value.split('~')[1]}`}
+                                                {field.value.to ? `${formatQryDate(field.value.from)} - ${formatQryDate(field.value.to)}` : `${formatQryDate(field.value.from)}`}
                                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                             </Button>
                                         </FormControl>
@@ -206,13 +214,8 @@ export default function ManageReportForm({
                                     <PopoverContent className="w-auto p-0" align="start">
                                         <Calendar
                                             mode="range"
-                                            selected={{
-                                                from: field.value ? new Date(field.value.split('~')[0]) : undefined,
-                                                to: field.value ? field.value.split('~').length === 1 ? new Date(field.value.split('~')[0]) : new Date(field.value.split('~')[1]) : undefined
-                                            }}
-                                            onSelect={(e: DateRange | undefined) => {
-                                                if (e) setValue("date", e.to ? `${formatQryDate(e.from)}~${formatQryDate(e.to)}` : `${formatQryDate(e.from)}`)
-                                            }}
+                                            selected={field.value}
+                                            onSelect={field.onChange}
                                             initialFocus
                                         />
                                     </PopoverContent>

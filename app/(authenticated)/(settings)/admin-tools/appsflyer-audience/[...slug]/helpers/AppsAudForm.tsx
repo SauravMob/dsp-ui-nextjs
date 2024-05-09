@@ -24,7 +24,7 @@ export default function AppsAudForm({
 
     const formSchema = z.object({
         advertiserName: z.string().min(1, { message: "Required Field!" }),
-        apiKey: z.string(),
+        apiKey: z.string().uuid(),
         status: z.string()
     })
 
