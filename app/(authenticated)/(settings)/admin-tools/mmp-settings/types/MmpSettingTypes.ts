@@ -9,15 +9,13 @@ type MmpSettingFilter = {
 type MmpSettingType = {
     blDeviceModels: string
     bundle: string
-    createdAt: string
-    id: number
-    isDay: number
-    isMin: number
+    createdAt?: string
+    id?: number
     mmp: string
     mmpEvents: string
     status: string
-    suppressedData: string
-    updatedAt: string
+    suppressedData: string | null
+    updatedAt?: string
 }
 
 type MmpSettingTabularData = {
@@ -42,6 +40,9 @@ type MMPSettingFormType = {
     }
     status: string
     blDeviceModels: string
+    suppressedToggle: boolean
+    suppressBundle: string
+    suppressEvent: string
     suppressedData: {
         [key: string]: string[]
     }

@@ -33,12 +33,6 @@ export default function MmpSettingHeader({
                         mmp={mmp}
                         status={status}
                     />
-                    {/* <BidMultiSheet
-                        pageSize={pageSize}
-                        status={status}
-                        campaignId={campaignId}
-                        isAdmin={isAdmin}
-                    /> */}
                 </div>
             </div>
         </>
