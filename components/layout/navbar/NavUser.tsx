@@ -46,12 +46,12 @@ export default function NavUser({ emailId, accountBalance }: { emailId: string, 
                                     <ThemeToggler />
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href="/account-details">
+                            <HoveredLink href="/account-details" prefetch={false}>
                                 <div className='flex items-center'>
                                     <UserRound size={18} className='mr-1' />Account Details
                                 </div>
                             </HoveredLink>
-                            <HoveredLink href="/change-password">
+                            <HoveredLink href="/change-password" prefetch={false}>
                                 <div className='flex items-center'>
                                     <SquareCheckBig size={18} className='mr-1' />Change Password
                                 </div>

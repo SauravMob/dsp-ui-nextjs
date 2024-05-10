@@ -63,7 +63,7 @@ export default function ManageReportForm({
             userId: isEdit ? editData.userId : '',
             date: {
                 from: isEdit ? new Date(editData.date.split('~')[0]) : new Date(),
-                to: isEdit ? editData?.date.split('~')[1] ? new Date(editData?.date.split('~')[1]) : undefined : new Date()
+                to: isEdit ? editData?.date.split('~')[1] ? new Date(editData?.date.split('~')[1]) : undefined : undefined
             }
         }
     })

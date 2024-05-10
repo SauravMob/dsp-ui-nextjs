@@ -113,12 +113,13 @@ export const ProductItem = ({
     );
 };
 
-export const HoveredLink = ({ children, ...rest }: any) => {
+export const HoveredLink = ({ children, prefetch, ...rest }: any) => {
     return (
         <Link
             {...rest}
             scroll={false}
-            className="text-neutral-700 hover:font-medium dark:text-neutral-200 hover:text-slate-950 "
+            className="text-neutral-700 hover:font-medium dark:text-neutral-200 hover:text-slate-950"
+            prefetch={prefetch}
         >
             {children}
         </Link>

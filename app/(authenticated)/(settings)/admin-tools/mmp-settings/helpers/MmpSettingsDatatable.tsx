@@ -1,15 +1,14 @@
 "use client"
 
 import { Card } from '@/components/ui/card'
-import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
+import DataTable, { CustomHeader } from '@/components/ui/datatable'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { getStatusAvatar } from '@/components/utility/utils/JSXUtils'
 import { getDateForPosix } from '@/components/utility/utils/Utils'
-import { ColumnDef, PaginationState, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
-import { Edit, Ellipsis, Eye } from 'lucide-react'
+import { ColumnDef, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import { Edit, Ellipsis } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useMemo } from 'react'
+import React from 'react'
 import EventsDataModal from './EventsDataModal'
 
 const columns = () => {
@@ -159,31 +158,10 @@ const columns = () => {
 }
 
 export default function MmpSettingsDatatable({
-    pageNo,
-    pageSize,
     data
 }: {
-    pageNo: number,
-    pageSize: number
     data: MmpSettingTabularData
 }) {
-
-    const router = useRouter()
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
-
-    const createQueryString = useCallback(
-        (name: string, value: string) => {
-            const params = new URLSearchParams(searchParams.toString())
-            params.set(name, value)
-            if (name !== "pageSize") params.set("pageSize", pageSize.toString())
-            else params.set("pageNo", '0')
-            return params.toString()
-        },
-        [searchParams, pageSize]
-    )
-
-    const pagination = useMemo<PaginationState>(() => ({ pageIndex: pageNo, pageSize: data.pageSize }), [pageNo, data.pageSize])
 
     const table = useReactTable({
         data: data.content,
@@ -191,21 +169,12 @@ export default function MmpSettingsDatatable({
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         rowCount: data.totalElements,
-        manualPagination: true,
-        state: { pagination }
+        manualPagination: false
     })
 
     return (
         <Card className='p-3'>
             <DataTable table={table} columns={columns()} />
-            <CustomPagination
-                table={table}
-                goToFirstPage={() => router.push(`${pathname}?${createQueryString('pageNo', '0')}`)}
-                goToPreviousPage={() => router.push(`${pathname}?${createQueryString('pageNo', (pageNo - 1).toString())}`)}
-                goToNextPage={() => router.push(`${pathname}?${createQueryString('pageNo', (pageNo + 1).toString())}`)}
-                goToLastPage={() => router.push(`${pathname}?${createQueryString('pageNo', (data.totalPages - 1).toString())}`)}
-                onRowNumberChange={(value) => router.push(`${pathname}?${createQueryString('pageSize', value)}`)}
-            />
         </Card>
     )
 }
