@@ -41,7 +41,7 @@ export default async function page({
                 status={status}
             />
             <div className='mt-5'>
-                <MmpSettingsDatatable pageNo={parseInt(pageNo)} pageSize={parseInt(pageSize)} data={tabularData} />
+                <MmpSettingsDatatable data={tabularData} />
             </div>
         </div>
     )

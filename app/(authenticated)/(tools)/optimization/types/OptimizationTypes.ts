@@ -8,8 +8,8 @@ type OptimizationType = {
     campaignId: number,
     createdOn: string,
     id: number,
-    maxBudgetPerSiteid: number,
-    maxImpPerClick: number,
+    maxBudgetPerSiteid: number | null,
+    maxImpPerClick: number | null,
     status: string,
     updatedOn: string,
     userId: number

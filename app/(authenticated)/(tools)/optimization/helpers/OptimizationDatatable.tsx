@@ -14,7 +14,7 @@ import { getUpdateStatus } from '@/components/utility/utils/Utils'
 import { getStatusAvatar, handleStatus } from '@/components/utility/utils/JSXUtils'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { fetchAllCampaigns } from '@/app/(authenticated)/(manage)/campaigns/actions'
+import { searchCampaign } from '@/app/(authenticated)/(manage)/campaigns/actions'
 import { Card } from '@/components/ui/card'
 
 const updateStatus = async (status: string, optimization: OptimizationType) => {
@@ -69,7 +69,7 @@ const columns = (campaignList: { id: number, name: string }[]) => {
             ),
             enableSorting: false,
             cell: ({ row }) => {
-                const campName = campaignList.filter(v => v.id !== row.original.campaignId)[0]
+                const campName = campaignList.filter(v => v.id === row.original.campaignId)[0]
                 return <div className='text-start'>{campName?.name}</div>
             }
         },
@@ -154,7 +154,7 @@ export default function OptimizationDatatable({
 
     useEffect(() => {
         const fetchCampaignList = async () => {
-            const campaignList = await fetchAllCampaigns({ pageNo: '0', pageSize: "50" })
+            const campaignList = await searchCampaign({ pageNo: '0', pageSize: "50", filter: {} })
             setCampaignList(campaignList.content.map((v: CampaignType) => ({ id: v.id, name: v.campaignName })))
         }
         fetchCampaignList()

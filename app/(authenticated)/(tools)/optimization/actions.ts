@@ -43,3 +43,21 @@ export async function updateOptimization(id: number, optimization: OptimizationT
     revalidatePath('/optimization')
     return { status: 200, message: await result.text() }
 }
+
+export async function getById(
+    id: string
+) {
+    const url = `/optimization/${id}?userId=${cookies().get('userId')?.value}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function createOptimization(optimization: OptimizationType) {
+    const url = `/optimization`
+    const result = await HttpRequestApi('POST', url, optimization)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath('/optimization')
+    return { status: 200, message: `Success` }
+}
+
