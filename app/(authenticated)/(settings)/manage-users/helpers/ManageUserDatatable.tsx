@@ -6,10 +6,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { getStatusAvatar } from '@/components/utility/utils/JSXUtils'
 import { getRole } from '@/components/utility/utils/Utils'
 import { ColumnDef, PaginationState, getCoreRowModel, getExpandedRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
-import { Edit, Ellipsis, Trash2 } from 'lucide-react'
-import Link from 'next/link'
+import { Ellipsis, Trash2 } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo } from 'react'
+import EditUserForm from './EditUserForm'
 
 const columns = () => {
     const data: ColumnDef<ManageUserType, any>[] = [
@@ -27,7 +27,7 @@ const columns = () => {
                                 <div className='border rounded-md p-1'><Ellipsis size={18} /></div>
                             </PopoverTrigger>
                             <PopoverContent className='p-2 flex flex-col'>
-                                <Link href={`/bid-multiplier/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
+                                <EditUserForm row={row.original} />
                             </PopoverContent>
                         </Popover>
                     </>}

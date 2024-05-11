@@ -12,7 +12,7 @@ type ManageUserType = {
     company: string,
     country: string,
     creativeCount: number,
-    customFeatures: string,
+    customFeatures: string | null,
     domainUrl: string,
     email: string,
     id: number,
@@ -21,7 +21,7 @@ type ManageUserType = {
     status: string,
     sspName: string
     username: string
-    videoCompletionPercent: string
+    videoCompletionPercent: string | null
 }
 
 type ManageUserTabularData = {

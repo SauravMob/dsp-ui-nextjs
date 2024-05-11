@@ -132,3 +132,12 @@ export const roleOptions = [
     { value: '4', label: 'SSP' },
     { value: '3', label: 'Account Manager' }
 ]
+
+export const customFeatureOptions = [
+    { value: 'DEAL', label: 'DEAL' },
+    { value: 'AUDIENCE', label: 'AUDIENCE' },
+    { value: 'BID MULTIPLIER', label: 'BID MULTIPLIER' },
+    { value: 'INTERNAL', label: 'NEW AUDIENCE' },
+    { value: 'VIDEO TRACKING', label: 'VIDEO TRACKING' }
+]
+

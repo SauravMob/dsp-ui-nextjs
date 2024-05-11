@@ -1,6 +1,7 @@
 "use server"
 
 import { HttpRequestApi } from "@/components/services/HttpRequestApi"
+import { revalidatePath } from "next/cache"
 
 export async function fetchAllUsers({
     pageNo,
@@ -19,4 +20,22 @@ export async function fetchAllUsers({
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
+}
+
+
+export async function fetchAccountManagerAndAdmins() {
+    const url = `/users/acc_managers`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function updateUser(
+    settings: ManageUserType
+) {
+    const url = `/users?userId=${settings.userId}`
+    const result = await HttpRequestApi('PUT', url, settings)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath('/manage-users')
+    return { status: 200, message: "Success" }
 }

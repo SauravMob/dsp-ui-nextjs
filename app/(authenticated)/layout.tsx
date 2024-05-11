@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/layout/navbar/Navbar"
+import { TooltipProvider } from "@/components/ui/tooltip"
 // import PrivacyPolicy from '@/app/(authenticated)/helpers/PrivacyPolicy'
 
 export default function RootLayout({
@@ -9,10 +10,12 @@ export default function RootLayout({
 
     return (
         <div className="min-h-screen">
-            <Navbar className="top-0" />
-            <div className="pb-5 pt-24 px-4">
-                {children}
-            </div>
+            <TooltipProvider>
+                <Navbar className="top-0" />
+                <div className="pb-5 pt-24 px-4">
+                    {children}
+                </div>
+            </TooltipProvider>
             {/* <div className="flex items-center   ">
                 <PrivacyPolicy />
                 |
