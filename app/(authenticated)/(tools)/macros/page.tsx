@@ -35,7 +35,12 @@ const data = [
 export default function page() {
     return (
         <>
-            <CustomBreadCrumb secondItem='Macros' secondLink='/macros' />
+            <CustomBreadCrumb
+                secondItem='Tools'
+                secondLink='#'
+                thirdItem='Macros'
+                thirdLink='/macros'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Code size={26} className='mr-1' /> Ad Macros

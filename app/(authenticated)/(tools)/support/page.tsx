@@ -13,7 +13,12 @@ export const metadata: Metadata = {
 export default function page() {
     return (
         <>
-            <CustomBreadCrumb secondItem='Support' secondLink='/support' />
+            <CustomBreadCrumb
+                secondItem='Tools'
+                secondLink='#'
+                thirdItem='Support'
+                thirdLink='/support'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Headphones size={26} className='mr-1' /> Support

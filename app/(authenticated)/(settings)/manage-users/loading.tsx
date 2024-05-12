@@ -6,7 +6,12 @@ import React from 'react'
 export default function loading() {
     return (
         <div>
-            <CustomBreadCrumb secondItem='Manage User' secondLink='/manage-user' />
+            <CustomBreadCrumb
+                secondItem='Settings'
+                secondLink='#'
+                thirdItem='Manage User'
+                thirdLink='/manage-user'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <User size={26} className='mr-1' /> Manage User
