@@ -6,17 +6,17 @@ type BidMultiFilter = {
 }
 
 type BidMultiType = {
-    bundleBids: string,
+    bundleBids: string | null,
     campaignId: number,
-    cityBids: string,
-    createdOn: string,
-    exchangeBids: string,
+    cityBids: string | null,
+    createdOn?: string,
+    exchangeBids: string | null,
     id: number,
     maxBidPrice: number,
-    osBids: string,
-    regionBids: string,
+    osBids: string | null,
+    regionBids: string | null,
     status: string,
-    updatedOn: string,
+    updatedOn?: string,
     userId: number
 }
 

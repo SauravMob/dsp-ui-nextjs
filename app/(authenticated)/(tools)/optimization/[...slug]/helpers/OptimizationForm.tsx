@@ -45,10 +45,7 @@ export default function OptimizationForm({
     const formSchema = z.object({
         campaignId: z.number().refine((data) => {
             return data
-        }, { message: "Campaign is required" }).transform(data => {
-            if (data) return data
-            else return null
-        }),
+        }, { message: "Campaign is required" }),
         maxBudgetPerSiteid: z.number().nullable(),
         cpaGoal: z.number().optional(),
         maxImpPerClick: z.number().nullable(),

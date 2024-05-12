@@ -1,7 +1,7 @@
 "use client"
 
 import { fetchAllUsers } from '@/app/(authenticated)/(manage)/advertisers/actions'
-import { fetchAllCampaigns } from '@/app/(authenticated)/(manage)/campaigns/actions'
+import { searchCampaign } from '@/app/(authenticated)/(manage)/campaigns/actions'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import DataTable, { CustomHeader, CustomPagination } from '@/components/ui/datatable'
@@ -86,7 +86,7 @@ const columns = (isAdmin: boolean, campaignList: { id: number, name: string }[],
             ),
             enableSorting: false,
             cell: ({ row }) => {
-                const campName = campaignList.filter(v => v.id !== row.original.campaignId)[0]
+                const campName = campaignList.filter(v => v.id === row.original.campaignId)[0]
                 return <div className='text-start min-w-40'>{campName?.name}</div>
             }
         },
@@ -105,7 +105,7 @@ const columns = (isAdmin: boolean, campaignList: { id: number, name: string }[],
                 const exchangeArray = Object.keys(exchangeJson)
                 return <div className='text-start'>{
                     exchangeArray?.map((v, k) => {
-                        return <div key={k}>
+                        return <div key={k} className='text-nowrap'>
                             <div className='flex'>{v} : {exchangeJson[v]}</div>
                         </div>
                     })
@@ -127,7 +127,7 @@ const columns = (isAdmin: boolean, campaignList: { id: number, name: string }[],
                 const bundleArray = Object.keys(bundleJson)
                 return <div className='text-start'>{
                     bundleArray?.map((v, k) => {
-                        return <div key={k}>
+                        return <div key={k} className='text-nowrap'>
                             <div className='flex'>{v} : {bundleJson[v]}</div>
                         </div>
                     })
@@ -149,7 +149,7 @@ const columns = (isAdmin: boolean, campaignList: { id: number, name: string }[],
                 const regionArray = Object.keys(regionJson)
                 return <div className='text-start'>{
                     regionArray?.map((v, k) => {
-                        return <div key={k}>
+                        return <div key={k} className='text-nowrap'>
                             <div className='flex'>{v} : {regionJson[v]}</div>
                         </div>
                     })
@@ -171,7 +171,7 @@ const columns = (isAdmin: boolean, campaignList: { id: number, name: string }[],
                 const cityArray = Object.keys(cityJson)
                 return <div className='text-start'>{
                     cityArray?.map((v, k) => {
-                        return <div key={k}>
+                        return <div key={k} className='text-nowrap'>
                             <div className='flex'>{v} : {cityJson[v]}</div>
                         </div>
                     })
@@ -193,7 +193,7 @@ const columns = (isAdmin: boolean, campaignList: { id: number, name: string }[],
                 const osArray = Object.keys(osJson)
                 return <div className='text-start'>{
                     osArray?.map((v, k) => {
-                        return <div key={k}>
+                        return <div key={k} className='text-nowrap'>
                             <div className='flex'>{v} : {osJson[v]}</div>
                         </div>
                     })
@@ -268,7 +268,7 @@ export default function BidMultidatatable({
 
     useEffect(() => {
         const fetchCampaignList = async () => {
-            const campaignList = await fetchAllCampaigns({ pageNo: '0', pageSize: "50" })
+            const campaignList = await searchCampaign({ pageNo: '0', pageSize: "50", filter: {} })
             setCampaignList(campaignList.content.map((v: CampaignType) => ({ id: v.id, name: v.campaignName })))
         }
         fetchCampaignList()
