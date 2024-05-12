@@ -20,7 +20,7 @@ export default async function page({
     searchParams?: { [key: string]: string | undefined }
 }) {
 
-    const isEdit = params.slug.length === 2
+    const isEdit = params.slug.includes("edit")
     const editData = isEdit ? await fetchBidMultiplier(params.slug[1]) : null
     const userId = cookies().get('userId')?.value
     const existingBidMultiplier = await fetchAllBidMultiplier({ pageNo: '0', pageSize: '1000' })

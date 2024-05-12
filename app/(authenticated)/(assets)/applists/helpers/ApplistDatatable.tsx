@@ -49,7 +49,7 @@ const columns: ColumnDef<ApplistType, any>[] = [
                             <div className='border rounded-md p-1'><Ellipsis size={18} /></div>
                         </PopoverTrigger>
                         <PopoverContent className='p-2 flex flex-col'>
-                            <Link href={`/audiences/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
+                            <Link href={`/applists/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
                             <PopoverClose asChild>
                                 <Button variant="ghost" size="sm" className='justify-start' onClick={() => updateStatus(getUpdateStatus(row.getValue("status")), row.original)}>{handleStatus(row.getValue("status"))}{getUpdateStatus(row.getValue("status"))}</Button>
                             </PopoverClose>

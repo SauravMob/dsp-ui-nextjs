@@ -1,12 +1,17 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
-import {  Layers } from 'lucide-react'
+import { Layers } from 'lucide-react'
 import React from 'react'
 
 export default function loading() {
     return (
         <div>
-            <CustomBreadCrumb secondItem='Applists' secondLink='/applists' />
+            <CustomBreadCrumb
+                secondItem='Assets'
+                secondLink='#'
+                thirdItem='App Lists'
+                thirdLink='/applists'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Layers size={26} className='mr-1' /> Applists

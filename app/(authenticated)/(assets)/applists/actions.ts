@@ -44,3 +44,19 @@ export async function updateApp(id: number, app: ApplistType) {
     revalidatePath('/applists')
     return { status: 200, message: await result.text() }
 }
+
+export async function fetchApp(id: string) {
+    const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
+    const url = `/campaigns/applist/fetch?id=${id}${userId}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function createApplist(apps: ApplistType) {
+    const url = `/campaigns/applist`
+    const result = await HttpRequestApi('POST', url, apps)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath('/applists')
+    return { status: 200, message: `Success` }
+}
