@@ -6,13 +6,14 @@ import { SERVER_URL } from "../constants/ApiConfigConstants"
 export const HttpRequestApi = async (
     method: "GET" | "POST" | "PUT" | "DELETE",
     url: string,
-    data?: object
+    data?: object,
+    responseType: 'json' | 'blob' | 'text' = 'json'
 ) => {
     const ACCESS_TOKEN = cookies().get('accessToken')?.value
     const init: RequestInit = {
         method,
         headers: {
-            "Content-type": "application/json",
+            "Content-type": `application/${responseType}`,
             Authorization: `Bearer ${ACCESS_TOKEN}`
         }
     }

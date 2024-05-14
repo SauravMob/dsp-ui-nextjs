@@ -65,7 +65,7 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel className='flex justify-between'>
                 <div>Password<span className='text-red-900'>*</span></div>
-                <Link href={'/forgot-password'} className='text-xs'>Forgot Password?</Link>
+                <Link href={'/forgot-password'} className='text-xs' prefetch={false}>Forgot Password?</Link>
               </FormLabel>
               <FormControl>
                 <div className='flex justify-center items-center'>

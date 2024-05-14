@@ -16,11 +16,11 @@ import { toast } from '@/components/ui/use-toast'
 export default function ApplistForm({
     editData,
     isEdit,
-    userId,
+    userId
 }: {
     editData: ApplistType
     isEdit: boolean
-    userId: number,
+    userId: number
 }) {
 
     const router = useRouter()

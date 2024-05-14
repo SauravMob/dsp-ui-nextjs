@@ -96,7 +96,9 @@ export const osOptions = [
 
 export const uploadTypeOptions = [
     { value: "manual", label: "MANUAL" },
-    { value: "mmp", label: "MMP" }
+    { value: "mmp", label: "MMP" },
+    { label: 'INTEGRATED', value: 'integrated_audience' },
+    { label: 'INTERNAL', value: 'internal' }
 ]
 
 export const creativeSizeOptions = [
@@ -139,5 +141,40 @@ export const customFeatureOptions = [
     { value: 'BID MULTIPLIER', label: 'BID MULTIPLIER' },
     { value: 'INTERNAL', label: 'NEW AUDIENCE' },
     { value: 'VIDEO TRACKING', label: 'VIDEO TRACKING' }
+]
+
+export const dmpPartnerOptions = [
+    { value: 'BOBBLE', label: 'BOBBLE' },
+    { value: 'NIELSON', label: 'NIELSON' },
+    { value: 'LOTAME', label: 'LOTAME' },
+    { value: 'MOBAVENUE', label: 'MOBAVENUE' }
+]
+
+export const dataWindowOptions = [
+    { value: '0', label: '0' },
+    { value: '1', label: '1' },
+    { value: '2', label: '2' },
+    { value: '3', label: '3' },
+    { value: '5', label: '5' },
+    { value: '7', label: '7' },
+    { value: '15', label: '15' },
+    { value: '30', label: '30' },
+    { value: '60', label: '60' },
+    { value: '90', label: '90' }
+]
+
+export const reengageIntervalOptions = [
+    { value: '0', label: '0' },
+    { value: '2', label: '2' },
+    { value: '3', label: '3' },
+    { value: '7', label: '7' },
+    { value: '15', label: '15' },
+    { value: '30', label: '30' },
+    { value: '60', label: '60' }
+]
+
+export const constainsOptions = [
+    { value: "contains", label: "Contains" },
+    { value: "notcontains", label: "Not Contains" }
 ]
 

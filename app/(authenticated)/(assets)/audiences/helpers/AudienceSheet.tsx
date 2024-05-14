@@ -18,6 +18,7 @@ export default function AudienceSheet({
 }: AudienceFilter) {
 
     const path = usePathname()
+    const customUploadTypeOptions = uploadTypeOptions.filter(v => v.value !== 'internal')
     const [customAudName, setCustomAudName] = useState<string>(audName || '')
     const [customStatus, setCustomStatus] = useState<string>(status || '')
     const [customUploadType, setCustomUploadType] = useState<string>(uploadType || '')
@@ -67,8 +68,8 @@ export default function AudienceSheet({
                                 isClearable={true}
                                 isSearchable={true}
                                 name="uploadType"
-                                value={uploadTypeOptions.filter(v => v.value === customUploadType)[0]}
-                                options={uploadTypeOptions}
+                                value={customUploadTypeOptions.filter(v => v.value === customUploadType)[0]}
+                                options={customUploadTypeOptions}
                                 onChange={(e) => setCustomUploadType(e ? e.value : '')}
                             />
                         </div>

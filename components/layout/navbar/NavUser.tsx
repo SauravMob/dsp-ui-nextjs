@@ -28,7 +28,7 @@ export default function NavUser({ emailId, accountBalance }: { emailId: string, 
                 <Menu setActive={setActive} className='px-0'>
                     <MenuItem setActive={setActive} active={active} item={accountBalance}>
                         <div className="flex flex-col space-y-4 text-sm">
-                            <HoveredLink href="/settings/billing">
+                            <HoveredLink href="/settings/billing" prefetch={false}>
                                 <div className='flex items-center'>
                                     <History size={18} className='mr-1' />Transaction history
                                 </div>
