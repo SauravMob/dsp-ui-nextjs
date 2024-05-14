@@ -18,6 +18,22 @@ export async function fetchAllCreatives({
     return await result.json()
 }
 
+export async function createCreative(creative: CreativeType) {
+    const url = `/creatives`
+    const result = await HttpRequestApi('POST', url, creative)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    revalidatePath('/creatives')
+    return { status: 200, message: `Success` }
+}
+
+export async function fetchCreative(id: string) {
+    const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
+    const url = `/creatives/${id}?${userId}`
+    const result = await HttpRequestApi('GET', url)
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
 export async function searchCreative({
     pageNo,
     pageSize,

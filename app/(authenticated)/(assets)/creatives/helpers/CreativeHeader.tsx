@@ -8,7 +8,12 @@ import { Button } from '@/components/ui/button'
 export default function CreativeHeader({ pageSize, campaignId, status, creativeId, creativeSize, creativeType }: CreativeFilterTypes) {
     return (
         <>
-            <CustomBreadCrumb secondItem='Creative' secondLink='/creatives' />
+            <CustomBreadCrumb
+                secondItem='Assets'
+                secondLink='#'
+                thirdItem='Creatives'
+                thirdLink='/creatives'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Camera size={26} className='mr-1' /> Creative

@@ -10,7 +10,12 @@ export default function AudienceHeader(
 ) {
     return (
         <>
-            <CustomBreadCrumb secondItem='Audience Retargeting' secondLink='/audiences' />
+            <CustomBreadCrumb
+                secondItem='Assets'
+                secondLink='#'
+                thirdItem='Audiences Retargeting'
+                thirdLink='/audiences'
+            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Users size={26} className='mr-1' /> Audience Retargeting
