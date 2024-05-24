@@ -1,5 +1,6 @@
 "use server"
 
+import { SERVER_URL } from "@/components/constants/ApiConfigConstants"
 import { HttpRequestApi } from "@/components/services/HttpRequestApi"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
@@ -18,7 +19,7 @@ export async function fetchAllCreatives({
     return await result.json()
 }
 
-export async function createCreative(creative: CreativeType) {
+export async function createCreative(creative: CreativeType[]) {
     const url = `/creatives`
     const result = await HttpRequestApi('POST', url, creative)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
@@ -42,11 +43,12 @@ export async function searchCreative({
     pageNo?: string,
     pageSize?: string,
     filter: {
-        campaignId: string,
-        creativeId: string,
-        creativeSize: string,
-        creativeType: string,
+        campaignId?: string,
+        creativeId?: string,
+        creativeSize?: string,
+        creativeType?: string,
         status?: string,
+        creative?: string,
         accountManagerId?: string,
         advertiserId?: string
     }
@@ -59,7 +61,7 @@ export async function searchCreative({
 }
 
 export async function updateCreative(
-    id: number,
+    id: string,
     creative: CreativeType
 ) {
     const url = `/creatives/${id}`
@@ -70,7 +72,7 @@ export async function updateCreative(
 }
 
 export async function deleteAttachedCampaigns(
-    id: number,
+    id: string,
     userId: number,
     campaignIdsToRemove: string
 ) {
@@ -101,3 +103,15 @@ export async function fetchCreativeTargetedCampaigns(
     return await result.json()
 }
 
+export async function uploadFiles(formData: FormData) {
+    const uri = `/creatives/upload`
+    const result = await fetch(`${SERVER_URL}${uri}`, {
+        method: "POST",
+        body: formData,
+        headers: {
+            Authorization: `Bearer ${cookies().get("accessToken")?.value}`
+        }
+    })
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}

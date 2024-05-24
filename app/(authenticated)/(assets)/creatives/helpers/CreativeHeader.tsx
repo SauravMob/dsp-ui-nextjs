@@ -1,9 +1,8 @@
 import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
-import { Camera, Plus } from 'lucide-react'
+import { Camera } from 'lucide-react'
 import React from 'react'
 import CreativeSheet from './CreativeSheet'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import CreativeOptionsDialog from '../[...slug]/helpers/modals/CreativeOptionsDialog'
 
 export default function CreativeHeader({ pageSize, campaignId, status, creativeId, creativeSize, creativeType }: CreativeFilterTypes) {
     return (
@@ -19,12 +18,8 @@ export default function CreativeHeader({ pageSize, campaignId, status, creativeI
                     <Camera size={26} className='mr-1' /> Creative
                 </div>
 
-                <div>
-                    <Link href="/creatives/create">
-                        <Button size="sm" className='mr-2'>
-                            <Plus size={20} className='mr-1' />Create
-                        </Button>
-                    </Link>
+                <div className='flex'>
+                    <CreativeOptionsDialog />
                     <CreativeSheet
                         pageSize={pageSize}
                         campaignId={campaignId}

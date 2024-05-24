@@ -52,7 +52,7 @@ const columns: ColumnDef<CreativeType, any>[] = [
                             <div className='border rounded-md p-1'><Ellipsis size={18} /></div>
                         </PopoverTrigger>
                         <PopoverContent className='p-2 flex flex-col'>
-                            <Link href={`/creatives/edit/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
+                            <Link href={`/creatives/edit/${row.original.creativeType === "JS" ? "richmedia" : row.original.creativeType?.toLowerCase()}/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Edit size={18} className='mr-2' />Edit</Link>
                             <PopoverClose asChild>
                                 <Button variant="ghost" size="sm" className='justify-start' onClick={() => updateStatus(getUpdateStatus(row.getValue("status")), row.original)}>{handleStatus(row.getValue("status"))}{getUpdateStatus(row.getValue("status"))}</Button>
                             </PopoverClose>
@@ -154,7 +154,7 @@ const columns: ColumnDef<CreativeType, any>[] = [
         cell: ({ row }) => {
             return <div className='flex justify-center items-center'>
                 {row.original.bannerAdtype === 2 ? <>
-                    <Image src={row.original.creativePath || ''} alt='' width={50} height={50} />
+                    <Image src={row.original.creativePath || ''} alt='' width={24} height={50} />
                 </> : row.original.bannerAdtype === 3 ? <>
                     <div className='max-h-12 max-w-12'>
                         <HtmlSanitized html={row.original.rmaContent} />

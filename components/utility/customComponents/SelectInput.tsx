@@ -31,6 +31,20 @@ export interface MultiSelectInputProps {
     isSearchable?: boolean
     name: string,
     value?: SelectOption[],
+    isDisabled?: boolean,
+    id?: string
+}
+
+export interface FormatMultiSelectInputProps {
+    className?: string
+    onChange: (newValue: MultiValue<SelectOption> | null, actionMeta: ActionMeta<SelectOption>) => void
+    options: { label: string, options: SelectOption[] }[]
+    placeholder: string
+    isClearable?: boolean
+    isSearchable?: boolean
+    name: string,
+    value?: SelectOption[],
+    isDisabled?: boolean,
     id?: string
 }
 
@@ -46,7 +60,7 @@ export interface AutoCompleteInputProps {
 }
 
 const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputProps>(
-    ({ className, options, value, id, ...props }, ref) => {
+    ({ className, options, value, id, isDisabled, ...props }, ref) => {
         return (
             <Select
                 unstyled
@@ -54,8 +68,9 @@ const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputPro
                 className={cn("w-full", className)}
                 value={value}
                 classNamePrefix="select"
+                isDisabled={isDisabled}
                 classNames={{
-                    control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950"),
+                    control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-8000 dark:bg-slate-900"),
                     placeholder: () => "opacity-50",
                     menu: () => "p-50 mt-2 border border-slate-400 bg-white dark:bg-slate-900 rounded-lg",
                     multiValue: () => "bg-slate-200 dark:bg-slate-700 rounded items-center p-0.5 pl-2 m-0.5 gap-1.5",
@@ -69,6 +84,40 @@ const MultiSelectInput = React.forwardRef<HTMLSelectElement, MultiSelectInputPro
     }
 )
 MultiSelectInput.displayName = "MultiSelectInput"
+
+const FormatMultiSelectInput = React.forwardRef<HTMLSelectElement, FormatMultiSelectInputProps>(
+    ({ className, options, value, id, isDisabled, ...props }, ref) => {
+        return (
+            <Select
+                unstyled
+                instanceId={`react-select-id-input ${id}`}
+                className={cn("w-full", className)}
+                value={value}
+                classNamePrefix="select"
+                isDisabled={isDisabled}
+                classNames={{
+                    control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-8000 dark:bg-slate-900"),
+                    placeholder: () => "opacity-50",
+                    menu: () => "p-50 mt-2 border border-slate-400 bg-white dark:bg-slate-900 rounded-lg",
+                    multiValue: () => "bg-slate-200 dark:bg-slate-700 rounded items-center p-0.5 pl-2 m-0.5 gap-1.5",
+                    option: ({ isFocused }) => clsx(isFocused && "bg-slate-200 dark:bg-slate-700 active:bg-slate-400", "hover:cursor-pointer px-3 py-2 rounded")
+                }}
+                isMulti
+                formatGroupLabel={(group: {
+                    label: string
+                    options: SelectOption[]
+                }) => {
+                    return <div>
+                        <div className='p-50 bg-slate-100 dark:bg-slate-800 h-10 flex justify-center items-center rounded-md'>{group.label}</div>
+                    </div>
+                }}
+                options={options}
+                {...props}
+            />
+        )
+    }
+)
+FormatMultiSelectInput.displayName = "FormatMultiSelectInput"
 
 const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
     ({ className, options, value, isDisabled, id, ...props }, ref) => {
@@ -120,4 +169,4 @@ const AutoComplete = React.forwardRef<HTMLSelectElement, AutoCompleteInputProps>
 )
 AutoComplete.displayName = "AutoComplete"
 
-export { SelectInput, MultiSelectInput, AutoComplete }
+export { SelectInput, MultiSelectInput, AutoComplete, FormatMultiSelectInput }
