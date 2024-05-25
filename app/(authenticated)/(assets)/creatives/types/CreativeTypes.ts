@@ -15,8 +15,8 @@ type CreativeType = {
   adPosition?: string
   advDomain?: string
   advertiserId?: number
-  apiFramework?: number
-  approvedOn?: string
+  apiFramework?: number | null
+  approvedOn?: string | number
   assetsPath?: string
   bannerAdtype?: number
   campaignId?: string
@@ -26,40 +26,40 @@ type CreativeType = {
       name: string
     }
   ]
-  createdOn?: string
-  creativePath?: string
+  createdOn?: string | number
+  creativePath?: string | null
   creativeSize?: string
   creativeType?: string
   deactiveFlag?: number
-  eridToken?: string
+  eridToken?: string | null
   fidelityType?: number
-  iabAdAttribute?: string
+  iabAdAttribute?: string | null
   iabCategoryId?: string
   id: string
-  isEndcard?: number
-  itunesAppId?: string
-  maxDuration?: number
+  isEndcard?: number | null
+  itunesAppId?: string | null
+  maxDuration?: number | null
   pausedCamapigns?: number
-  playbackmethod?: string
-  protocols?: string
-  redirectUrl?: string
-  rmaContent?: string
+  playbackmethod?: string | null
+  protocols?: string | null
+  redirectUrl?: string | null
+  rmaContent?: string | null
   rmaType?: string
   runningCampaigns?: number
   secureTag?: number
   skip?: number
   status?: string
   statusReason?: string
-  thirdPartyPixel?: string
+  thirdPartyPixel?: string | null
   userId: number
   videoClkThroughUrl?: string
-  videoClkTracking?: string
+  videoClkTracking?: string | null
   videoContent?: string
   videoCreativeSize?: string
-  videoEndcardPath?: string
-  videoEndcardSize?: string
-  videoImpTracking?: string
-  videoMimeType?: string
+  videoEndcardPath?: string | null
+  videoEndcardSize?: string | null
+  videoImpTracking?: string | null
+  videoMimeType?: string | null
 }
 
 type CreativeTabularData = {

@@ -74,7 +74,7 @@ export default function EditFiles({
                             iabCategoryId: creativeList[creativeIdList[0]].iabCategoryId,
                             videoMimeType: creativeList[creativeIdList[0]].videoMimeType,
                             iabAdAttribute: creativeList[creativeIdList[0]].iabAdAttribute,
-                            playbackmethod: creativeList[creativeIdList[0]].playbackmethod,
+                            playbackMethod: creativeList[creativeIdList[0]].playbackMethod,
                             thirdPartyPixel: creativeList[creativeIdList[0]].thirdPartyPixel,
                             videoThumbnail: "",
                             videoImpTracking: creativeList[creativeIdList[0]].videoImpTracking,
@@ -119,7 +119,7 @@ export default function EditFiles({
                                 iabCategoryId: creativeList[creativeIdList[0]].iabCategoryId,
                                 videoMimeType: creativeList[creativeIdList[0]].videoMimeType,
                                 iabAdAttribute: creativeList[creativeIdList[0]].iabAdAttribute,
-                                playbackmethod: creativeList[creativeIdList[0]].playbackmethod,
+                                playbackMethod: creativeList[creativeIdList[0]].playbackMethod,
                                 thirdPartyPixel: creativeList[creativeIdList[0]].thirdPartyPixel,
                                 videoThumbnail: url,
                                 videoImpTracking: creativeList[creativeIdList[0]].videoImpTracking,
@@ -162,7 +162,7 @@ export default function EditFiles({
                             iabCategoryId: creativeList[creativeIdList[0]].iabCategoryId,
                             videoMimeType: creativeList[creativeIdList[0]].videoMimeType,
                             iabAdAttribute: creativeList[creativeIdList[0]].iabAdAttribute,
-                            playbackmethod: creativeList[creativeIdList[0]].playbackmethod,
+                            playbackMethod: creativeList[creativeIdList[0]].playbackMethod,
                             thirdPartyPixel: creativeList[creativeIdList[0]].thirdPartyPixel,
                             videoThumbnail: "",
                             videoImpTracking: creativeList[creativeIdList[0]].videoImpTracking,
@@ -226,7 +226,7 @@ export default function EditFiles({
                 iabCategoryId: creativeList[creativeIdList[0]].iabCategoryId,
                 videoMimeType: creativeList[creativeIdList[0]].videoMimeType,
                 iabAdAttribute: creativeList[creativeIdList[0]].iabAdAttribute,
-                playbackmethod: creativeList[creativeIdList[0]].playbackmethod,
+                playbackMethod: creativeList[creativeIdList[0]].playbackMethod,
                 thirdPartyPixel: creativeList[creativeIdList[0]].thirdPartyPixel,
                 videoThumbnail: "",
                 videoImpTracking: creativeList[creativeIdList[0]].videoImpTracking,
@@ -254,11 +254,11 @@ export default function EditFiles({
                 <div className='col-span-2'>
                     <div className='w-72 h-72 p-1 flex justify-center items-center rounded-lg cursor-pointer bg-slate-100 dark:bg-slate-700 relative'>
                         {creativeType === "BANNER" ? <>
-                            <img src={creativeList[creativeIdList[0]].creativePath} alt={creativeList[creativeIdList[0]].adName} className='object-contain max-h-full w-full' />
+                            <img src={creativeList[creativeIdList[0]].creativePath as string} alt={creativeList[creativeIdList[0]].adName} className='object-contain max-h-full w-full' />
                         </> : creativeType === "VIDEO" ? <>
-                            <video controls src={creativeList[creativeIdList[0]].creativePath} className='object-contain max-h-full max-w-full' />
+                            <video controls src={creativeList[creativeIdList[0]].creativePath as string} className='object-contain max-h-full max-w-full' />
                         </> : creativeType === "RICHMEDIA" ? <div className='object-contain max-h-full w-full'>
-                            <HtmlSanitized html={creativeList[creativeIdList[0]].rmaContent} />
+                            <HtmlSanitized html={creativeList[creativeIdList[0]].rmaContent as string} />
                         </div> : null}
                     </div>
                     <div className='font-bold p-2'>File Details</div>

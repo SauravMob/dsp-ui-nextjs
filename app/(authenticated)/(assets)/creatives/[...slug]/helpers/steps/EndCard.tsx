@@ -125,14 +125,14 @@ export default function EndCard({
                 {creativeIdList.map(key => {
                     return creativeList[key].videoEndcardPath ? <div key={key}>
                         <div className='w-72 h-72 p-1 flex justify-center items-center rounded-lg cursor-pointer h-42 w-42 bg-slate-100 dark:bg-slate-700 relative'>
-                            <img src={creativeList[key].videoEndcardPath} alt={creativeList[key].adName} className='object-contain max-h-full w-full' />
+                            <img src={creativeList[key].videoEndcardPath as string} alt={creativeList[key].adName} className='object-contain max-h-full w-full' />
                         </div>
                         <div className='font-bold p-2'>EndCard File Details</div>
-                        <div className='px-2'>{getCreativeDetails(creativeList[key].videoEndcardPath, 'FILENAME')}</div>
+                        <div className='px-2'>{getCreativeDetails(creativeList[key].videoEndcardPath as string, 'FILENAME')}</div>
                         <div className='flex items-center text-sm'>
                             <Image
                                 src={getCreativeType(creativeList[key].creativeSize || '') === "PORTRAIT" ? Portrait_Image : Landscape_Image}
-                                alt={getCreativeDetails(creativeList[key].videoEndcardPath, 'FILENAME') || ''}
+                                alt={getCreativeDetails(creativeList[key].videoEndcardPath as string, 'FILENAME') || ''}
                                 width="0"
                                 height="0"
                                 style={{ width: '3%', height: 'auto' }}
@@ -172,7 +172,7 @@ export default function EndCard({
                                         <ThumbnailGenerator videoFile={creativeList[key].videoThumbnail} className='object-contain max-h-full max-w-full opacity-50' />
                                         <div className='absolute h-20 w-20 bg-white dark:bg-slate-800 text-xs top-10 border-2 left-10 text-center content-center opacity-80'>
                                             {creativeList[key].videoEndcardPath ? <>
-                                                <img src={creativeList[key].videoEndcardPath} alt={creativeList[key].adName} className="object-contain max-h-full max-w-full mx-auto" />
+                                                <img src={creativeList[key].videoEndcardPath as string} alt={creativeList[key].adName} className="object-contain max-h-full max-w-full mx-auto" />
                                             </> : <>
                                                 Drag to Attach
                                                 <Copy size={12} className='mx-auto my-2' />
@@ -191,7 +191,7 @@ export default function EndCard({
                                 <TooltipTrigger asChild>
                                     <Draggable id={creative.id} data={creative}>
                                         <div className='w-56 h-56 p-1 bg-slate-300 dark:bg-slate-700 m-4 flex justify-center items-center rounded-lg relative cursor-pointer'>
-                                            <img src={creative.creativePath} alt={creative.adName} className="object-contain max-h-full max-w-full" />
+                                            <img src={creative.creativePath as string} alt={creative.adName} className="object-contain max-h-full max-w-full" />
                                         </div>
                                     </Draggable>
                                 </TooltipTrigger>

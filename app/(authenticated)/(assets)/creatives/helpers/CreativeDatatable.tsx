@@ -157,7 +157,7 @@ const columns: ColumnDef<CreativeType, any>[] = [
                     <Image src={row.original.creativePath || ''} alt='' width={24} height={50} />
                 </> : row.original.bannerAdtype === 3 ? <>
                     <div className='max-h-12 max-w-12'>
-                        <HtmlSanitized html={row.original.rmaContent} />
+                        <HtmlSanitized html={row.original.rmaContent as string} />
                     </div>
                 </> : <>
                     <Video size={32} />

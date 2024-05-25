@@ -1,6 +1,6 @@
 "use client"
 
-import { regexName } from '@/components/constants/regexConstants'
+import { clickUrlPattern, domainPattern, regexName } from '@/components/constants/regexConstants'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -28,38 +28,38 @@ export type CreativeFormType = {
             adFormat: number
             secureTag: number
             advDomain: string
-            protocols: string
-            isEndCard: number
-            eridToken: string
+            protocols: string | null
+            isEndCard: number | null
+            eridToken: string | null
             createdOn: string
             campaignId: string
-            rmaContent: string
-            maxDuration: number
-            redirectUrl: string
+            rmaContent: string | null
+            maxDuration: number | null
+            redirectUrl: string | null
             fidelityType: number
-            itunesAppId: string
+            itunesAppId: string | null
             creativeType: string
             creativeSize: string
             creativePath: string
-            apiFramework: number
+            apiFramework: number | null
             iabCategoryId: string
-            videoMimeType: string
-            iabAdAttribute: string
-            playbackmethod: string
-            thirdPartyPixel: string
+            videoMimeType: string | null
+            iabAdAttribute: string | null
+            playbackMethod: string | null
+            thirdPartyPixel: string | null
             videoThumbnail: string
-            videoImpTracking: string
-            videoEndcardPath: string
-            videoEndcardSize: string
-            videoClkTracking: string
+            videoImpTracking: string | null
+            videoEndcardPath: string | null
+            videoEndcardSize: string | null
+            videoClkTracking: string | null
             videoCreativeSize: string
             sizes: {
                 [key: string]: {
                     advDomain: string
                     secureTag: number
                     iabCategoryId: string
-                    iabAdAttribute: string
-                    thirdPartyPixel: string
+                    iabAdAttribute: string | null
+                    thirdPartyPixel: string | null
                 }
             } | null
         }
@@ -91,43 +91,62 @@ export default function CreativeForm({
                 id: z.number(),
                 skip: z.number(),
                 userId: z.number(),
-                adName: z.string(),
+                adName: z.string()
+                    .min(1, { message: "Creative Name is required" })
+                    .max(64, { message: "Creative Name must be less than 64 characters" })
+                    .regex(regexName, { message: "Name is invalid, Only alphanumeric characters, hyphens(-), underscores(_) are allowed" }),
                 adFormat: z.number(),
-                advDomain: z.string(),
+                advDomain: creativeType !== "RICHMEDIA" ? z.string()
+                    .min(1, { message: "Advertiser Domain is required" })
+                    .max(64, { message: "Advertiser Domain must be less than 64 characters" })
+                    .regex(domainPattern, { message: "Domain is Invalid" }) : z.string(),
                 secureTag: z.number(),
-                protocols: z.string(),
-                isEndCard: z.number(),
-                eridToken: z.string(),
+                protocols: z.string().nullable(),
+                isEndCard: z.number().nullable(),
+                eridToken: z.string().nullable(),
                 createdOn: z.string(),
                 campaignId: z.string(),
-                rmaContent: z.string(),
-                maxDuration: z.number(),
-                redirectUrl: z.string(),
+                rmaContent: z.string().nullable(),
+                maxDuration: creativeType === "VIDEO" ? z.number()
+                    .min(1, { message: "Video Duration should be min 1" })
+                    .max(180, { message: "Max video duration can be 180" }) : z.number().nullable(),
+                redirectUrl: creativeType === "BANNER" ? z.string()
+                    .min(1, { message: "Click Url is required" })
+                    .regex(clickUrlPattern, { message: "Click Url is Invalid" }) : z.string().nullable(),
                 fidelityType: z.number(),
-                itunesAppId: z.string(),
+                itunesAppId: z.string().nullable(),
                 creativeType: z.string(),
                 creativeSize: z.string(),
                 creativePath: z.string(),
-                apiFramework: z.number(),
-                iabCategoryId: z.string(),
-                videoMimeType: z.string(),
-                iabAdAttribute: z.string(),
-                playbackMethod: z.string(),
-                thirdPartyPixel: z.string(),
+                apiFramework: z.number().nullable(),
+                iabCategoryId: creativeType !== "RICHMEDIA" ? z.string().min(1, { message: "Category is required!" }) : z.string(),
+                videoMimeType: z.string().nullable(),
+                iabAdAttribute: z.string().nullable().refine(data => {
+                    if (data === "") return false
+                    else return true
+                }, { message: "Select attributes from list or set it as none!" }),
+                playbackMethod: z.string().nullable(),
+                thirdPartyPixel: z.string().nullable(),
                 videoThumbnail: z.string(),
-                videoImpTracking: z.string(),
-                videoEndcardPath: z.string(),
-                videoEndcardSize: z.string(),
-                videoClkTracking: z.string(),
+                videoImpTracking: z.string().nullable(),
+                videoEndcardPath: z.string().nullable(),
+                videoEndcardSize: z.string().nullable(),
+                videoClkTracking: z.string().nullable(),
                 videoCreativeSize: z.string(),
                 sizes: z.record(z.string(), z.object({
-                    advDomain: z.string(),
+                    advDomain: z.string()
+                        .min(1, { message: "Advertiser Domain is required" })
+                        .max(64, { message: "Advertiser Domain must be less than 64 characters" })
+                        .regex(domainPattern, { message: "Domain is Invalid" }),
                     secureTag: z.number(),
-                    iabCategoryId: z.string(),
-                    iabAdAttribute: z.string(),
-                    thirdPartyPixel: z.string()
-                }))
-            })
+                    iabCategoryId: z.string().min(1, { message: "Category is required!" }),
+                    iabAdAttribute: z.string().nullable().refine(data => {
+                        if (data === "") return false
+                        else return true
+                    }, { message: "Select attributes from list or set it as none!" }),
+                    thirdPartyPixel: z.string().nullable()
+                })).nullable()
+            }).optional()
         })
     })
 
@@ -146,7 +165,7 @@ export default function CreativeForm({
                     protocols: editData.protocols,
                     isEndCard: editData.isEndcard,
                     eridToken: editData.eridToken,
-                    createdOn: editData.createdOn,
+                    createdOn: editData.createdOn ? new Date(editData.createdOn as number * 1000).toISOString() : "",
                     campaignId: editData.campaigns ? editData.campaigns.map(v => v.id).join(",") : "",
                     rmaContent: editData.rmaContent,
                     maxDuration: editData.maxDuration,
@@ -155,12 +174,12 @@ export default function CreativeForm({
                     itunesAppId: editData.itunesAppId,
                     creativeType: editData.creativeType,
                     creativeSize: editData.creativeSize,
-                    creativePath: editData.creativePath,
+                    creativePath: editData.creativePath ? editData.creativePath : "",
                     apiFramework: editData.apiFramework,
                     iabCategoryId: editData.iabCategoryId,
                     videoMimeType: editData.videoMimeType,
                     iabAdAttribute: editData.iabAdAttribute,
-                    playbackmethod: editData.playbackmethod,
+                    playbackMethod: editData.playbackmethod,
                     thirdPartyPixel: editData.thirdPartyPixel,
                     videoThumbnail: "",
                     videoImpTracking: editData.videoImpTracking,
@@ -396,7 +415,7 @@ export default function CreativeForm({
                 <EditDetails isEdit={isEdit} parentForm={form} creativeType={creativeType} setTab={setTab} />
             </TabsContent>
             <TabsContent value="trackersSchedulers">
-                <TrackersSchedulers parentForm={form} creativeType={creativeType} setTab={setTab} isEdit={isEdit} />
+                <TrackersSchedulers parentForm={form} creativeType={creativeType} setTab={setTab} />
             </TabsContent>
             <TabsContent value="reviewSave">
                 <ReviewSave parentForm={form} creativeType={creativeType} setTab={setTab} isEdit={isEdit} onSubmit={onSubmit} />

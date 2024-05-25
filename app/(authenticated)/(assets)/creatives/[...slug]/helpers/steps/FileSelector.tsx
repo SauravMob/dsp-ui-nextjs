@@ -74,30 +74,30 @@ export default function FileSelector({
                             adFormat: 0,
                             advDomain: "",
                             secureTag: 0,
-                            protocols: "",
-                            isEndCard: 0,
-                            eridToken: "",
+                            protocols: null,
+                            isEndCard: null,
+                            eridToken: null,
                             createdOn: "",
                             campaignId: "",
-                            rmaContent: "",
-                            maxDuration: 0,
-                            redirectUrl: "",
+                            rmaContent: null,
+                            maxDuration: null,
+                            redirectUrl: null,
                             fidelityType: 0,
-                            itunesAppId: "",
+                            itunesAppId: null,
                             creativeType,
                             creativeSize,
                             creativePath: result.url[0],
-                            apiFramework: 0,
+                            apiFramework: null,
                             iabCategoryId: "",
-                            videoMimeType: "",
-                            iabAdAttribute: "",
-                            playbackmethod: "",
-                            thirdPartyPixel: "",
+                            videoMimeType: null,
+                            iabAdAttribute: null,
+                            playbackMethod: null,
+                            thirdPartyPixel: null,
                             videoThumbnail: "",
-                            videoImpTracking: "",
-                            videoEndcardPath: "",
-                            videoEndcardSize: "",
-                            videoClkTracking: "",
+                            videoImpTracking: null,
+                            videoEndcardPath: null,
+                            videoEndcardSize: null,
+                            videoClkTracking: null,
                             videoCreativeSize: "",
                             sizes: null
                         }
@@ -130,42 +130,44 @@ export default function FileSelector({
                                 adFormat: 0,
                                 advDomain: "",
                                 secureTag: 0,
-                                protocols: "",
-                                isEndCard: 0,
-                                eridToken: "",
+                                protocols: null,
+                                isEndCard: null,
+                                eridToken: null,
                                 createdOn: "",
                                 campaignId: "",
-                                rmaContent: "",
-                                maxDuration: 0,
-                                redirectUrl: "",
+                                rmaContent: null,
+                                maxDuration: null,
+                                redirectUrl: null,
                                 fidelityType: 0,
-                                itunesAppId: "",
+                                itunesAppId: null,
                                 creativeType,
                                 creativeSize: wh,
-                                apiFramework: 0,
                                 creativePath: result.url[0],
+                                apiFramework: null,
                                 iabCategoryId: "",
-                                videoMimeType: "",
-                                iabAdAttribute: "",
-                                playbackmethod: "",
-                                thirdPartyPixel: "",
-                                videoThumbnail: url,
-                                videoImpTracking: "",
-                                videoEndcardPath: "",
-                                videoEndcardSize: "",
-                                videoClkTracking: "",
+                                videoMimeType: null,
+                                iabAdAttribute: null,
+                                playbackMethod: null,
+                                thirdPartyPixel: null,
+                                videoThumbnail: "",
+                                videoImpTracking: null,
+                                videoEndcardPath: null,
+                                videoEndcardSize: null,
+                                videoClkTracking: null,
                                 videoCreativeSize: "",
                                 sizes: null
                             }
                         })
-                        setPrevUploadedCreatives(prev => ([{
-                            id: uid,
-                            creativeSize: wh,
-                            creativePath: url,
-                            creativeType,
-                            adName: files[0].name,
-                            userId
-                        }, ...prev]))
+                        setPrevUploadedCreatives(prev => ([
+                            {
+                                id: uid,
+                                creativeSize: wh,
+                                creativePath: url,
+                                creativeType,
+                                adName: files[0].name,
+                                userId
+                            }, ...prev
+                        ]))
                     })
                 } else if (creativeType === "RICHMEDIA") {
                     const creativeUrl = process.env.NODE_ENV === "development" ? result.url[0] : result.url[0].replace("assets", "ui-backendapi")
@@ -182,42 +184,44 @@ export default function FileSelector({
                             adFormat: 0,
                             advDomain: "",
                             secureTag: 0,
-                            protocols: "",
-                            isEndCard: 0,
-                            eridToken: "",
+                            protocols: null,
+                            isEndCard: null,
+                            eridToken: null,
                             createdOn: "",
                             campaignId: "",
                             rmaContent: html.props.html,
-                            maxDuration: 0,
-                            redirectUrl: "",
+                            maxDuration: null,
+                            redirectUrl: null,
                             fidelityType: 0,
-                            itunesAppId: "",
+                            itunesAppId: null,
                             creativeType,
                             creativeSize: "",
                             creativePath: result.url[0],
-                            apiFramework: 0,
+                            apiFramework: null,
                             iabCategoryId: "",
-                            videoMimeType: "",
-                            iabAdAttribute: "",
-                            playbackmethod: "",
-                            thirdPartyPixel: "",
+                            videoMimeType: null,
+                            iabAdAttribute: null,
+                            playbackMethod: null,
+                            thirdPartyPixel: null,
                             videoThumbnail: "",
-                            videoImpTracking: "",
-                            videoEndcardPath: "",
-                            videoEndcardSize: "",
-                            videoClkTracking: "",
+                            videoImpTracking: null,
+                            videoEndcardPath: null,
+                            videoEndcardSize: null,
+                            videoClkTracking: null,
                             videoCreativeSize: "",
                             sizes: null
                         }
                     })
-                    setPrevUploadedCreatives(prev => ([{
-                        id: uid,
-                        creativePath: result.url[0],
-                        rmaContent: html.props.html,
-                        creativeType,
-                        adName: files[0].name,
-                        userId
-                    }, ...prev]))
+                    setPrevUploadedCreatives(prev => ([
+                        {
+                            id: uid,
+                            creativePath: result.url[0],
+                            rmaContent: html.props.html,
+                            creativeType,
+                            adName: files[0].name,
+                            userId
+                        }, ...prev
+                    ]))
                 }
             }
             setError([])
@@ -237,41 +241,43 @@ export default function FileSelector({
                 adFormat: 0,
                 advDomain: "",
                 secureTag: 0,
-                protocols: "",
-                isEndCard: 0,
-                eridToken: "",
+                protocols: null,
+                isEndCard: null,
+                eridToken: null,
                 createdOn: "",
                 campaignId: "",
                 rmaContent: html.props.html,
-                maxDuration: 0,
-                redirectUrl: "",
+                maxDuration: null,
+                redirectUrl: null,
                 fidelityType: 0,
-                itunesAppId: "",
+                itunesAppId: null,
                 creativeType,
                 creativeSize: "",
                 creativePath: "",
-                apiFramework: 0,
+                apiFramework: null,
                 iabCategoryId: "",
-                videoMimeType: "",
-                iabAdAttribute: "",
-                playbackmethod: "",
-                thirdPartyPixel: "",
+                videoMimeType: null,
+                iabAdAttribute: null,
+                playbackMethod: null,
+                thirdPartyPixel: null,
                 videoThumbnail: "",
-                videoImpTracking: "",
-                videoEndcardPath: "",
-                videoEndcardSize: "",
-                videoClkTracking: "",
+                videoImpTracking: null,
+                videoEndcardPath: null,
+                videoEndcardSize: null,
+                videoClkTracking: null,
                 videoCreativeSize: "",
                 sizes: null
             }
         })
-        setPrevUploadedCreatives(prev => ([{
-            id: uid,
-            rmaContent: html.props.html,
-            creativeType,
-            adName: name,
-            userId
-        }, ...prev]))
+        setPrevUploadedCreatives(prev => ([
+            {
+                id: uid,
+                rmaContent: html.props.html,
+                creativeType,
+                adName: name,
+                userId
+            }, ...prev
+        ]))
     }
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -327,11 +333,11 @@ export default function FileSelector({
                             setError([])
                         }}>
                             {creativeType === "BANNER" ? <>
-                                <img src={creativeList[key].creativePath} alt={creativeList[key].adName} className='object-contain max-h-full max-w-full opacity-50' />
+                                <img src={creativeList[key].creativePath as string} alt={creativeList[key].adName} className='object-contain max-h-full max-w-full opacity-50' />
                             </> : creativeType === "VIDEO" ? <>
                                 <ThumbnailGenerator videoFile={creativeList[key].videoThumbnail} className='object-contain max-h-full max-w-full opacity-50' />
                             </> : <div className="object-contain max-h-full w-full">
-                                <HtmlSanitized html={creativeList[key].rmaContent} />
+                                <HtmlSanitized html={creativeList[key].rmaContent as string} />
                             </div>}
                             <div className="absolute inset-0 flex justify-center items-center">
                                 <XCircle size={34} />
@@ -356,30 +362,30 @@ export default function FileSelector({
                                         adFormat: 0,
                                         advDomain: "",
                                         secureTag: 0,
-                                        protocols: "",
-                                        isEndCard: 0,
-                                        eridToken: "",
+                                        protocols: null,
+                                        isEndCard: null,
+                                        eridToken: null,
                                         createdOn: "",
                                         campaignId: "",
                                         rmaContent: creative.rmaContent || "",
-                                        maxDuration: 0,
-                                        redirectUrl: "",
+                                        maxDuration: null,
+                                        redirectUrl: null,
                                         fidelityType: 0,
-                                        itunesAppId: "",
+                                        itunesAppId: null,
                                         creativeType: creative.creativeType || "",
                                         creativeSize: creative.creativeSize || "",
                                         creativePath: creative.creativePath || "",
-                                        apiFramework: 0,
+                                        apiFramework: null,
                                         iabCategoryId: "",
-                                        videoMimeType: "",
-                                        iabAdAttribute: "",
-                                        playbackmethod: "",
-                                        thirdPartyPixel: "",
+                                        videoMimeType: null,
+                                        iabAdAttribute: null,
+                                        playbackMethod: null,
+                                        thirdPartyPixel: null,
                                         videoThumbnail: "",
-                                        videoImpTracking: "",
-                                        videoEndcardPath: "",
-                                        videoEndcardSize: "",
-                                        videoClkTracking: "",
+                                        videoImpTracking: null,
+                                        videoEndcardPath: null,
+                                        videoEndcardSize: null,
+                                        videoClkTracking: null,
                                         videoCreativeSize: "",
                                         sizes: null
                                     }
@@ -387,13 +393,13 @@ export default function FileSelector({
                                     setError([])
                                 }}>
                                     {creativeType === "BANNER" ? <>
-                                        <img src={creative.creativePath} alt={creative.adName} className={cn(creativeIdList.includes(creative.id) ? "opacity-50" : "", "object-contain max-h-full max-w-full")} />
+                                        <img src={creative.creativePath as string} alt={creative.adName} className={cn(creativeIdList.includes(creative.id) ? "opacity-50" : "", "object-contain max-h-full max-w-full")} />
                                         {creativeIdList.includes(creative.id) && <div className="absolute inset-0 flex justify-center items-center"><CheckCircle size={48} /></div>}
                                     </> : creativeType === "VIDEO" ? <>
-                                        <video controls src={creative.creativePath} className={cn(creativeIdList.includes(creative.id) ? "opacity-50" : "", "object-contain max-h-full w-full ")} />
+                                        <video controls src={creative.creativePath as string} className={cn(creativeIdList.includes(creative.id) ? "opacity-50" : "", "object-contain max-h-full w-full ")} />
                                         {creativeIdList.includes(creative.id) && <div className="absolute inset-0 flex justify-center items-center"><CheckCircle size={48} /></div>}
                                     </> : <div className={cn(creativeIdList.includes(creative.id) ? "opacity-50" : "", "object-contain max-h-full w-full ")}>
-                                        <HtmlSanitized html={creative.rmaContent} />
+                                        <HtmlSanitized html={creative.rmaContent as string} />
                                         {creativeIdList.includes(creative.id) && <div className="absolute inset-0 flex justify-center items-center"><CheckCircle size={48} /></div>}
                                     </div>}
                                 </div>

@@ -53,7 +53,7 @@ export default function EditDetails({
                     })
                 ])
             )
-        ),
+        )
     })
 
     type EditDetailsType = z.infer<typeof formSchema>
@@ -70,11 +70,11 @@ export default function EditDetails({
                         adFormat: creativeList[k].adFormat
                     }
                 ])
-            ),
+            )
         }
     })
 
-    const { setValue } = form
+    const { setValue, clearErrors } = form
 
     const onSubmit: SubmitHandler<EditDetailsType> = async (values: EditDetailsType) => {
         const selectedParentList = { ...creativeList }
@@ -106,11 +106,11 @@ export default function EditDetails({
                             <div className='col-span-1'>
                                 <div className='w-72 h-72 p-1 flex justify-center items-center rounded-lg cursor-pointer h-42 w-42 bg-slate-100 dark:bg-slate-700 relative'>
                                     {creativeType === "BANNER" ? <>
-                                        <img src={creativeList[cr].creativePath} alt={creativeList[cr].adName} className='object-contain max-h-full w-full' />
+                                        <img src={creativeList[cr].creativePath as string} alt={creativeList[cr].adName} className='object-contain max-h-full w-full' />
                                     </> : creativeType === "VIDEO" ? <>
-                                        <video controls src={creativeList[cr].creativePath} className='object-contain max-h-full max-w-full' />
+                                        <video controls src={creativeList[cr].creativePath as string} className='object-contain max-h-full max-w-full' />
                                     </> : creativeType === "RICHMEDIA" ? <div className='object-contain max-h-full w-full'>
-                                        <HtmlSanitized html={creativeList[cr].rmaContent} />
+                                        <HtmlSanitized html={creativeList[cr].rmaContent as string} />
                                     </div> : null}
                                 </div>
                                 <div className='font-bold p-2'>File Details</div>
@@ -127,7 +127,7 @@ export default function EditDetails({
                                 </div>
                                 {creativeList[cr].videoEndcardPath && <div className='mt-5'>
                                     <div className='w-72 h-72 p-1 flex justify-center items-center rounded-lg cursor-pointer h-42 w-42 bg-slate-100 dark:bg-slate-700 relative'>
-                                        <img src={creativeList[cr].videoEndcardPath} alt={creativeList[cr].adName} className='object-contain max-h-full w-full' />
+                                        <img src={creativeList[cr].videoEndcardPath as string} alt={creativeList[cr].adName} className='object-contain max-h-full w-full' />
                                     </div>
                                     <div className='font-bold my-2'>Endcard File Details</div>
                                     <div className=''>{creativeList[cr].adName}</div>
@@ -151,7 +151,16 @@ export default function EditDetails({
                                         <FormItem>
                                             <FormLabel>Creative Name<span className='text-red-900'>*</span></FormLabel>
                                             <FormControl>
-                                                <Input disabled={creativeType === "RICHMEDIA" && isEdit} placeholder='Creative Name' {...field} />
+                                                <Input
+                                                    disabled={creativeType === "RICHMEDIA" && isEdit}
+                                                    placeholder='Creative Name'
+                                                    value={field.value}
+                                                    onChange={(e) => {
+                                                        setValue(`selectedCrList.${cr}.adName`, e.target.value)
+                                                        parentForm.setValue(`selectedCrList.${cr}.adName`, e.target.value)
+                                                        clearErrors(`selectedCrList.${cr}.adName`)
+                                                    }}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -172,7 +181,10 @@ export default function EditDetails({
                                                         isDisabled={isEdit}
                                                         value={richMediaCreativeSizeOption.filter(v => field.value.includes(v.value))}
                                                         options={richMediaCreativeSizeOption}
-                                                        onChange={(selectedOptions) => setValue(`selectedCrList.${cr}.creativeSize`, selectedOptions ? selectedOptions.map(v => v.value) : [])}
+                                                        onChange={(selectedOptions) => {
+                                                            setValue(`selectedCrList.${cr}.creativeSize`, selectedOptions ? selectedOptions.map(v => v.value) : [])
+                                                            parentForm.setValue(`selectedCrList.${cr}.creativeSize`, selectedOptions ? selectedOptions.map(v => v.value).join(",") : "")
+                                                        }}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -182,6 +194,7 @@ export default function EditDetails({
                                 </>}
                                 <AdTypeFormat
                                     creativeType={creativeType}
+                                    parentForm={parentForm}
                                     form={form}
                                     cr={cr}
                                 />
@@ -191,7 +204,7 @@ export default function EditDetails({
                     <CardFooter className='flex items-center justify-between mt-5'>
                         <Button type='button' onClick={() => router.push('/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
                         <div className='flex gap-2'>
-                            <Button type='button' onClick={() => setTab("selectFiles")}><ArrowLeft size={14} className='mr-1' /> PREVIOUS</Button>
+                            <Button type='button' onClick={() => setTab(creativeType === "VIDEO" ? "endCard" : "selectFiles")}><ArrowLeft size={14} className='mr-1' /> PREVIOUS</Button>
                             <Button type='submit'>NEXT<ArrowRight size={14} className='ml-1' /></Button>
                         </div>
                     </CardFooter>

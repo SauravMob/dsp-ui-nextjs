@@ -26,13 +26,11 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 export default function TrackersSchedulers({
     creativeType,
     parentForm,
-    setTab,
-    isEdit
+    setTab
 }: {
     creativeType: string,
     parentForm: UseFormReturn<CreativeFormType, any, undefined>
     setTab: (tab: string) => void
-    isEdit: boolean
 }) {
 
     const router = useRouter()
@@ -48,43 +46,39 @@ export default function TrackersSchedulers({
                     k,
                     z.object({
                         advDomain: creativeType !== "RICHMEDIA" ? z.string()
-                            .min(1, { message: "Creative Name is required" })
-                            .max(64, { message: "Creative Name must be less than 64 characters" })
+                            .min(1, { message: "Advertiser Domain is required" })
+                            .max(64, { message: "Advertiser Domain must be less than 64 characters" })
                             .regex(domainPattern, { message: "Domain is Invalid" }) : z.string(),
-                        redirectUrl: z.string()
-                            .refine(v => {
-                                if (creativeType === "BANNER" && !v) return false
-                                else return true
-                            }, { message: "Click Url is Required" })
-                            .refine(v => {
-                                if (creativeType === "BANNER" && !clickUrlPattern.test(v)) return false
-                                else return true
-                            }, { message: "Click Url is Invalid" }),
+                        redirectUrl: creativeType === "BANNER" ? z.string()
+                            .min(1, { message: "Click Url is required" })
+                            .regex(clickUrlPattern, { message: "Click Url is Invalid" }) : z.string().nullable(),
                         videoImpTracking: z.string(),
-                        thirdPartyPixel: z.string(),
+                        thirdPartyPixel: z.string().nullable(),
                         videoClkTracking: z.string(),
                         videoMimeType: creativeType === "VIDEO" ? z.string().min(1, { message: "MIME Type is required" }) : z.string(),
                         apiFramework: z.number(),
                         protocols: creativeType === "VIDEO" ? z.string().min(1, { message: "Protocols is required" }) : z.string(),
-                        maxDuration: creativeType === "VIDEO" ? z.number().min(1, { message: "Video Duration should be min 1" }).max(180, { message: "Max video duration can be 180" }) : z.number(),
+                        maxDuration: creativeType === "VIDEO" ? z.number()
+                            .min(1, { message: "Video Duration should be min 1" })
+                            .max(180, { message: "Max video duration can be 180" }) : z.number().nullable(),
                         secureTag: z.number(),
                         iabCategoryId: creativeType !== "RICHMEDIA" ? z.string().min(1, { message: "Category is required!" }) : z.string(),
-                        iabAdAttribute: z.string().refine(data => {
-                            if (data.length === 0) return false
+                        iabAdAttribute: z.string().nullable().refine(data => {
+                            if (data === "") return false
                             else return true
                         }, { message: "Select attributes from list!" }),
                         sizes: z.record(z.string(), z.object({
                             advDomain: z.string()
-                                .min(1, { message: "Creative Name is required" })
-                                .max(64, { message: "Creative Name must be less than 64 characters" })
+                                .min(1, { message: "Advertiser Domain is required" })
+                                .max(64, { message: "Advertiser Domain must be less than 64 characters" })
                                 .regex(domainPattern, { message: "Domain is Invalid" }),
                             secureTag: z.number(),
                             iabCategoryId: z.string().min(1, { message: "Category is required!" }),
-                            iabAdAttribute: z.string().refine(data => {
-                                if (data.length === 0) return false
+                            iabAdAttribute: z.string().nullable().refine(data => {
+                                if (data === "") return false
                                 else return true
                             }, { message: "Select attributes from list!" }),
-                            thirdPartyPixel: z.string()
+                            thirdPartyPixel: z.string().nullable()
                         })).nullable()
                     })
                 ])
@@ -101,22 +95,22 @@ export default function TrackersSchedulers({
                 creativeIdList.map(k => [
                     k,
                     {
-                        advDomain: creativeList[k].advDomain || "",
-                        redirectUrl: creativeList[k].redirectUrl || "",
+                        advDomain: creativeList[k].advDomain,
+                        redirectUrl: creativeList[k].redirectUrl,
                         videoImpTracking: creativeList[k].videoImpTracking || "",
-                        thirdPartyPixel: creativeList[k].thirdPartyPixel || "",
+                        thirdPartyPixel: creativeList[k].thirdPartyPixel,
                         videoClkTracking: creativeList[k].videoClkTracking || "",
                         videoMimeType: creativeList[k].videoMimeType || "",
                         apiFramework: creativeList[k].apiFramework || 0,
                         protocols: creativeList[k].protocols || "",
-                        maxDuration: creativeList[k].maxDuration || 0,
+                        maxDuration: creativeList[k].maxDuration,
                         secureTag: creativeList[k].secureTag || 0,
                         iabCategoryId: creativeList[k].iabCategoryId || "",
                         iabAdAttribute: creativeList[k].iabAdAttribute || "0",
                         sizes: creativeList[k].sizes ? creativeList[k].sizes : null
                     }
                 ])
-            ),
+            )
         }
     })
 
@@ -155,7 +149,7 @@ export default function TrackersSchedulers({
                                     <div className='col-span-1'>
                                         <div className='w-72 h-72 p-1 flex justify-center items-center rounded-lg cursor-pointer h-42 w-42 bg-slate-100 dark:bg-slate-700 relative'>
                                             <div className='object-contain max-h-full w-full'>
-                                                <HtmlSanitized html={creativeList[cr].rmaContent} />
+                                                <HtmlSanitized html={creativeList[cr].rmaContent as string} />
                                             </div>
                                         </div>
                                         <div className='font-bold p-0.5 mt-1'>File Details</div>
@@ -178,7 +172,15 @@ export default function TrackersSchedulers({
                                                 <FormItem>
                                                     <FormLabel>Advertiser Domain<span className='text-red-900'>*</span></FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder='eg. mobavenue.com, google.com' {...field} />
+                                                        <Input
+                                                            placeholder='eg. mobavenue.com, google.com'
+                                                            value={field.value}
+                                                            onChange={(e) => {
+                                                                setValue(`selectedCrList.${cr}.sizes.${size}.advDomain`, e.target.value)
+                                                                parentForm.setValue(`selectedCrList.${cr}.sizes.${size}.advDomain`, e.target.value)
+                                                                clearErrors(`selectedCrList.${cr}.sizes.${size}.advDomain`)
+                                                            }}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -202,7 +204,14 @@ export default function TrackersSchedulers({
                                                             </Tooltip>
                                                         </FormLabel>
                                                         <FormControl>
-                                                            <Input placeholder='https://tracking.mobavenue.com' {...field} />
+                                                            <Input
+                                                                placeholder='https://tracking.mobavenue.com'
+                                                                value={field.value || ""}
+                                                                onChange={(e) => {
+                                                                    setValue(`selectedCrList.${cr}.sizes.${size}.thirdPartyPixel`, e.target.value)
+                                                                    parentForm.setValue(`selectedCrList.${cr}.sizes.${size}.thirdPartyPixel`, e.target.value)
+                                                                }}
+                                                            />
                                                         </FormControl>
                                                         <FormMessage />
                                                     </FormItem>
@@ -228,6 +237,7 @@ export default function TrackersSchedulers({
                                                                 options={groupedCategoryOptions}
                                                                 onChange={(e) => {
                                                                     setValue(`selectedCrList.${cr}.sizes.${size}.iabCategoryId`, e ? e.map(v => v.value).join(",") : "")
+                                                                    parentForm.setValue(`selectedCrList.${cr}.sizes.${size}.iabCategoryId`, e ? e.map(v => v.value).join(",") : "")
                                                                     clearErrors(`selectedCrList.${cr}.sizes.${size}.iabCategoryId`)
                                                                 }}
                                                             />
@@ -248,7 +258,10 @@ export default function TrackersSchedulers({
                                                             <Switch
                                                                 name={`selectedCrList.${cr}.sizes.${size}.secureTag`}
                                                                 checked={getValues(`selectedCrList.${cr}.sizes.${size}.secureTag`) === 1}
-                                                                onCheckedChange={(value) => setValue(`selectedCrList.${cr}.sizes.${size}.secureTag`, value ? 1 : 0)}
+                                                                onCheckedChange={(value) => {
+                                                                    setValue(`selectedCrList.${cr}.sizes.${size}.secureTag`, value ? 1 : 0)
+                                                                    parentForm.setValue(`selectedCrList.${cr}.sizes.${size}.secureTag`, value ? 1 : 0)
+                                                                }}
                                                             />
                                                         </FormControl>
                                                     </FormItem>
@@ -266,8 +279,11 @@ export default function TrackersSchedulers({
                                                         </FormLabel>
                                                         <FormControl>
                                                             <RadioGroup
-                                                                onValueChange={field.onChange}
-                                                                value={field.value}
+                                                                onValueChange={(value) => {
+                                                                    setValue(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`, value)
+                                                                    parentForm.setValue(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`, value)
+                                                                }}
+                                                                value={field.value || ""}
                                                                 className="flex flex-col space-y-1"
                                                             >
                                                                 <FormItem className="flex items-center space-x-3 space-y-0">
@@ -298,9 +314,12 @@ export default function TrackersSchedulers({
                                                         <div className='flex items-center mt-2 ml-2' key={option.value}>
                                                             <Checkbox
                                                                 className='mr-2'
-                                                                checked={getValues(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`).split(",").includes(option.value)}
+                                                                checked={getValues(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`)?.split(",").includes(option.value) || false}
                                                                 onCheckedChange={(value) => {
-                                                                    setValue(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`, value ? getValues(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`).length ? [...getValues(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`).split(","), option.value].join(",") : option.value : getValues(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`).split(",").filter(v => v !== option.value).join(","))
+                                                                    const currentAttributes = getValues(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`) || ''
+                                                                    const updatedAttributes = value ? currentAttributes ? [...currentAttributes.split(","), option.value].join(",") : option.value : currentAttributes.split(",").filter(v => v !== option.value).join(",")
+                                                                    setValue(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`, updatedAttributes)
+                                                                    parentForm.setValue(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`, updatedAttributes)
                                                                     clearErrors(`selectedCrList.${cr}.sizes.${size}.iabAdAttribute`)
                                                                 }}
                                                             /> {option.label}
@@ -316,9 +335,9 @@ export default function TrackersSchedulers({
                             <div className='col-span-1'>
                                 <div className='w-72 h-72 p-1 flex justify-center items-center rounded-lg cursor-pointer h-42 w-42 bg-slate-100 dark:bg-slate-700 relative'>
                                     {creativeType === "BANNER" ? <>
-                                        <img src={creativeList[cr].creativePath} alt={creativeList[cr].adName} className='object-contain max-h-full w-full' />
+                                        <img src={creativeList[cr].creativePath as string} alt={creativeList[cr].adName} className='object-contain max-h-full w-full' />
                                     </> : creativeType === "VIDEO" ? <>
-                                        <video controls src={creativeList[cr].creativePath} className='object-contain max-h-full max-w-full' />
+                                        <video controls src={creativeList[cr].creativePath as string} className='object-contain max-h-full max-w-full' />
                                     </> : null}
                                 </div>
                                 <div className='font-bold p-0.5 mt-1'>File Details</div>
@@ -334,7 +353,7 @@ export default function TrackersSchedulers({
                                 </div>
                                 {creativeList[cr].videoEndcardPath && <div className='mt-5'>
                                     <div className='w-72 h-72 p-1 flex justify-center items-center rounded-lg cursor-pointer h-42 w-42 bg-slate-100 dark:bg-slate-700 relative'>
-                                        <img src={creativeList[cr].videoEndcardPath} alt={creativeList[cr].adName} className='object-contain max-h-full w-full' />
+                                        <img src={creativeList[cr].videoEndcardPath as string} alt={creativeList[cr].adName} className='object-contain max-h-full w-full' />
                                     </div>
                                     <div className='font-bold my-2'>Endcard File Details</div>
                                     <div className=''>{creativeList[cr].adName}</div>
@@ -358,7 +377,15 @@ export default function TrackersSchedulers({
                                         <FormItem>
                                             <FormLabel>Advertiser Domain<span className='text-red-900'>*</span></FormLabel>
                                             <FormControl>
-                                                <Input placeholder='eg. mobavenue.com, google.com' {...field} />
+                                                <Input
+                                                    placeholder='eg. mobavenue.com, google.com'
+                                                    value={field.value}
+                                                    onChange={(e) => {
+                                                        setValue(`selectedCrList.${cr}.advDomain`, e.target.value)
+                                                        parentForm.setValue(`selectedCrList.${cr}.advDomain`, e.target.value)
+                                                        clearErrors(`selectedCrList.${cr}.advDomain`)
+                                                    }}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -382,6 +409,7 @@ export default function TrackersSchedulers({
                                                             options={mimeTypeOptions}
                                                             onChange={(value) => {
                                                                 setValue(`selectedCrList.${cr}.videoMimeType`, value ? value.value : "")
+                                                                parentForm.setValue(`selectedCrList.${cr}.videoMimeType`, value ? value.value : "")
                                                                 clearErrors(`selectedCrList.${cr}.videoMimeType`)
                                                             }}
                                                         />
@@ -406,6 +434,7 @@ export default function TrackersSchedulers({
                                                                 options={apiFrameworkOptions}
                                                                 onChange={(value) => {
                                                                     setValue(`selectedCrList.${cr}.apiFramework`, value ? parseInt(value.value) : 0)
+                                                                    parentForm.setValue(`selectedCrList.${cr}.apiFramework`, value ? parseInt(value.value) : 0)
                                                                     clearErrors(`selectedCrList.${cr}.apiFramework`)
                                                                 }}
                                                             />
@@ -429,6 +458,7 @@ export default function TrackersSchedulers({
                                                                 options={protocolOptions}
                                                                 onChange={(value) => {
                                                                     setValue(`selectedCrList.${cr}.protocols`, value ? value.value : "")
+                                                                    parentForm.setValue(`selectedCrList.${cr}.protocols`, value ? value.value : "")
                                                                     clearErrors(`selectedCrList.${cr}.protocols`)
                                                                 }}
                                                             />
@@ -448,9 +478,10 @@ export default function TrackersSchedulers({
                                                         <Input
                                                             type='number'
                                                             placeholder='0'
-                                                            value={field.value}
+                                                            value={field.value || ""}
                                                             onChange={(e) => {
                                                                 setValue(`selectedCrList.${cr}.maxDuration`, e.target.value ? parseInt(e.target.value) : 0)
+                                                                parentForm.setValue(`selectedCrList.${cr}.maxDuration`, e.target.value ? parseInt(e.target.value) : 0)
                                                                 clearErrors(`selectedCrList.${cr}.maxDuration`)
                                                             }}
                                                         />
@@ -480,7 +511,15 @@ export default function TrackersSchedulers({
                                                         </Tooltip>
                                                     </FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder='https://www.mobavenue.com' {...field} />
+                                                        <Input
+                                                            placeholder='https://www.mobavenue.com'
+                                                            value={field.value || ""}
+                                                            onChange={(e) => {
+                                                                setValue(`selectedCrList.${cr}.redirectUrl`, e.target.value)
+                                                                parentForm.setValue(`selectedCrList.${cr}.redirectUrl`, e.target.value)
+                                                                clearErrors(`selectedCrList.${cr}.redirectUrl`)
+                                                            }}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -502,7 +541,14 @@ export default function TrackersSchedulers({
                                                         </Tooltip>
                                                     </FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder='https://imptracking.mobavenue.com' {...field} />
+                                                        <Input
+                                                            placeholder='https://imptracking.mobavenue.com'
+                                                            value={field.value}
+                                                            onChange={(e) => {
+                                                                setValue(`selectedCrList.${cr}.videoImpTracking`, e.target.value)
+                                                                parentForm.setValue(`selectedCrList.${cr}.videoImpTracking`, e.target.value)
+                                                            }}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -524,7 +570,14 @@ export default function TrackersSchedulers({
                                                         </Tooltip>
                                                     </FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder='https://clktracking.mobavenue.com' {...field} />
+                                                        <Input
+                                                            placeholder='https://clktracking.mobavenue.com'
+                                                            value={field.value || ""}
+                                                            onChange={(e) => {
+                                                                setValue(`selectedCrList.${cr}.thirdPartyPixel`, e.target.value)
+                                                                parentForm.setValue(`selectedCrList.${cr}.thirdPartyPixel`, e.target.value)
+                                                            }}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -547,7 +600,14 @@ export default function TrackersSchedulers({
                                                         </Tooltip>
                                                     </FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder='https://imptracking.mobavenue.com' {...field} />
+                                                        <Input
+                                                            placeholder='https://imptracking.mobavenue.com'
+                                                            value={field.value}
+                                                            onChange={(e) => {
+                                                                setValue(`selectedCrList.${cr}.videoImpTracking`, e.target.value)
+                                                                parentForm.setValue(`selectedCrList.${cr}.videoImpTracking`, e.target.value)
+                                                            }}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -569,7 +629,14 @@ export default function TrackersSchedulers({
                                                         </Tooltip>
                                                     </FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder='https://clktracking.mobavenue.com' {...field} />
+                                                        <Input
+                                                            placeholder='https://clktracking.mobavenue.com'
+                                                            value={field.value}
+                                                            onChange={(e) => {
+                                                                setValue(`selectedCrList.${cr}.videoClkTracking`, e.target.value)
+                                                                parentForm.setValue(`selectedCrList.${cr}.videoClkTracking`, e.target.value)
+                                                            }}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -591,7 +658,14 @@ export default function TrackersSchedulers({
                                                         </Tooltip>
                                                     </FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder='https://landing.mobavenue.com' {...field} />
+                                                        <Input
+                                                            placeholder='https://landing.mobavenue.com'
+                                                            value={field.value || ""}
+                                                            onChange={(e) => {
+                                                                setValue(`selectedCrList.${cr}.thirdPartyPixel`, e.target.value)
+                                                                parentForm.setValue(`selectedCrList.${cr}.thirdPartyPixel`, e.target.value)
+                                                            }}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -618,6 +692,7 @@ export default function TrackersSchedulers({
                                                         options={groupedCategoryOptions}
                                                         onChange={(e) => {
                                                             setValue(`selectedCrList.${cr}.iabCategoryId`, e ? e.map(v => v.value).join(",") : "")
+                                                            parentForm.setValue(`selectedCrList.${cr}.iabCategoryId`, e ? e.map(v => v.value).join(",") : "")
                                                             clearErrors(`selectedCrList.${cr}.iabCategoryId`)
                                                         }}
                                                     />
@@ -638,7 +713,10 @@ export default function TrackersSchedulers({
                                                     <Switch
                                                         name={`selectedCrList.${cr}.secureTag`}
                                                         checked={getValues(`selectedCrList.${cr}.secureTag`) === 1}
-                                                        onCheckedChange={(value) => setValue(`selectedCrList.${cr}.secureTag`, value ? 1 : 0)}
+                                                        onCheckedChange={(value) => {
+                                                            setValue(`selectedCrList.${cr}.secureTag`, value ? 1 : 0)
+                                                            parentForm.setValue(`selectedCrList.${cr}.secureTag`, value ? 1 : 0)
+                                                        }}
                                                     />
                                                 </FormControl>
                                             </FormItem>
@@ -656,8 +734,11 @@ export default function TrackersSchedulers({
                                                 </FormLabel>
                                                 <FormControl>
                                                     <RadioGroup
-                                                        onValueChange={field.onChange}
-                                                        value={field.value}
+                                                        onValueChange={(value) => {
+                                                            setValue(`selectedCrList.${cr}.iabAdAttribute`, value)
+                                                            parentForm.setValue(`selectedCrList.${cr}.iabAdAttribute`, value)
+                                                        }}
+                                                        value={field.value || ""}
                                                         className="flex flex-col space-y-1"
                                                     >
                                                         <FormItem className="flex items-center space-x-3 space-y-0">
@@ -688,9 +769,12 @@ export default function TrackersSchedulers({
                                                 <div className='flex items-center mt-2 ml-2' key={option.value}>
                                                     <Checkbox
                                                         className='mr-2'
-                                                        checked={getValues(`selectedCrList.${cr}.iabAdAttribute`).split(",").includes(option.value)}
+                                                        checked={getValues(`selectedCrList.${cr}.iabAdAttribute`)?.split(",").includes(option.value) || false}
                                                         onCheckedChange={(value) => {
-                                                            setValue(`selectedCrList.${cr}.iabAdAttribute`, value ? getValues(`selectedCrList.${cr}.iabAdAttribute`).length ? [...getValues(`selectedCrList.${cr}.iabAdAttribute`).split(","), option.value].join(",") : option.value : getValues(`selectedCrList.${cr}.iabAdAttribute`).split(",").filter(v => v !== option.value).join(","))
+                                                            const currentAttributes = getValues(`selectedCrList.${cr}.iabAdAttribute`) || ''
+                                                            const updatedAttributes = value ? currentAttributes ? [...currentAttributes.split(","), option.value].join(",") : option.value : currentAttributes.split(",").filter(v => v !== option.value).join(",")
+                                                            setValue(`selectedCrList.${cr}.iabAdAttribute`, updatedAttributes)
+                                                            parentForm.setValue(`selectedCrList.${cr}.iabAdAttribute`, updatedAttributes)
                                                             clearErrors(`selectedCrList.${cr}.iabAdAttribute`)
                                                         }}
                                                     /> {option.label}
@@ -705,7 +789,7 @@ export default function TrackersSchedulers({
                     <CardFooter className='flex items-center justify-between mt-5'>
                         <Button type='button' onClick={() => router.push('/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
                         <div className='flex gap-2'>
-                            <Button type='button' onClick={() => setTab("selectFiles")}><ArrowLeft size={14} className='mr-1' /> PREVIOUS</Button>
+                            <Button type='button' onClick={() => setTab("editDetails")}><ArrowLeft size={14} className='mr-1' /> PREVIOUS</Button>
                             <Button type='submit'>NEXT<ArrowRight size={14} className='ml-1' /></Button>
                         </div>
                     </CardFooter>
