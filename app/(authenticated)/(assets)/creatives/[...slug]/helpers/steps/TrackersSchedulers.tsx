@@ -54,7 +54,7 @@ export default function TrackersSchedulers({
                         redirectUrl: creativeType === "BANNER" ? z.string()
                             .min(1, { message: "Click Url is required" })
                             .regex(clickUrlPattern, { message: "Click Url is Invalid" }) : z.string().nullable(),
-                        videoImpTracking: z.string(),
+                        videoImpTracking: z.string().nullable(),
                         thirdPartyPixel: z.string().nullable(),
                         videoClkTracking: z.string(),
                         videoMimeType: creativeType === "VIDEO" ? z.string().min(1, { message: "MIME Type is required" }) : z.string(),
@@ -99,7 +99,7 @@ export default function TrackersSchedulers({
                     {
                         advDomain: creativeList[k].advDomain,
                         redirectUrl: creativeList[k].redirectUrl,
-                        videoImpTracking: creativeList[k].videoImpTracking || "",
+                        videoImpTracking: creativeList[k].videoImpTracking,
                         thirdPartyPixel: creativeList[k].thirdPartyPixel,
                         videoClkTracking: creativeList[k].videoClkTracking || "",
                         videoMimeType: creativeList[k].videoMimeType || "",
@@ -545,7 +545,7 @@ export default function TrackersSchedulers({
                                                     <FormControl>
                                                         <Input
                                                             placeholder='https://imptracking.mobavenue.com'
-                                                            value={field.value}
+                                                            value={field.value || ""}
                                                             onChange={(e) => {
                                                                 setValue(`selectedCrList.${cr}.videoImpTracking`, e.target.value)
                                                                 parentForm.setValue(`selectedCrList.${cr}.videoImpTracking`, e.target.value)
@@ -604,7 +604,7 @@ export default function TrackersSchedulers({
                                                     <FormControl>
                                                         <Input
                                                             placeholder='https://imptracking.mobavenue.com'
-                                                            value={field.value}
+                                                            value={field.value || ""}
                                                             onChange={(e) => {
                                                                 setValue(`selectedCrList.${cr}.videoImpTracking`, e.target.value)
                                                                 parentForm.setValue(`selectedCrList.${cr}.videoImpTracking`, e.target.value)

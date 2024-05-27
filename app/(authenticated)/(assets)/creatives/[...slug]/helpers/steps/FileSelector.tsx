@@ -151,7 +151,7 @@ export default function FileSelector({
                                 iabAdAttribute: null,
                                 playbackMethod: null,
                                 thirdPartyPixel: null,
-                                videoThumbnail: "",
+                                videoThumbnail: url,
                                 videoImpTracking: null,
                                 videoEndcardPath: null,
                                 videoEndcardSize: null,

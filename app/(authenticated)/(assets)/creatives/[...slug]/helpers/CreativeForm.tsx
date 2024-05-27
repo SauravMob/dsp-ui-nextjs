@@ -220,7 +220,7 @@ export default function CreativeForm({
                         creativeSize: selectedCreatives[cr].creativeSize,
                         videoCreativeSize: selectedCreatives[cr].creativeSize,
                         creativePath: selectedCreatives[cr].creativePath,
-                        iabAdAttribute: selectedCreatives[cr].iabAdAttribute,
+                        iabAdAttribute: selectedCreatives[cr].iabAdAttribute === "0" ? null : selectedCreatives[cr].iabAdAttribute,
                         iabCategoryId: selectedCreatives[cr].iabCategoryId,
                         videoMimeType: selectedCreatives[cr].videoMimeType,
                         apiFramework: selectedCreatives[cr].apiFramework,
@@ -259,7 +259,7 @@ export default function CreativeForm({
                         creativePath: selectedCreatives[cr].creativePath,
                         campaignId: selectedCreatives[cr].campaignId,
                         createdOn: selectedCreatives[cr].createdOn,
-                        iabAdAttribute: selectedCreatives[cr].iabAdAttribute,
+                        iabAdAttribute: selectedCreatives[cr].iabAdAttribute === "0" ? null : selectedCreatives[cr].iabAdAttribute,
                         iabCategoryId: selectedCreatives[cr].iabCategoryId,
                         videoCreativeSize: "NA",
                         adFormat: selectedCreatives[cr].adFormat,
@@ -284,10 +284,10 @@ export default function CreativeForm({
                             creativePath: selectedCreatives[cr].creativePath,
                             campaignId: selectedCreatives[cr].campaignId,
                             createdOn: selectedCreatives[cr].createdOn,
-                            iabAdAttribute: selectedCreatives[cr].sizes?.[size].iabAdAttribute,
+                            iabAdAttribute: selectedCreatives[cr].iabAdAttribute === "0" ? null : selectedCreatives[cr].iabAdAttribute,
                             iabCategoryId: selectedCreatives[cr].sizes?.[size].iabCategoryId,
                             videoCreativeSize: "NA",
-                            thirdPartyPixel: selectedCreatives[cr].sizes?.[size].thirdPartyPixel,
+                            thirdPartyPixel: selectedCreatives[cr].sizes?.[size].thirdPartyPixel ? selectedCreatives[cr].sizes?.[size].thirdPartyPixel : null,
                             apiFramework: selectedCreatives[cr].adFormat,
                             adFormat: 0
                         }
@@ -295,12 +295,14 @@ export default function CreativeForm({
                     })
                 }
             })
-            const result = await updateCreative(crArr[0].id, crArr[0])
-            if (result?.status === 200) {
-                router.push(isAdmin ? '/creative-manager' : '/creatives')
-                toast({ title: `Updated creative`, description: `Creative updated successfully` })
-            } else toast({ title: `Error while updating creative`, description: `Couldn't update creative` })
-            router.refresh()
+            if (crArr.length > 0) {
+                const result = await updateCreative(crArr[0].id, crArr[0])
+                if (result?.status === 200) {
+                    router.push(isAdmin ? '/creative-manager' : '/creatives')
+                    toast({ title: `Updated creative`, description: `Creative updated successfully` })
+                } else toast({ title: `Error while updating creative`, description: `Couldn't update creative` })
+                router.refresh()
+            }
         } else {
             Object.keys(selectedCreatives).map(cr => {
                 if (creativeType === "VIDEO") {
@@ -318,7 +320,7 @@ export default function CreativeForm({
                         creativeSize: selectedCreatives[cr].creativeSize,
                         videoCreativeSize: selectedCreatives[cr].creativeSize,
                         creativePath: selectedCreatives[cr].creativePath,
-                        iabAdAttribute: selectedCreatives[cr].iabAdAttribute,
+                        iabAdAttribute: selectedCreatives[cr].iabAdAttribute === "0" ? null : selectedCreatives[cr].iabAdAttribute,
                         iabCategoryId: selectedCreatives[cr].iabCategoryId,
                         videoMimeType: selectedCreatives[cr].videoMimeType,
                         adPosition: "0,1,3,4,5,6,7",
@@ -352,7 +354,7 @@ export default function CreativeForm({
                         creativeType,
                         creativeSize: selectedCreatives[cr].creativeSize,
                         creativePath: selectedCreatives[cr].creativePath,
-                        iabAdAttribute: selectedCreatives[cr].iabAdAttribute,
+                        iabAdAttribute: selectedCreatives[cr].iabAdAttribute === "0" ? null : selectedCreatives[cr].iabAdAttribute,
                         iabCategoryId: selectedCreatives[cr].iabCategoryId,
                         videoCreativeSize: "NA",
                         adFormat: selectedCreatives[cr].adFormat,
@@ -375,10 +377,10 @@ export default function CreativeForm({
                             creativeType: "JS",
                             creativeSize: size,
                             creativePath: selectedCreatives[cr].creativePath,
-                            iabAdAttribute: selectedCreatives[cr].sizes?.[size].iabAdAttribute,
+                            iabAdAttribute: selectedCreatives[cr].iabAdAttribute === "0" ? null : selectedCreatives[cr].iabAdAttribute,
                             iabCategoryId: selectedCreatives[cr].sizes?.[size].iabCategoryId,
                             videoCreativeSize: "NA",
-                            thirdPartyPixel: selectedCreatives[cr].sizes?.[size].thirdPartyPixel,
+                            thirdPartyPixel: selectedCreatives[cr].sizes?.[size].thirdPartyPixel ? selectedCreatives[cr].sizes?.[size].thirdPartyPixel : null,
                             apiFramework: selectedCreatives[cr].adFormat,
                             adFormat: 0
                         }
@@ -386,12 +388,14 @@ export default function CreativeForm({
                     })
                 }
             })
-            const result = await createCreative(crArr)
-            if (result?.status === 200) {
-                router.push(isAdmin ? '/creative-manager' : '/creatives')
-                toast({ title: `Created creative`, description: `Creative created successfully` })
-            } else toast({ title: `Error while creating creative`, description: `Couldn't create creative` })
-            router.refresh()
+            if (crArr.length > 0) {
+                const result = await createCreative(crArr)
+                if (result?.status === 200) {
+                    router.push(isAdmin ? '/creative-manager' : '/creatives')
+                    toast({ title: `Created creative`, description: `Creative created successfully` })
+                } else toast({ title: `Error while creating creative`, description: `Couldn't create creative` })
+                router.refresh()
+            }
         }
     }
 
