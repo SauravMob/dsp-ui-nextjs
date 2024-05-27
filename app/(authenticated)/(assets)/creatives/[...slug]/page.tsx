@@ -21,8 +21,8 @@ export default async function page({
 
     const isEdit = params.slug.includes("edit")
     const creativeType = params.slug[1]
-    const editData = isEdit ? await fetchCreative(params.slug[2]) : null
-    const userId = cookies().get('userId')?.value
+    const userId = params.slug[3] ? params.slug[3] : !isEdit && params.slug[2] ? params.slug[2] : cookies().get('userId')?.value
+    const editData = isEdit ? await fetchCreative(params.slug[2], userId as string) : null
     const isAdmin = cookies().get('roleId')?.value === "2"
 
     return (

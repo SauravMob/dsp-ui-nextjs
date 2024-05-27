@@ -27,8 +27,8 @@ export async function createCreative(creative: CreativeType[]) {
     return { status: 200, message: `Success` }
 }
 
-export async function fetchCreative(id: string) {
-    const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
+export async function fetchCreative(id: string, userid: string) {
+    const userId = userid ? `userId=${userid}` : `userId=${cookies().get('userId')?.value}`
     const url = `/creatives/${id}?${userId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }

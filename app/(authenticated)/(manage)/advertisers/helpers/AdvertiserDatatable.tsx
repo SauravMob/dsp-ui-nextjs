@@ -10,6 +10,8 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo } from 'react'
 import AddFundsModal from './AddFundsModal'
+import CreativeOptionsDialog from '@/app/(authenticated)/(assets)/creatives/[...slug]/helpers/modals/CreativeOptionsDialog'
+import { Button } from '@/components/ui/button'
 
 const columns: ColumnDef<AdvertiserType, any>[] = [
     {
@@ -24,7 +26,14 @@ const columns: ColumnDef<AdvertiserType, any>[] = [
                     </PopoverTrigger>
                     <PopoverContent className='p-2 flex flex-col'>
                         <Link href={`/campaigns/create/${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Bell size={18} className='mr-2' />New Campaign</Link>
-                        <Link href={`/creatives/create?${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Camera size={18} className='mr-2' />New Creative</Link>
+                        <CreativeOptionsDialog
+                            triggerComponent={<Button className='flex items-center justify-start px-3 py-1.5 bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'>
+                                <Camera size={18} className='mr-2' />New Creative
+                            </Button>}
+                            bannerLink={`/creatives/create/banner/${row.original.userId}`}
+                            richmediaLink={`/creatives/create/richmedia/${row.original.userId}`}
+                            videoLink={`/creatives/create/video/${row.original.userId}`}
+                        />
                         <Link href={`/audiences/create?${row.original.id}`} className='flex items-center justify-start px-3 py-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800'><Users size={18} className='mr-2' />New Audience</Link>
                         <AddFundsModal row={row.original} />
                     </PopoverContent>

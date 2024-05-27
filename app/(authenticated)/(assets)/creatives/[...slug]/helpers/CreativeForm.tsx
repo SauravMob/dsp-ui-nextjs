@@ -297,7 +297,7 @@ export default function CreativeForm({
             })
             const result = await updateCreative(crArr[0].id, crArr[0])
             if (result?.status === 200) {
-                router.push("/creatives")
+                router.push(isAdmin ? '/creative-manager' : '/creatives')
                 toast({ title: `Updated creative`, description: `Creative updated successfully` })
             } else toast({ title: `Error while updating creative`, description: `Couldn't update creative` })
             router.refresh()
@@ -388,7 +388,7 @@ export default function CreativeForm({
             })
             const result = await createCreative(crArr)
             if (result?.status === 200) {
-                router.push("/creatives")
+                router.push(isAdmin ? '/creative-manager' : '/creatives')
                 toast({ title: `Created creative`, description: `Creative created successfully` })
             } else toast({ title: `Error while creating creative`, description: `Couldn't create creative` })
             router.refresh()
@@ -406,19 +406,54 @@ export default function CreativeForm({
             </TabsList>
 
             <TabsContent value="selectFiles">
-                {isEdit ? <EditFiles form={form} creativeType={creativeType} setTab={setTab} /> : <FileSelector creativeType={creativeType} form={form} userId={userId} setTab={setTab} />}
+                {isEdit ? <EditFiles
+                    form={form}
+                    creativeType={creativeType}
+                    setTab={setTab}
+                    isAdmin={isAdmin}
+                /> : <FileSelector
+                    creativeType={creativeType}
+                    form={form}
+                    userId={userId}
+                    setTab={setTab}
+                    isAdmin={isAdmin}
+                />}
             </TabsContent>
             <TabsContent value="endCard">
-                <EndCard form={form} userId={userId} creativeType={creativeType} setTab={setTab} isEdit={isEdit} />
+                <EndCard
+                    form={form}
+                    userId={userId}
+                    creativeType={creativeType}
+                    setTab={setTab}
+                    isAdmin={isAdmin}
+                    isEdit={isEdit}
+                />
             </TabsContent>
             <TabsContent value="editDetails">
-                <EditDetails isEdit={isEdit} parentForm={form} creativeType={creativeType} setTab={setTab} />
+                <EditDetails
+                    isEdit={isEdit}
+                    parentForm={form}
+                    creativeType={creativeType}
+                    setTab={setTab}
+                    isAdmin={isAdmin}
+                />
             </TabsContent>
             <TabsContent value="trackersSchedulers">
-                <TrackersSchedulers parentForm={form} creativeType={creativeType} setTab={setTab} />
+                <TrackersSchedulers
+                    parentForm={form}
+                    creativeType={creativeType}
+                    setTab={setTab}
+                    isAdmin={isAdmin}
+                />
             </TabsContent>
             <TabsContent value="reviewSave">
-                <ReviewSave parentForm={form} creativeType={creativeType} setTab={setTab} isEdit={isEdit} onSubmit={onSubmit} />
+                <ReviewSave
+                    parentForm={form}
+                    creativeType={creativeType}
+                    setTab={setTab}
+                    isEdit={isEdit}
+                    onSubmit={onSubmit}
+                />
             </TabsContent>
         </Tabs>
     )

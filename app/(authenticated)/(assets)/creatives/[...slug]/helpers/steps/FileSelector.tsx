@@ -23,12 +23,14 @@ export default function FileSelector({
     creativeType,
     form,
     userId,
-    setTab
+    setTab,
+    isAdmin
 }: {
     creativeType: string,
     form: UseFormReturn<CreativeFormType, any, undefined>
     userId: number
     setTab: (tab: string) => void
+    isAdmin: boolean
 }) {
 
     const { setValue, getValues } = form
@@ -412,7 +414,7 @@ export default function FileSelector({
                 </div>
             </ScrollArea>
             <CardFooter className='flex items-center justify-between mt-5'>
-                <Button type='button' onClick={() => router.push('/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
+                <Button type='button' onClick={() => router.push(isAdmin ? '/creative-manager' : '/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
                 <Button type='button' onClick={() => onSubmit()}>NEXT<ArrowRight size={14} className='ml-1' /></Button>
             </CardFooter>
         </Card>

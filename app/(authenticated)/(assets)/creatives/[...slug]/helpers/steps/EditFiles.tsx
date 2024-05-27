@@ -19,11 +19,13 @@ import { useRouter } from 'next/navigation'
 export default function EditFiles({
     form,
     creativeType,
-    setTab
+    setTab,
+    isAdmin
 }: {
     form: UseFormReturn<CreativeFormType, any, undefined>
     creativeType: string
     setTab: (tab: string) => void
+    isAdmin: boolean
 }) {
 
     const router = useRouter()
@@ -294,7 +296,7 @@ export default function EditFiles({
                 </div>
             </div>
             <CardFooter className='flex items-center justify-between mt-5'>
-                <Button type='button' onClick={() => router.push('/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
+                <Button type='button' onClick={() => router.push(isAdmin ? '/creative-manager' : '/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
                 <Button type='button' onClick={() => setTab(creativeType === "VIDEO" ? "endCard" : "editDetails")}>NEXT<ArrowRight size={14} className='ml-1' /></Button>
             </CardFooter>
         </Card>

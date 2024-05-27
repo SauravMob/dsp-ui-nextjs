@@ -28,13 +28,15 @@ export default function EndCard({
     creativeType,
     setTab,
     userId,
-    isEdit
+    isEdit,
+    isAdmin
 }: {
     form: UseFormReturn<CreativeFormType, any, undefined>
     creativeType: string
     setTab: (tab: string) => void
     userId: number
     isEdit: boolean
+    isAdmin: boolean
 }) {
 
     const router = useRouter()
@@ -204,7 +206,7 @@ export default function EndCard({
                 </ScrollArea>
             </DndContext>}
             <CardFooter className='flex items-center justify-between mt-5'>
-                <Button type='button' onClick={() => router.push('/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
+                <Button type='button' onClick={() => router.push(isAdmin ? '/creative-manager' : '/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
                 <div className='flex gap-2'>
                     <Button type='button' onClick={() => setTab("selectFiles")}><ArrowLeft size={14} className='mr-1' /> PREVIOUS</Button>
                     {creativeList[creativeIdList[0]].videoEndcardPath ? <Button type='button' onClick={() => setTab("editDetails")}>NEXT<ArrowRight size={14} className='ml-1' /></Button> : <EndCardModal onConfirm={() => setTab("editDetails")} />}

@@ -7,6 +7,15 @@ body::-webkit-scrollbar {
     background-color: gray;
 }
 
-body::-webkit-scrollbar-thumb{
+body::-webkit-scrollbar-thumb {
+    background-color: azure;
+}
+
+.table-overflow>div::-webkit-scrollbar {
+    width: 3px;
+    background-color: gray;
+}
+
+.table-overflow>div::-webkit-scrollbar-thumb {
     background-color: azure;
 }

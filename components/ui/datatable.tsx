@@ -98,7 +98,7 @@ export default function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
     return (
         <div>
-            <div className="rounded-md border">
+            <div className="rounded-md border table-overflow">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

@@ -3,20 +3,28 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Plus } from 'lucide-react'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import Creative_Image from '@/public/creative_image.svg'
 import Creative_Html from '@/public/creative_html.svg'
 import Creative_Video from '@/public/creative_video.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function CreativeOptionsDialog() {
+export default function CreativeOptionsDialog({
+    triggerComponent,
+    bannerLink,
+    richmediaLink,
+    videoLink
+}: {
+    triggerComponent: ReactNode
+    bannerLink: string
+    richmediaLink: string
+    videoLink: string
+}) {
     return (
         <Dialog>
             <DialogTrigger className='flex justify-start' asChild>
-                <Button size="sm" className='mr-2'>
-                    <Plus size={20} className='mr-1' />Create
-                </Button>
+                {triggerComponent}
             </DialogTrigger>
             <DialogContent className='min-w-[600px] min-h-[400px]'>
                 <DialogHeader>
@@ -57,7 +65,7 @@ export default function CreativeOptionsDialog() {
                 </div>
                 <div className='grid grid-cols-3 space-x-4'>
                     <div className='text-sm text-center'>
-                        <Link href="/creatives/create/banner">
+                        <Link href={bannerLink}>
                             <Button size="lg" className='w-full mb-2'>
                                 IMAGE
                             </Button>
@@ -65,7 +73,7 @@ export default function CreativeOptionsDialog() {
                         Interstitial & Rewarded
                     </div>
                     <div className='text-sm text-center'>
-                        <Link href="/creatives/create/richmedia">
+                        <Link href={richmediaLink}>
                             <Button size="lg" className='w-full mb-2'>
                                 HTML
                             </Button>
@@ -73,7 +81,7 @@ export default function CreativeOptionsDialog() {
                         Interstitial, Rewarded & Banner
                     </div>
                     <div className='text-sm text-center'>
-                        <Link href="/creatives/create/video">
+                        <Link href={videoLink}>
                             <Button size="lg" className='w-full mb-2'>
                                 VIDEO
                             </Button>
