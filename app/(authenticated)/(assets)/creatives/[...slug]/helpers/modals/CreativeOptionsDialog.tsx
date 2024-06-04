@@ -24,7 +24,7 @@ export default function CreativeOptionsDialog({
     richmediaLink: string
     videoLink: string
     userId?: number
-    creativeCampaign: (cr: CreativeType[]) => void
+    creativeCampaign?: (cr: CreativeType[]) => void
 }) {
 
     const path = usePathname()

@@ -299,31 +299,6 @@ export default function CampaignForm({
         if (isEdit) fetchCampaignCr()
     }, [])
 
-    type FieldName = keyof CampaignFormType
-
-    const next = async () => {
-        const fields = steps[tab].fields
-        const output = await trigger(fields as FieldName[], { shouldFocus: true })
-        if (output) {
-            if (tab === "review") await handleSubmit(onSubmit)()
-            else {
-                if (tab === "general") setTab("budget")
-                if (tab === "budget") setTab("targeting")
-                if (tab === "targeting") setTab("inventory")
-                if (tab === "inventory") setTab("creatives")
-                if (tab === "creatives") setTab("review")
-            }
-        }
-    }
-
-    const prev = () => {
-        if (tab === "budget") setTab("general")
-        if (tab === "targeting") setTab("budget")
-        if (tab === "inventory") setTab("targeting")
-        if (tab === "creatives") setTab("inventory")
-        if (tab === "review") setTab("creatives")
-    }
-
     const addCampaign = async (values: CampaignFormType) => {
         const obj: CampaignType = {
             id: values.id,
@@ -487,7 +462,6 @@ export default function CampaignForm({
             adSlotFilePath: values.adSlotFilePath,
             dealId: values.dealId
         }
-        console.log("OBJ:", obj)
         const result = await updateCampaign(obj.id, obj)
         if (result?.status === 200) {
             router.push(isAdmin ? '/campaign-manager' : '/campaigns')
@@ -499,6 +473,31 @@ export default function CampaignForm({
     const onSubmit: SubmitHandler<CampaignFormType> = async (values: CampaignFormType) => {
         if (isEdit) editCampaign(values)
         else addCampaign(values)
+    }
+
+    type FieldName = keyof CampaignFormType
+
+    const next = async () => {
+        const fields = steps[tab].fields
+        const output = await trigger(fields as FieldName[], { shouldFocus: true })
+        if (output) {
+            if (tab === "review") await handleSubmit(onSubmit)()
+            else {
+                if (tab === "general") setTab("budget")
+                if (tab === "budget") setTab("targeting")
+                if (tab === "targeting") setTab("inventory")
+                if (tab === "inventory") setTab("creatives")
+                if (tab === "creatives") setTab("review")
+            }
+        }
+    }
+
+    const prev = () => {
+        if (tab === "budget") setTab("general")
+        if (tab === "targeting") setTab("budget")
+        if (tab === "inventory") setTab("targeting")
+        if (tab === "creatives") setTab("inventory")
+        if (tab === "review") setTab("creatives")
     }
 
     return (

@@ -178,12 +178,12 @@ export default function AudienceTargeting({
                                 {audienceId.map((aud, index) => {
                                     return <div key={index} className='grid grid-cols-12 gap-2 mt-2'>
                                         <div className='border-r col-span-1 flex items-center justify-center'>{
-                                            audienceTypeFlag == '1' && audienceId.length - 1 === index ? <>
+                                            audienceTypeFlag === '1' && audienceId.length - 1 === index ? <>
                                                 <PlusCircle
                                                     size={20}
                                                     onClick={() => { if ((audienceFlag === '4' && audienceId.length < 3 && aud && form.watch("strictIfaTargeting") !== 0) || (audienceFlag !== '4' && aud && form.watch("strictIfaTargeting") !== 0)) setValue("audienceId", [...audienceId, 0]) }}
                                                 />
-                                            </> : audienceTypeFlag == '0' && audienceId.length - 1 === index ? <>
+                                            </> : audienceTypeFlag === '0' && audienceId.length - 1 === index ? <>
                                                 <PlusCircle
                                                     size={20}
                                                     onClick={() => { if (aud) setValue("audienceId", [...audienceId, 0]) }}
@@ -269,7 +269,7 @@ export default function AudienceTargeting({
                                     {audienceDiffId.map((aud, index) => {
                                         return <div key={index} className='grid grid-cols-12 gap-2 mt-2'>
                                             <div className='border-r col-span-1 flex items-center justify-center'>{
-                                                audienceTypeFlag == '1' && audienceDiffId.length - 1 === index ? <>
+                                                audienceTypeFlag === '1' && audienceDiffId.length - 1 === index ? <>
                                                     <PlusCircle
                                                         size={20}
                                                         onClick={() => { if (aud && audienceDiffId.length < 3 && form.watch("strictIfaTargeting") !== 0) setValue("audienceDiffId", [...audienceDiffId, 0]) }}

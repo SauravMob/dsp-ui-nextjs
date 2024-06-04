@@ -34,8 +34,7 @@ export default function Creatives({
     if (result?.status === 200) {
       setValue("creativeId", form.watch("creativeId").filter(v => v.id !== cr.id))
       toast({ title: `Created detached`, description: `Creative removed successfully` })
-    }
-    else toast({ title: `Error while detaching creative`, description: `Couldn't remove creative` })
+    } else toast({ title: `Error while detaching creative`, description: `Couldn't remove creative` })
   }
 
   const creativeCampaign = async (cr: CreativeType[]) => {

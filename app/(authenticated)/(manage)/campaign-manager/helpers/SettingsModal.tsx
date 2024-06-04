@@ -27,9 +27,9 @@ const formSchema = z.object({
     adminSupplyType: z.string(),
     strictIfaTargeting: z.number(),
     pacingType: z.number(),
-    gamblingFlag: z.boolean(),
-    pixelFlag: z.boolean(),
-    fcapKeyFlag: z.boolean(),
+    gamblingFlag: z.number(),
+    pixelFlag: z.number(),
+    fcapKeyFlag: z.number(),
     adminBlockedAdclient: z.string(),
     stopLoss: z.number(),
     boostFactor: z.number().min(0, { message: "Minimum should be 1%!" }).max(100, { message: "Maximum should be 100%!" })
@@ -67,9 +67,9 @@ export default function SettingsModal({ campaign }: { campaign: CampaignType }) 
             adminSupplyType: campaign.adminSupplyType || '',
             strictIfaTargeting: campaign.strictIfaTargeting || 0,
             pacingType: campaign.pacingType || 0,
-            gamblingFlag: campaign.gamblingFlag || false,
-            pixelFlag: campaign.pixelFlag || false,
-            fcapKeyFlag: campaign.fcapKeyFlag || false,
+            gamblingFlag: campaign.gamblingFlag ? 1 : 0,
+            pixelFlag: campaign.pixelFlag ? 1 : 0,
+            fcapKeyFlag: campaign.fcapKeyFlag as boolean ? 1 : 0,
             adminBlockedAdclient: campaign.adminBlockedAdclient || '',
             stopLoss: campaign.stopLoss || 0,
             boostFactor: campaign.boostFactor || 0
@@ -306,6 +306,7 @@ export default function SettingsModal({ campaign }: { campaign: CampaignType }) 
                                             <FormLabel>Strict IFA Targeting</FormLabel>
                                             <FormControl className='ml-2'>
                                                 <Switch
+                                                    disabled={campaign.audienceId !== '0'}
                                                     checked={field.value === 1}
                                                     onCheckedChange={(e) => setValue("strictIfaTargeting", e ? 1 : 0)}
                                                 />
@@ -342,8 +343,8 @@ export default function SettingsModal({ campaign }: { campaign: CampaignType }) 
                                             <FormLabel>Gamblig Campaign</FormLabel>
                                             <FormControl className='ml-2'>
                                                 <Switch
-                                                    checked={field.value}
-                                                    onCheckedChange={field.onChange}
+                                                    checked={field.value === 1}
+                                                    onCheckedChange={(e) => setValue("gamblingFlag", e ? 1 : 0)}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -362,8 +363,8 @@ export default function SettingsModal({ campaign }: { campaign: CampaignType }) 
                                             <FormLabel>Fraud Detection</FormLabel>
                                             <FormControl className='ml-2'>
                                                 <Switch
-                                                    checked={field.value}
-                                                    onCheckedChange={field.onChange}
+                                                    checked={field.value === 1}
+                                                    onCheckedChange={(e) => setValue("pixelFlag", e ? 1 : 0)}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -380,8 +381,8 @@ export default function SettingsModal({ campaign }: { campaign: CampaignType }) 
                                             <FormLabel>FCap IP Address</FormLabel>
                                             <FormControl className='ml-2'>
                                                 <Switch
-                                                    checked={field.value}
-                                                    onCheckedChange={field.onChange}
+                                                    checked={field.value === 1}
+                                                    onCheckedChange={(e) => setValue("fcapKeyFlag", e ? 1 : 0)}
                                                 />
                                             </FormControl>
                                             <FormMessage />

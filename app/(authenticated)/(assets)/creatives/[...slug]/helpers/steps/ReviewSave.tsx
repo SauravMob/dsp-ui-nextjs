@@ -43,7 +43,7 @@ export default function ReviewSave({
         <Form {...parentForm}>
             <form onSubmit={parentForm.handleSubmit(onSubmit)} className="space-y-4" noValidate>
                 <Card>
-                    {creativeType === "VIDEO" ? <div className='flex justify-center items-center p-10'>
+                    {creativeType === "VIDEO" ? <div className='flex justify-center items-center px-10 pt-10'>
                         {creativeIdList.map(v => (
                             <Card key={v} className='w-[500px] bg-slate-100 dark:bg-slate-700'>
                                 {parentForm.formState.errors && Object.keys(parentForm.formState.errors.selectedCrList?.[v] ?? {}).map(err => (
@@ -68,7 +68,7 @@ export default function ReviewSave({
                                 </div>
                             </Card>
                         ))}
-                    </div> : creativeType === "BANNER" ? <div className='p-10'>
+                    </div> : creativeType === "BANNER" ? <div className='px-10 pt-10'>
                         {creativeIdList.map(v => (
                             <Card key={v} className='m-2 bg-slate-100 dark:bg-slate-700'>
                                 {parentForm.formState.errors && Object.keys(parentForm.formState.errors.selectedCrList?.[v] ?? {}).map(err => (
@@ -102,7 +102,7 @@ export default function ReviewSave({
                                 </div>
                             </Card>
                         ))}
-                    </div> : creativeType === "RICHMEDIA" ? <div className='p-10'>
+                    </div> : creativeType === "RICHMEDIA" ? <div className='px-10 pt-10'>
                         {creativeIdList.map(v => (
                             Object.keys(creativeList[v].sizes ?? {}).map(size => (
                                 <Card key={size} className='m-2 bg-slate-100 dark:bg-slate-700'>
@@ -141,7 +141,7 @@ export default function ReviewSave({
                         ))}
                     </div> : null}
                     <CardFooter className='flex items-center justify-between mt-5'>
-                        <Button type='button' onClick={() => setOpen ? setOpen(false) : router.push('/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
+                        <Button type='button' onClick={() => (setOpen ? setOpen(false) : router.push('/creatives'))}><X size={14} className='mr-2' /> CANCEL</Button>
                         <div className='flex gap-2'>
                             <Button type='button' onClick={() => setTab("trackersSchedulers")}><ArrowLeft size={14} className='mr-1' /> PREVIOUS</Button>
                             <Button type='submit' onClick={() => onSubmit(parentForm.getValues())}>{isEdit ? "UPDATE" : "CREATE"}<Edit size={14} className='ml-1' /></Button>

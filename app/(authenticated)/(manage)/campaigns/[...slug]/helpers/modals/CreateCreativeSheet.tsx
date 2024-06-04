@@ -14,7 +14,7 @@ export default function CreateCreativeSheet({
     creativeType: string
     setOpen: (input: boolean) => void
     userId: number
-    creativeCampaign: (cr: CreativeType[]) => void
+    creativeCampaign?: (cr: CreativeType[]) => void
 }) {
     return (
         <Sheet open={open} onOpenChange={() => setOpen(!open)}>
