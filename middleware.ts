@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname
-    const isPublicPath = path === '/login' || path === '/signup' || path === '/privacy-policy' || path === '/ad-policy'
+    const isPublicPath = path === '/login' || path === '/signup'
     
     const roleId = request.cookies.get('roleId')?.value || ''
     if (path === '/') return NextResponse.redirect(new URL(roleId === '2' ? '/admin-dashboard' : '/dashboard', request.nextUrl))
@@ -24,8 +24,6 @@ export const config = {
         '/',
         '/login',
         '/signup',
-        '/privacy-policy',
-        '/ad-policy',
 
         // DASHBOARD
         '/dashboard',

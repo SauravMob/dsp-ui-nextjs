@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/layout/navbar/Navbar"
 import { TooltipProvider } from "@/components/ui/tooltip"
-// import PrivacyPolicy from '@/app/(authenticated)/helpers/PrivacyPolicy'
 
 export default function RootLayout({
     children
@@ -16,11 +15,10 @@ export default function RootLayout({
                     {children}
                 </div>
             </TooltipProvider>
-            {/* <div className="flex items-center   ">
-                <PrivacyPolicy />
-                |
-                <Button className='bg-transparent font-medium mx-3 px-1' variant={"link"} size="sm">Ad Policy</Button>
-            </div> */}
+            <div className="px-5 pb-5 gap-4 flex items-center text-sm">
+                <a target="_blank" href="http://localhost:3000/privacy-policy" className="hover:font-bold">Privacy Policy</a>
+                <a target="_blank" href="http://localhost:3000/ad-quality" className="hover:font-bold">Ad Quality</a>
+            </div>
         </div>
     )
 }
