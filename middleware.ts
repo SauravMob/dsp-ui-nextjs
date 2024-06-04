@@ -57,6 +57,7 @@ export const config = {
 
         // SETTINGS
         '/manage-users/:path*',
-        '/admin-tools/:path*'
+        '/admin-tools/:path*',
+        '/profile/:path*'
     ]
 }

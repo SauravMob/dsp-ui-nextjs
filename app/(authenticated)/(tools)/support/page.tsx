@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Headphones } from 'lucide-react'
 import { Metadata } from 'next'
@@ -19,40 +19,42 @@ export default function page() {
 
             </div>
             <Card>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className='p-4'>
-                                <div className='text-lg font-bold'>
-                                    Help & Support
-                                </div>
-                                <div className='text-md'>
-                                    You can reach out to the appropriate team for questions specific to your account:
-                                </div>
-                            </TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell className='p-6'>
-                                <div className='text-lg font-bold'>General Support</div>
-                                support@mobavenue.com
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className='p-6'>
-                                <div className='text-lg font-bold'>Publisher Platform Billing & Payment</div>
-                                finance@mobavenue.com
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className='p-6'>
-                                <div className='text-lg font-bold'>Policy Inquiries for Account Approval</div>
-                                privacy@mobavenue.com
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+                <CardContent className='min-h-[500px]'>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className='p-4'>
+                                    <div className='text-lg font-bold'>
+                                        Help & Support
+                                    </div>
+                                    <div className='text-md'>
+                                        You can reach out to the appropriate team for questions specific to your account:
+                                    </div>
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell className='p-6'>
+                                    <div className='text-lg font-bold'>General Support</div>
+                                    support@mobavenue.com
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className='p-6'>
+                                    <div className='text-lg font-bold'>Publisher Platform Billing & Payment</div>
+                                    finance@mobavenue.com
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className='p-6'>
+                                    <div className='text-lg font-bold'>Policy Inquiries for Account Approval</div>
+                                    privacy@mobavenue.com
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </CardContent>
             </Card>
         </>
     )

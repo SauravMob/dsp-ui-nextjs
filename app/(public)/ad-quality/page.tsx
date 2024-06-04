@@ -38,7 +38,7 @@ export default function page() {
                 <div className='text-sm font-semibold italic mt-2'>Last updated: January 06, 2023.</div>
 
                 <div className='mt-5'>
-                    In order to use the Mobavenue Services, Advertisers agrees to abide by the Ad Quality Guidelines and Policies. Advertisers also agrees to abide by Mobavenue’s Privacy Policy and any other applicable agreements entered into with Mobavenue. Any violation of the Ad Quality Guidelines and Policies is subject to enforcement as provided in section below, in Mobavenue's sole discretion. Quality creatives make up for a good advertising community and Mobavenue actively assess, vets its all the ad creatives to make sure we adhere to the guidelines and policies across networks and geographies. Any ad violation or repeated uploads of bad Ad creative will result in accounts being revoked or termination.
+                    In order to use the Mobavenue Services, Advertisers agrees to abide by the Ad Quality Guidelines and Policies. Advertisers also agrees to abide by Mobavenue’s Privacy Policy and any other applicable agreements entered into with Mobavenue. Any violation of the Ad Quality Guidelines and Policies is subject to enforcement as provided in section below, in Mobavenue&apos;s sole discretion. Quality creatives make up for a good advertising community and Mobavenue actively assess, vets its all the ad creatives to make sure we adhere to the guidelines and policies across networks and geographies. Any ad violation or repeated uploads of bad Ad creative will result in accounts being revoked or termination.
                 </div>
 
                 <div className='mt-3'>
@@ -58,8 +58,8 @@ export default function page() {
                     <div className='px-10'>
                         <ul className='list-disc'>
                             <li>Ad creative must be related to content of connected landing page.</li>
-                            <li>Ad creatives are not allowed to auto-redirect to any web page or app stores without prior user's interaction.</li>
-                            <li>Ad Creatives are not allowed to auto-load any video content without prior user's interaction.</li>
+                            <li>Ad creatives are not allowed to auto-redirect to any web page or app stores without prior user&apos;s interaction.</li>
+                            <li>Ad Creatives are not allowed to auto-load any video content without prior user&apos;s interaction.</li>
                         </ul>
                     </div>
                 </div>
@@ -85,7 +85,7 @@ export default function page() {
                 <div className='mt-3'>
                     <span className='text-2xl font-semibold'>Enforcement policy:</span>
                     <div className='px-5'>
-                        Any violation of the Ad quality Guidelines and Policies may result in the suspension or blocking of account on the Mobavenue Services, in Mobavenue's sole discretion. Additionally, Mobavenue reserves the right to block account on the Mobavenue Services or terminate the account.
+                        Any violation of the Ad quality Guidelines and Policies may result in the suspension or blocking of account on the Mobavenue Services, in Mobavenue&apos;s sole discretion. Additionally, Mobavenue reserves the right to block account on the Mobavenue Services or terminate the account.
                     </div>
                 </div>
 
