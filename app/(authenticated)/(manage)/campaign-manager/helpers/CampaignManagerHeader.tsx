@@ -1,4 +1,3 @@
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Settings } from 'lucide-react'
 import React from 'react'
 import CampaignManagerSheet from './CampaignManagerSheet'
@@ -8,7 +7,6 @@ export default function CampaignManagerHeader({
 }: CampaignFilterTypes) {
     return (
         <>
-            <CustomBreadCrumb secondItem='Campaign Manager' secondLink='/campaign-manager' />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Settings size={26} className='mr-1' /> Campaign Manager

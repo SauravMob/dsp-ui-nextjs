@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Coffee, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
@@ -27,14 +26,6 @@ export default function ManageReportHeader({ status }: { status: string }) {
 
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Settings'
-                secondLink='#'
-                thirdItem='Admin Tools'
-                thirdLink='/admin-tools'
-                fourthItem='Manage Reports'
-                fourthLink='/admin-tools/manage-reports'
-            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Coffee size={26} className='mr-1' /> Manage Report (Calc)

@@ -1,4 +1,3 @@
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Navigation } from 'lucide-react'
 import React from 'react'
 import TrafficReportSheet from './TrafficReportSheet'
@@ -14,7 +13,6 @@ export default function TrafficReportHeader({
 }: TrafficReportFilter) {
     return (
         <>
-            <CustomBreadCrumb secondItem='Traffic Reports' secondLink='/traffic-report' />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Navigation size={26} className='mr-1' /> Traffic Reports

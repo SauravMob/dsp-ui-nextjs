@@ -1,4 +1,3 @@
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { FolderKanban } from 'lucide-react'
 import React from 'react'
 import CreativeReportSheet from './CreativeReportSheet'
@@ -19,7 +18,6 @@ export default function CreativeReportHeader({
 }: CreativeReportFilter) {
     return (
         <>
-            <CustomBreadCrumb secondItem='Creative Reports' secondLink='/creative-report' />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <FolderKanban size={26} className='mr-1' /> Creative Reports

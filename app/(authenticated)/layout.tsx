@@ -12,7 +12,7 @@ export default function RootLayout({
         <div className="min-h-screen">
             <TooltipProvider>
                 <Navbar className="top-0" />
-                <div className="pb-5 pt-24 px-4">
+                <div className="pb-5 pt-20 px-4">
                     {children}
                 </div>
             </TooltipProvider>

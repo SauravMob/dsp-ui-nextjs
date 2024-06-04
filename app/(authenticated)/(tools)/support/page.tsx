@@ -1,7 +1,6 @@
 import { Card } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
-import { Code, Headphones } from 'lucide-react'
+import { Headphones } from 'lucide-react'
 import { Metadata } from 'next'
 import React from 'react'
 
@@ -13,12 +12,6 @@ export const metadata: Metadata = {
 export default function page() {
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Tools'
-                secondLink='#'
-                thirdItem='Support'
-                thirdLink='/support'
-            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Headphones size={26} className='mr-1' /> Support

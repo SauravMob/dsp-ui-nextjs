@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { DollarSign } from 'lucide-react'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
@@ -27,14 +26,6 @@ export default async function page({
 
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Tools'
-                secondLink='#'
-                thirdItem='Bid Multiplier'
-                thirdLink='/bid-multiplier'
-                fourthItem={isEdit ? "Edit" : "Create"}
-                fourthLink='#'
-            />
             <Card className='mt-4'>
                 <CardHeader>
                     <div className='flex text-lg font-bold'>

@@ -1,6 +1,5 @@
 import { Card } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Code } from 'lucide-react'
 import { Metadata } from 'next'
 import React from 'react'
@@ -35,12 +34,6 @@ const data = [
 export default function page() {
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Tools'
-                secondLink='#'
-                thirdItem='Macros'
-                thirdLink='/macros'
-            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Code size={26} className='mr-1' /> Ad Macros

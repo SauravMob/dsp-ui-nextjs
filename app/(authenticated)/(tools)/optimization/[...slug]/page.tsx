@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Navigation } from 'lucide-react'
 import { Metadata } from 'next'
 import React from 'react'
@@ -26,14 +25,6 @@ export default async function page({
 
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Tools'
-                secondLink='#'
-                thirdItem='Optimization'
-                thirdLink='/optimization'
-                fourthItem={isEdit ? "Edit" : "Create"}
-                fourthLink='#'
-            />
             <Card className='mt-4'>
                 <CardHeader>
                     <div className='flex text-lg font-bold'>

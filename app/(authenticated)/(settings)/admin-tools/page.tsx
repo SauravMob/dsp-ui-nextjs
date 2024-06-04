@@ -1,5 +1,4 @@
 import { Card, CardContent } from '@/components/ui/card'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Coffee, Package, PenTool, Pocket, ShoppingBag, Users } from 'lucide-react'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
@@ -19,12 +18,6 @@ export default async function page() {
 
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Settings'
-                secondLink='#'
-                thirdItem='Admin Tools'
-                thirdLink='/admin-tools'
-            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <PenTool size={26} className='mr-1' /> Admin Tools

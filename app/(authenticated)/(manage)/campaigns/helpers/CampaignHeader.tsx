@@ -1,14 +1,12 @@
 import { Bell, Plus } from 'lucide-react'
 import React from 'react'
 import CampaignSheet from './CampaignSheet'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 export default function CampaignHeader({ pageSize, campaignId, status, country, os }: CampaignFilterTypes) {
     return (
         <>
-            <CustomBreadCrumb secondItem='Campaign' secondLink='/campaigns' />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Bell size={26} className='mr-1' /> Campaign

@@ -5,7 +5,7 @@ import { LayoutDashboard } from 'lucide-react'
 export default function Loading() {
     return (
         <div>
-            <div className='mb-4 flex justify-between'>
+            <div className='mb-4 mt-3 flex justify-between'>
                 <div className='font-bold flex items-center text-2xl'>
                     <LayoutDashboard size={20} className='mr-1' /> Admin Dashboard
                 </div>

@@ -16,7 +16,7 @@ export default function AdminDashboardHeader({
     pageSize: string
 }) {
     return (
-        <div className='mb-4 flex justify-between'>
+        <div className='mb-4 mt-3 flex justify-between'>
             <div className='font-bold flex items-center text-xl'>
                 <LayoutDashboard size={26} className='mr-1' /> Admin Dashboard
             </div>

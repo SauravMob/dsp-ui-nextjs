@@ -1,6 +1,5 @@
 import { getAllMMPNames } from '@/app/(authenticated)/(assets)/audiences/actions'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Package } from 'lucide-react'
 import { Metadata } from 'next'
 import React from 'react'
@@ -25,16 +24,6 @@ export default async function page({
 
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Settings'
-                secondLink='#'
-                thirdItem='Admin Tools'
-                thirdLink='/admin-tools'
-                fourthItem='MMP Settings'
-                fourthLink='/admin-tools/mmp-settings'
-                fifthItem={isEdit ? "Edit" : "Create"}
-                fifthLink='#'
-            />
             <Card className='mt-4'>
                 <CardHeader>
                     <div className='flex text-lg font-bold'>

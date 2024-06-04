@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Users } from 'lucide-react'
 import { getAppsflyerAudById } from '../actions'
 import { Metadata } from 'next'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 
 export const metadata: Metadata = {
     title: "Mobavenue | Appsflyer Audience",
@@ -24,16 +23,6 @@ export default async function page({
 
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Settings'
-                secondLink='#'
-                thirdItem='Admin Tools'
-                thirdLink='/admin-tools'
-                fourthItem='AppsFlyer - Advertiser API Keys'
-                fourthLink='/admin-tools/appsflyer-audience'
-                fifthItem={isEdit ? "Edit" : "Create"}
-                fifthLink='#'
-            />
             <Card className='mt-4'>
                 <CardHeader>
                     <div className='flex text-lg font-bold'>

@@ -1,17 +1,10 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Users } from 'lucide-react'
 import React from 'react'
 
 export default function loading() {
     return (
         <div>
-            <CustomBreadCrumb
-                secondItem='Assets'
-                secondLink='#'
-                thirdItem='Audiences Retargeting'
-                thirdLink='/audiences'
-            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Users size={26} className='mr-1' /> Audience Retargeting

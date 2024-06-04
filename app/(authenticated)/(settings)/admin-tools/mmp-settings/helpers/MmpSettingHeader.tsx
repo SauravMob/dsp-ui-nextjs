@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Package, Plus } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -14,14 +13,6 @@ export default function MmpSettingHeader({
 }: MmpSettingFilter) {
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Settings'
-                secondLink='#'
-                thirdItem='Admin Tools'
-                thirdLink='/admin-tools'
-                fourthItem='Postback MMP Settings'
-                fourthLink='/mmp-settings'  
-            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Package size={26} className='mr-1' /> Postback MMP Settings

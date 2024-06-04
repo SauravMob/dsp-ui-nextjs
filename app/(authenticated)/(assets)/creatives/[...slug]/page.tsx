@@ -1,7 +1,6 @@
 import React from 'react'
 import { fetchCreative } from '../actions'
 import { cookies } from 'next/headers'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Card, CardContent } from '@/components/ui/card'
 import CreativeForm from './helpers/CreativeForm'
 import { Metadata } from 'next'
@@ -27,14 +26,6 @@ export default async function page({
 
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Assets'
-                secondLink='#'
-                thirdItem='Creatives'
-                thirdLink='/creatives'
-                fourthItem={isEdit ? "Edit" : "Create"}
-                fourthLink='#'
-            />
             <Card className='mt-4 pt-4'>
                 <CardContent>
                     <CreativeForm

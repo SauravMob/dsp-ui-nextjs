@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Navigation2, Plus } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -12,12 +11,6 @@ export default function OptimizationHeader({
 }: OptimizationFilter) {
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Tools'
-                secondLink='#'
-                thirdItem='Optimization'
-                thirdLink='/optimization'
-            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Navigation2 size={26} className='mr-1' /> Optimization

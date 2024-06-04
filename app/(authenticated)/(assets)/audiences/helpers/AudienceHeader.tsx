@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Plus, Users } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -10,12 +9,6 @@ export default function AudienceHeader(
 ) {
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Assets'
-                secondLink='#'
-                thirdItem='Audiences Retargeting'
-                thirdLink='/audiences'
-            />
             <div className='mb-4 flex justify-between mt-3'>
                 <div className='font-bold flex items-center text-xl'>
                     <Users size={26} className='mr-1' /> Audience Retargeting

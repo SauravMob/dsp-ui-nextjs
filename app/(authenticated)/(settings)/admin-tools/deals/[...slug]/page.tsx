@@ -1,4 +1,3 @@
-import CustomBreadCrumb from '@/components/utility/customComponents/CustomBreadCrumb'
 import { Metadata } from 'next'
 import React from 'react'
 import { fetchDeal } from '../actions'
@@ -26,16 +25,6 @@ export default async function page({
 
     return (
         <>
-            <CustomBreadCrumb
-                secondItem='Settings'
-                secondLink='#'
-                thirdItem='Admin Tools'
-                thirdLink='/admin-tools'
-                fourthItem='Deals'
-                fourthLink='/admin-tools/pmp-deals'
-                fifthItem={isEdit ? "Edit" : "Create"}
-                fifthLink='#'
-            />
             <Card className='mt-4'>
                 <CardHeader>
                     <div className='flex text-lg font-bold'>
