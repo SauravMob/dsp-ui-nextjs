@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { CampaignFormType } from '../CampaignForm'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, ArrowRight, Download, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Download, X, XCircleIcon } from 'lucide-react'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { FormatMultiSelectInput, MultiSelectInput, SelectInput } from '@/components/utility/customComponents/SelectInput'
 import { fetchUserByRole } from '@/app/(authenticated)/(analyze)/actions'
@@ -13,6 +13,7 @@ import { getAllDeals } from '@/app/(authenticated)/(settings)/admin-tools/deals/
 import AppListTargeting from '../utils/AppListTargeting'
 import { uploadFiles } from '../../../actions'
 import { useDropzone } from 'react-dropzone'
+import { cn } from '@/lib/utils'
 
 export default function Inventory({
   form,
@@ -58,7 +59,7 @@ export default function Inventory({
       formData.append('fileName', 'adslot')
       const result = await uploadFiles(formData)
       if (result.hasOwnProperty("url")) {
-        setValue('adSlotFilePath', files[0].name)
+        setValue('adSlotFilePath', result.url[0])
         clearErrors("adSlotFilePath")
       }
     }
@@ -70,6 +71,9 @@ export default function Inventory({
     maxSize: 10485760,
     maxFiles: 1
   })
+
+  const adSlotFilePath = form.watch("adSlotFilePath")?.split("/")
+  const adSlotName = adSlotFilePath ? adSlotFilePath[adSlotFilePath.length - 1] : null
 
   return (
     <Card className='p-4'>
@@ -158,10 +162,10 @@ export default function Inventory({
                   </div>
                 </FormLabel>
                 <FormControl>
-                  <>
-                    <Card {...adSlotDropZone.getRootProps()} className='p-4'>
+                  <Card className='flex'>
+                    <div {...adSlotDropZone.getRootProps()} className={cn('p-4', !adSlotName && "w-full")}>
                       <input {...adSlotDropZone.getInputProps()} />
-                      {<div className='opacity-80 text-sm cursor-pointer'>{form.getValues("adSlotFilePath") ? form.getValues("adSlotFilePath") : <>
+                      {<div className='opacity-80 text-sm cursor-pointer'>{adSlotName ? adSlotName : <>
                         <p>Default radius distance covered for these coordinates is 2 km.</p>
                         <div className='border p-5 mt-3 rounded-lg min-h-10 flex flex-col justify-center items-center'>
                           <div>
@@ -173,8 +177,9 @@ export default function Inventory({
                         </div>
                       </>}
                       </div>}
-                    </Card>
-                  </>
+                    </div>
+                    {adSlotName && <XCircleIcon className='my-auto mr-auto' size={20} onClick={() => setValue("adSlotFilePath", null)} />}
+                  </Card>
                 </FormControl>
                 <FormMessage />
               </FormItem>

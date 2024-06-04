@@ -6,7 +6,7 @@ import { CampaignFormType } from '../CampaignForm'
 import { MultiSelectInput, SelectInput } from '@/components/utility/customComponents/SelectInput'
 import { countryOption, getCarrierOptions, getCitiesOptions, getDeviceModelOptions, getRegionOptions, includeExcludeOptions } from '@/components/utility/utils/GeoUtils'
 import { useDropzone } from 'react-dropzone'
-import { Airplay, ArrowLeft, ArrowRight, Download, Smartphone, Tablet, X } from 'lucide-react'
+import { Airplay, ArrowLeft, ArrowRight, Download, Smartphone, Tablet, X, XCircleIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { uploadFiles } from '../../../actions'
@@ -19,6 +19,7 @@ import wNumb from 'wnumb'
 import OsSpecificTree from '../utils/OsSpecificTree'
 import manufacturerOptions from '@/components/constants/json/device-manufacturer.json'
 import AudienceTargeting from '../utils/AudienceTargeting'
+import { cn } from '@/lib/utils'
 
 export default function Targeting({
   form,
@@ -48,7 +49,7 @@ export default function Targeting({
       formData.append('fileName', 'latlon')
       const result = await uploadFiles(formData)
       if (result.hasOwnProperty("url")) {
-        setValue('geoLatlonFilename', files[0].name)
+        setValue('geoLatlonFilename', result.url[0])
         clearErrors("geoLatlonFilename")
       }
     }
@@ -65,7 +66,7 @@ export default function Targeting({
       formData.append('fileName', 'iplist')
       const result = await uploadFiles(formData)
       if (result.hasOwnProperty("url")) {
-        setValue('iptargetFilepath', files[0].name)
+        setValue('iptargetFilepath', result.url[0])
         clearErrors("iptargetFilepath")
       }
     }
@@ -84,6 +85,12 @@ export default function Targeting({
     maxSize: 10485760,
     maxFiles: 1
   })
+
+  const latlonFilePath = form.watch("geoLatlonFilename")?.split("/")
+  const latlonName = latlonFilePath ? latlonFilePath[latlonFilePath.length - 1] : null
+
+  const ipListFilePath = form.watch("iptargetFilepath")?.split("/")
+  const ipListName = ipListFilePath ? ipListFilePath[ipListFilePath.length - 1] : null
 
   return (
     <Card className='p-4'>
@@ -213,10 +220,10 @@ export default function Targeting({
                   </div>
                 </FormLabel>
                 <FormControl>
-                  <>
-                    <Card {...latlonDropZone.getRootProps()} className='p-4'>
+                  <Card className='flex justify-between'>
+                    <div {...latlonDropZone.getRootProps()} className={cn('p-4', !latlonName && "w-full")}>
                       <input {...latlonDropZone.getInputProps()} />
-                      {<div className='opacity-80 text-sm cursor-pointer'>{form.getValues("geoLatlonFilename") ? form.getValues("geoLatlonFilename") : <>
+                      {<div className='opacity-80 text-sm cursor-pointer'>{latlonName ? latlonName : <>
                         <p>Default radius distance covered for these coordinates is 2 km.</p>
                         <div className='border p-5 mt-3 rounded-lg min-h-10 flex flex-col justify-center items-center'>
                           <div>
@@ -228,8 +235,9 @@ export default function Targeting({
                         </div>
                       </>}
                       </div>}
-                    </Card>
-                  </>
+                    </div>
+                    {latlonName && <XCircleIcon className='my-auto mr-auto' size={20} onClick={() => setValue("geoLatlonFilename", null)} />}
+                  </Card>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -317,10 +325,10 @@ export default function Targeting({
                   </div>
                 </FormLabel>
                 <FormControl>
-                  <>
-                    <Card {...iplistDropZone.getRootProps()} className='p-4'>
+                  <Card className='flex'>
+                    <div {...iplistDropZone.getRootProps()} className={cn('p-4', !ipListName && "w-full")}>
                       <input {...iplistDropZone.getInputProps()} />
-                      {<div className='opacity-80 text-sm cursor-pointer'>{form.getValues("iptargetFilepath") ? form.getValues("iptargetFilepath") : <>
+                      {<div className='opacity-80 text-sm cursor-pointer'>{ipListName ? ipListName : <>
                         <div className='border p-5 mt-3 rounded-lg min-h-10 flex flex-col justify-center items-center'>
                           <div>
                             Drop .CSV file or <Button type="button">Browse</Button>
@@ -331,8 +339,9 @@ export default function Targeting({
                         </div>
                       </>}
                       </div>}
-                    </Card>
-                  </>
+                    </div>
+                    {ipListName && <XCircleIcon className='my-auto mr-auto' size={20} onClick={() => setValue("iptargetFilepath", null)} />}
+                  </Card>
                 </FormControl>
                 <FormMessage />
               </FormItem>

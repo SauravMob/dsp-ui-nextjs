@@ -27,7 +27,7 @@ export default async function page({
     return (
         <>
             <Card className='mt-4 pt-4'>
-                <CardContent>
+                <CardContent className='min-h-[550px]'>
                     <CampaignForm
                         isEdit={isEdit}
                         editData={editData}

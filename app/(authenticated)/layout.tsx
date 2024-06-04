@@ -6,7 +6,6 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
-
     return (
         <div className="min-h-screen">
             <TooltipProvider>
@@ -15,10 +14,11 @@ export default function RootLayout({
                     {children}
                 </div>
             </TooltipProvider>
-            <div className="px-5 pb-5 gap-4 flex items-center text-sm">
+            <div className="px-5 gap-4 flex items-center text-sm">
                 <a target="_blank" href="http://localhost:3000/privacy-policy" className="hover:font-bold">Privacy Policy</a>
                 <a target="_blank" href="http://localhost:3000/ad-quality" className="hover:font-bold">Ad Quality</a>
             </div>
+            <div className="px-5 py-2 text-sm">COPYRIGHT © 2024 <a className="text-blue-800" href="https://www.mobavenue.com">Mobavenue Pte Ltd</a>, All rights reserved.</div>
         </div>
     )
 }

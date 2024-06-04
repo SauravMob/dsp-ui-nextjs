@@ -3,7 +3,7 @@ import React from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { CampaignFormType } from '../CampaignForm'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, ArrowRight, Edit2, X } from 'lucide-react'
+import { ArrowLeft, Edit2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export default function Review({
