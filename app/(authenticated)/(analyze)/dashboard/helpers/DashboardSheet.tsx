@@ -47,7 +47,9 @@ export default function DashboardSheet() {
                     createQueryString('interval', date ? 'CUSTOM' : 'LAST_SEVEN_DAYS'),
                     date ? `from=${formatQryDate(date.from)}` : '',
                     date ? `to=${formatQryDate(date.to)}` : ''
-                ].filter(Boolean).join('&')}`}>Submit</Link>
+                ].filter(Boolean).join('&')}`}>
+                    <div className='bg-slate-800 text-slate-200 hover:bg-slate-950 dark:bg-slate-200 dark:text-slate-950 dark:hover:bg-slate-400 font-semibold py-3 px-4 rounded-xl'>Submit</div>
+                </Link>
             </div>
         </SheetContent>
     </Sheet>

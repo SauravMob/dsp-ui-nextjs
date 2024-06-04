@@ -1,12 +1,12 @@
 "use client"
 
 import { Card, CardContent } from '@/components/ui/card'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { AutoComplete, SelectInput } from '@/components/utility/customComponents/SelectInput'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { fetchCampaignIdNameList } from '../../(manage)/campaigns/actions'
-import { fetchCreativeIdNameList } from '../../(assets)/creatives/actions'
+import { fetchCampaignIdNameList, searchCampaign } from '../../(manage)/campaigns/actions'
+import { fetchCreativeIdNameList, searchCreative } from '../../(assets)/creatives/actions'
 
 type ReportData = {
     bids: null
@@ -68,6 +68,19 @@ export default function BarChart({
         setCreativeOptions(options)
         return options
     }
+
+    useEffect(() => {
+        const fetchCampaign = async () => {
+            const result = await searchCampaign({ pageNo: "0", pageSize: "50", filter: { campaignId } })
+            setCampaignOptions(result.content.map((v: { id: number, campaignName: string }) => ({ value: v.id.toString(), label: v.campaignName })))
+        }
+        fetchCampaign()
+        const fetchCreative = async () => {
+            const result = await searchCreative({ pageNo: '0', pageSize: "512", filter: { creativeId } })
+            setCreativeOptions(result.content.map((v: { id: number, adName: string }) => ({ value: v.id.toString(), label: v.adName })))
+        }
+        fetchCreative()
+    }, [])
 
     const yAxis = data?.map(item => {
         if (reportType === "impressions" || reportType === "clicks" || reportType === "bids" || reportType === "installs" || reportType === "spends") return item[reportType]
@@ -179,7 +192,7 @@ export default function BarChart({
                             isClearable={true}
                             isSearchable={true}
                             name="campaign"
-                            value={campaignOptions.filter(v => v.value === campaign)[0]}
+                            value={campaignOptions.filter(v => v.value.toString() === campaign)[0]}
                             loadOptions={campaignFilter}
                             onChange={(e) => {
                                 setCampaign(e ? e.value : '')
@@ -193,7 +206,7 @@ export default function BarChart({
                             isClearable={true}
                             isSearchable={true}
                             name="creative"
-                            value={creativeOptions.filter(v => v.value === creative)[0]}
+                            value={creativeOptions.filter(v => v.value.toString() === creative)[0]}
                             loadOptions={creativeFilter}
                             onChange={(e) => {
                                 setCreative(e ? e.value : '')

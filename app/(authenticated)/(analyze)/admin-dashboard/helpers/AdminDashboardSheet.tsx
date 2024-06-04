@@ -155,7 +155,7 @@ export default function AdminDashboardSheet({
                         isClearable={true}
                         isSearchable={true}
                         name="advertiserId"
-                        value={advertiserOptions.filter(v => v.value === customAdvertiserId)[0]}
+                        value={advertiserOptions.filter(v => v.value.toString() === customAdvertiserId)[0]}
                         options={advertiserOptions}
                         onChange={(e) => setCustomAdvertiserId(e ? e.value : '')}
                     />
@@ -169,7 +169,7 @@ export default function AdminDashboardSheet({
                         isClearable={true}
                         isSearchable={true}
                         name="sspUserId"
-                        value={sspOptions.filter(v => v.value === customSspUserId)[0]}
+                        value={sspOptions.filter(v => v.value.toString() === customSspUserId)[0]}
                         options={sspOptions}
                         onChange={(e) => setCustomSspUserId(e ? e.value : '')}
                     />
