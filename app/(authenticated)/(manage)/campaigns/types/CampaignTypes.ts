@@ -1,20 +1,20 @@
 type CampaignType = {
-    adMedium?: string,
-    adSlotFilePath?: string,
+    adMedium: string,
+    adSlotFilePath?: string | null,
     adSlotId?: number,
     adminBlockedAdclient?: string,
-    adminSupplyType?: string,
+    adminSupplyType?: string | null,
     advertiserId?: number
     age?: string,
     amountSpent: number
     appOpFlag?: number
     approvedOn?: string,
-    auctionType?: string,
+    auctionType?: string | null,
     audienceFlag?: string,
-    audienceId?: string,
+    audienceId: string,
     audienceTypeFlag?: string,
     bidPrice?: number
-    blBundle?: string,
+    blBundle?: string | null,
     blDomain?: string,
     blTagid?: string,
     blockedAdclient?: string,
@@ -24,10 +24,10 @@ type CampaignType = {
     browserTarget?: string,
     budgetPerDay?: number
     campaignName?: string,
-    carriers?: string,
-    carriersExclude?: string,
-    cities?: string,
-    citiesExclude?: string,
+    carriers?: string | null,
+    carriersExclude?: string | null,
+    cities?: string | null,
+    citiesExclude?: string | null,
     clickCap?: number
     clickCapTotal?: number
     clickDelivered?: number
@@ -47,24 +47,24 @@ type CampaignType = {
     dcFlag?: string,
     dealId?: string,
     deliveryDay?: string,
-    deliveryHour?: string,
-    deviceManufacturer?: string,
-    deviceManufacturerModel?: string,
-    deviceOsVersion?: string,
+    deliveryHour?: string | null,
+    deviceManufacturer?: string | null,
+    deviceManufacturerModel?: string | null,
+    deviceOsVersion?: string | null,
     deviceOsVersionType?: string,
-    endDate?: string,
+    endDate?: number | string,
     fcap?: number
     fcapHour?: number
     fcapHourlyFlag?: number
-    fcapKeyFlag?: true,
+    fcapKeyFlag?: boolean | number,
     fcapType?: string,
-    flag?: true,
-    gamblingFlag?: true,
+    flag?: number,
+    gamblingFlag?: number,
     gender?: string,
     geoLatLon?: string,
-    geoLatlonFilename?: string,
+    geoLatlonFilename?: string | null,
     geoPostalCodeFilePath?: string,
-    iabCategoryId?: string,
+    iabCategoryId?: string | null,
     id: number
     impTrackUrl?: string,
     impressionCap?: number
@@ -72,43 +72,44 @@ type CampaignType = {
     impressionDelivered?: number
     inventoryType?: string,
     ipTargetRanges?: string,
-    iptargetFilepath?: string,
+    iptargetFilepath?: string | null,
     isEndDateEnabled?: number
     isIpTargetingCampaign?: number
     isPredictEnabled?: true,
-    lastModifiedOn: string,
+    lastModifiedOn?: string,
     latlonRadiusDistance?: number
     maxBudget?: number
     maxMargin?: number
     mode?: string,
     opentrafficPercentage?: number
     pacingType?: number
-    pixelFlag?: true,
+    pixelFlag?: number,
     platformVerAndroid?: string,
     platformVerOsx?: string,
-    platforms?: string,
+    platforms?: string | null,
     postalCode?: string,
     postalCodeExclude?: string,
     postbackUrl?: string,
-    regions?: string,
-    regionsExclude?: string,
+    regions?: string | null,
+    regionsExclude?: string | null,
     rtaCampaignId?: string,
     rtbBudgetSplit?: number
     sourceType?: string,
     sspCost?: number
-    startDate?: string,
+    startDate?: number | string,
     status?: string,
     statusReason?: string,
     stopLoss?: number
     strictIfaTargeting?: number
     subSupplyType?: string,
-    supplyType?: string,
-    tpFlag?: true,
+    supplyType: string,
+    tpFlag?: number,
     userId?: number
     wlAdclient?: string,
-    wlBundle?: string,
+    wlBundle?: string | null,
     wlDomain?: string,
-    wlTagid?: string
+    wlTagid?: string,
+    dmpPartner?: null
 }
 
 type CampaignFilterTypes = {

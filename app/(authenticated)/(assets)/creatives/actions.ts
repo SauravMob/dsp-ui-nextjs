@@ -7,13 +7,15 @@ import { cookies } from "next/headers"
 
 export async function fetchAllCreatives({
     pageNo,
-    pageSize
+    pageSize,
+    userid
 }: {
     pageNo?: string,
-    pageSize?: string
+    pageSize?: string,
+    userid?: string
 }) {
-    const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
-    const url = `/creatives?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc${userId}`
+    const userId = userid ? `userId=${userid}` : `userId=${cookies().get('userId')?.value}`
+    const url = `/creatives?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc&${userId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
@@ -24,7 +26,7 @@ export async function createCreative(creative: CreativeType[]) {
     const result = await HttpRequestApi('POST', url, creative)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     revalidatePath('/creatives')
-    return { status: 200, message: `Success` }
+    return { status: 200, body: await result.json() }
 }
 
 export async function fetchCreative(id: string, userid: string) {
@@ -112,6 +114,13 @@ export async function uploadFiles(formData: FormData) {
             Authorization: `Bearer ${cookies().get("accessToken")?.value}`
         }
     })
+    if (!result.ok) return { status: 400, message: "Error in fetching data" }
+    return await result.json()
+}
+
+export async function fetchCreativesByCampaign(campaignId: string, userId: string) {
+    const url = `/campaigns/creatives?userId=${userId}&campaignId=${campaignId}`
+    const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }
     return await result.json()
 }

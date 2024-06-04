@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 import clsx from 'clsx'
 import * as React from 'react'
-import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select'
+import Select, { ActionMeta, FormatOptionLabelMeta, InputActionMeta, MultiValue, SingleValue } from 'react-select'
 import AsyncSelect from 'react-select/async'
 
 export interface SelectOption {
@@ -19,7 +19,8 @@ export interface SelectInputProps {
     name: string,
     value?: SelectOption,
     isDisabled?: boolean,
-    id?: string
+    id?: string,
+    formatOptionLabel?: ((data: SelectOption, formatOptionLabelMeta: FormatOptionLabelMeta<SelectOption>) => React.ReactNode)
 }
 
 export interface MultiSelectInputProps {
@@ -120,7 +121,7 @@ const FormatMultiSelectInput = React.forwardRef<HTMLSelectElement, FormatMultiSe
 FormatMultiSelectInput.displayName = "FormatMultiSelectInput"
 
 const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
-    ({ className, options, value, isDisabled, id, ...props }, ref) => {
+    ({ className, options, value, isDisabled, id, formatOptionLabel, ...props }, ref) => {
         return (
             <Select
                 unstyled
@@ -129,14 +130,15 @@ const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
                 className={cn("w-full", className)}
                 value={value}
                 classNames={{
-                    control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950"),
+                    control: ({ isFocused }) => cn(isFocused ? "outline-none ring-2 ring-slate-950 ring-offset-2 dark:focus-visible:ring-slate-300" : "", "w-full ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-200 px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950", isDisabled && "opacity-70"),
                     placeholder: () => "opacity-50",
-                    menu: () => "p-50 mt-2 border border-slate-400 bg-white dark:bg-slate-900 rounded-lg",
+                    menu: () => "p-50 mt-2 border border-slate-400 bg-white dark:bg-slate-900 rounded-lg z-10",
                     option: ({ isFocused }) => clsx(isFocused && "bg-slate-200 dark:bg-slate-700 active:bg-slate-400", "hover:cursor-pointer px-3 py-2 rounded")
                 }}
                 classNamePrefix="select"
                 options={options}
                 isDisabled={isDisabled}
+                formatOptionLabel={formatOptionLabel}
                 {...props}
             />
         )

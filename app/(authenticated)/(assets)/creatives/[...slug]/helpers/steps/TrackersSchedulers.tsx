@@ -27,12 +27,14 @@ export default function TrackersSchedulers({
     creativeType,
     parentForm,
     setTab,
-    isAdmin
+    isAdmin,
+    setOpen
 }: {
     creativeType: string,
     parentForm: UseFormReturn<CreativeFormType, any, undefined>
     setTab: (tab: string) => void
     isAdmin: boolean
+    setOpen?: (input: boolean) => void
 }) {
 
     const router = useRouter()
@@ -789,7 +791,7 @@ export default function TrackersSchedulers({
                         </div>
                     })}
                     <CardFooter className='flex items-center justify-between mt-5'>
-                        <Button type='button' onClick={() => router.push(isAdmin ? '/creative-manager' : '/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
+                        <Button type='button' onClick={() => setOpen ? setOpen(false) : router.push(isAdmin ? '/creative-manager' : '/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
                         <div className='flex gap-2'>
                             <Button type='button' onClick={() => setTab("editDetails")}><ArrowLeft size={14} className='mr-1' /> PREVIOUS</Button>
                             <Button type='submit'>NEXT<ArrowRight size={14} className='ml-1' /></Button>

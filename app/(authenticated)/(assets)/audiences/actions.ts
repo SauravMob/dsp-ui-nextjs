@@ -7,12 +7,14 @@ import { cookies } from "next/headers"
 
 export async function fetchAllAudience({
     pageNo,
-    pageSize
+    pageSize,
+    userid
 }: {
     pageNo?: string,
-    pageSize?: string
+    pageSize?: string,
+    userid?: string
 }) {
-    const userId = cookies().get('roleId')?.value === '2' ? '' : `&userId=${cookies().get('userId')?.value}`
+    const userId = userid ? `&userId=${userid}` : `&userId=${cookies().get('userId')?.value}`
     const url = `/audiences?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id&sortDir=desc${userId}`
     const result = await HttpRequestApi('GET', url)
     if (!result.ok) return { status: 400, message: "Error in fetching data" }

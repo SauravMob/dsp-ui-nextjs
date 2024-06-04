@@ -22,13 +22,15 @@ export default function ReviewSave({
     parentForm,
     setTab,
     isEdit,
-    onSubmit
+    onSubmit,
+    setOpen
 }: {
     creativeType: string,
     setTab: (tab: string) => void
     parentForm: UseFormReturn<CreativeFormType, any, undefined>
     isEdit: boolean
     onSubmit: SubmitHandler<CreativeFormType>
+    setOpen?: (input: boolean) => void
 }) {
 
     const router = useRouter()
@@ -139,7 +141,7 @@ export default function ReviewSave({
                         ))}
                     </div> : null}
                     <CardFooter className='flex items-center justify-between mt-5'>
-                        <Button type='button' onClick={() => router.push('/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
+                        <Button type='button' onClick={() => setOpen ? setOpen(false) : router.push('/creatives')}><X size={14} className='mr-2' /> CANCEL</Button>
                         <div className='flex gap-2'>
                             <Button type='button' onClick={() => setTab("trackersSchedulers")}><ArrowLeft size={14} className='mr-1' /> PREVIOUS</Button>
                             <Button type='submit' onClick={() => onSubmit(parentForm.getValues())}>{isEdit ? "UPDATE" : "CREATE"}<Edit size={14} className='ml-1' /></Button>

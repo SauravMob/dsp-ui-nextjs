@@ -181,7 +181,7 @@ const columns: ColumnDef<CampaignType, any>[] = [
       />
     ),
     cell: ({ row }) => {
-      return <div className='text-center'>{getDateForPosix(parseInt(row.original.lastModifiedOn), 'SECONDS')}</div>
+      return <div className='text-center'>{getDateForPosix(parseInt(row.original.lastModifiedOn as string), 'SECONDS')}</div>
     }
   }
 ]

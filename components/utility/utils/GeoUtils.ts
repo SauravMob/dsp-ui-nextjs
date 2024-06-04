@@ -1,3 +1,29 @@
+import regionsData from '@/components/constants/json/country-regions.json'
+import citiesData from '@/components/constants/json/country-cities.json'
+import carriersData from '@/components/constants/json/country-carriers.json'
+import deviceData from '@/components/constants/json/device-models.json'
+
+interface Regions {
+    [countryCode: string]: string
+}
+
+interface Cities {
+    [regionCode: string]: string
+}
+
+interface Carriers {
+    [carrierCode: string]: string
+}
+
+interface Devices {
+    [deviceCode: string]: string
+}
+
+const regions: Regions = regionsData
+const cities: Cities = citiesData
+const carriers: Carriers = carriersData
+const devices: Devices = deviceData
+
 export const countryOption = [
     { label: 'Afghanistan', value: 'AFG' },
     { label: 'Albania', value: 'ALB' },
@@ -152,3 +178,65 @@ export const countryOption = [
     { label: 'Zambia', value: 'ZMB' },
     { label: 'Zimbabwe', value: 'ZWE' }
 ]
+
+export const includeExcludeOptions = [
+    { value: 'INCLUDE', label: 'INCLUDE' },
+    { value: 'EXCLUDE', label: 'EXCLUDE' }
+]
+
+export const getRegionOptions = (country: string) => {
+    const regionsMap: { value: string, label: string }[] = []
+    if (country !== undefined && regions[country] !== undefined) {
+        regions[country].split(',').map((r) => regionsMap.push({
+            label: r,
+            value: r
+        }))
+    }
+    return regionsMap
+}
+
+export const getCitiesOptions = (country: string, selRegions: string[], geoMenu: string) => {
+    const citiesMap: { value: string, label: string, region: string }[] = []
+    let temp: string[] = []
+    if (geoMenu === 'EXCLUDE') {
+        temp = regions[country]?.split(',').filter(reg => !selRegions.includes(reg))
+    } else temp = selRegions
+
+    temp?.map((r) => {
+        const data = cities[`${country}.${r.replace(/\s+/g, '')}`]
+        if (data !== undefined) {
+            data.split(',').map((c) => citiesMap.push({
+                label: `${c}, ${r}`,
+                value: c,
+                region: r
+            }))
+        }
+    })
+    return citiesMap
+}
+
+export const getCarrierOptions = (country: string) => {
+    const carriersMap: { value: string, label: string }[] = []
+    carriers[country]?.split(',').map((r) => carriersMap.push({
+        label: r,
+        value: r
+    }))
+    return carriersMap
+}
+
+export const getDeviceModelOptions = (dmf: string[]) => {
+    const deviceModelMap = dmf.length > 0 ? [{ label: 'ALL', value: 'ALL' }] : []
+    dmf.map((dm) => {
+        if (dmf !== undefined && devices[dm] !== undefined) {
+            devices[dm].split(',').map((r) => {
+                if (r !== 'ALL') {
+                    deviceModelMap.push({
+                        label: r,
+                        value: r
+                    })
+                }
+            })
+        }
+    })
+    return deviceModelMap
+}

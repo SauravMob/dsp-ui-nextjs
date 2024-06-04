@@ -22,8 +22,8 @@ export default async function page({
 
     const isEdit = params.slug.includes("edit")
     const editData = isEdit ? await fetchAudience(params.slug[1]) : null
-    const userId = cookies().get('userId')?.value
-    const isAdmin = cookies().get('roleId')?.value === "2"
+    const userId = !isEdit && params.slug[2] ? params.slug[2] : cookies().get('userId')?.value
+    const isAdmin = !isEdit && params.slug[2] ? false : cookies().get('roleId')?.value === "2"
 
     return (
         <>
@@ -42,7 +42,7 @@ export default async function page({
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <AudienceForm isEdit={isEdit} editData={editData} userId={userId ? parseInt(userId) : 0} isAdmin={isAdmin}/>
+                    <AudienceForm isEdit={isEdit} editData={editData} userId={userId ? parseInt(userId) : 0} isAdmin={isAdmin} />
                 </CardContent>
             </Card>
         </>

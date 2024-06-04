@@ -71,13 +71,17 @@ export default function CreativeForm({
     editData,
     userId,
     isAdmin,
-    creativeType
+    creativeType,
+    setOpen,
+    creativeCampaign
 }: {
-    isEdit: boolean,
-    editData: CreativeType,
-    userId: number,
-    isAdmin: boolean,
+    isEdit: boolean
+    editData: CreativeType | null
+    userId: number
+    isAdmin: boolean
     creativeType: string
+    setOpen?: (input: boolean) => void
+    creativeCampaign?: (cr: CreativeType[]) => void
 }) {
 
     const router = useRouter()
@@ -87,7 +91,7 @@ export default function CreativeForm({
 
     const formSchema = z.object({
         selectedCrList: z.object({
-            [isEdit ? editData.id : uniqueId]: z.object({
+            [isEdit && editData ? editData.id : uniqueId]: z.object({
                 id: z.number(),
                 skip: z.number(),
                 userId: z.number(),
@@ -152,7 +156,7 @@ export default function CreativeForm({
 
     const form = useForm<CreativeFormType>({
         resolver: zodResolver(formSchema),
-        defaultValues: isEdit ? {
+        defaultValues: isEdit && editData ? {
             selectedCrList: {
                 [editData.id]: {
                     id: editData.id,
@@ -391,7 +395,10 @@ export default function CreativeForm({
             if (crArr.length > 0) {
                 const result = await createCreative(crArr)
                 if (result?.status === 200) {
-                    router.push(isAdmin ? '/creative-manager' : '/creatives')
+                    if (setOpen && creativeCampaign) {
+                        setOpen(false)
+                        creativeCampaign(result.body)
+                    } else router.push(isAdmin ? '/creative-manager' : '/creatives')
                     toast({ title: `Created creative`, description: `Creative created successfully` })
                 } else toast({ title: `Error while creating creative`, description: `Couldn't create creative` })
                 router.refresh()
@@ -421,6 +428,7 @@ export default function CreativeForm({
                     userId={userId}
                     setTab={setTab}
                     isAdmin={isAdmin}
+                    setOpen={setOpen}
                 />}
             </TabsContent>
             <TabsContent value="endCard">
@@ -431,6 +439,7 @@ export default function CreativeForm({
                     setTab={setTab}
                     isAdmin={isAdmin}
                     isEdit={isEdit}
+                    setOpen={setOpen}
                 />
             </TabsContent>
             <TabsContent value="editDetails">
@@ -440,6 +449,7 @@ export default function CreativeForm({
                     creativeType={creativeType}
                     setTab={setTab}
                     isAdmin={isAdmin}
+                    setOpen={setOpen}
                 />
             </TabsContent>
             <TabsContent value="trackersSchedulers">
@@ -448,6 +458,7 @@ export default function CreativeForm({
                     creativeType={creativeType}
                     setTab={setTab}
                     isAdmin={isAdmin}
+                    setOpen={setOpen}
                 />
             </TabsContent>
             <TabsContent value="reviewSave">
@@ -457,6 +468,7 @@ export default function CreativeForm({
                     setTab={setTab}
                     isEdit={isEdit}
                     onSubmit={onSubmit}
+                    setOpen={setOpen}
                 />
             </TabsContent>
         </Tabs>

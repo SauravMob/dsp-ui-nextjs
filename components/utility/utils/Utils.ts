@@ -845,3 +845,21 @@ export const iabAdAttributeOptions = [
     { value: '16', label: 'Ad Provides Skip Button' },
     { value: '17', label: 'Adobe Flash' }
 ]
+
+export const costMetricsOptions = [
+    { value: 'CPM', label: 'CPM' },
+    { value: 'CPC', label: 'CPC' },
+    { value: 'CPI', label: 'CPI' },
+    { value: 'CPA', label: 'CPA' }
+]
+
+export const connectionTypeOptions = [
+    { value: 'WIFI', label: 'WIFI' },
+    { value: 'CELLULAR_UNKNOWN', label: 'CELLULAR' }
+]
+
+export const genderOptions = [
+    { value: 'A', label: 'ALL' },
+    { value: 'M', label: 'MALE' },
+    { value: 'F', label: 'FEMALE' }
+]
