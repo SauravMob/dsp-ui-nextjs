@@ -19,3 +19,12 @@ body::-webkit-scrollbar-thumb {
 .table-overflow>div::-webkit-scrollbar-thumb {
     background-color: azure;
 }
+
+.select__menu>div::-webkit-scrollbar {
+    width: 3px;
+    background-color: gray;
+}
+
+.select__menu>div::-webkit-scrollbar-thumb {
+    background-color: azure;
+}

@@ -13,8 +13,8 @@ export const Navbar = async ({ className }: { className: string }) => {
     const customFeatures = cookies().get("customFeatures")?.value || ''
 
     return (
-        <div className={cn("fixed top-10 inset-x-0 w-full mx-auto z-50 shadow-md dark:shadow-slate-600 dark:shadow-sm", className)}>
-            <nav className="relative boder border-transparent dark:bg-slate-950 dark:border-white/[0.2] flex items-center bg-white shadow-input">
+        <div className={cn("z-50 shadow-md dark:shadow-slate-600 dark:shadow-sm", className)}>
+            <nav className="dark:bg-slate-950 dark:border-white flex items-center bg-white">
                 <Image
                     src={Mobavenue_Logo}
                     width="0"

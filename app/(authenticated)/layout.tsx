@@ -9,8 +9,8 @@ export default function RootLayout({
     return (
         <div className="min-h-screen">
             <TooltipProvider>
-                <Navbar className="top-0" />
-                <div className="pb-5 pt-20 px-4">
+                <Navbar className="top-0 sticky" />
+                <div className="pb-5 px-4">
                     {children}
                 </div>
             </TooltipProvider>
