@@ -1,8 +1,10 @@
 import { Archive, Award, Bell, Camera, Code, DollarSign, Eclipse, FolderKanban, Headphones, Layers, LayoutDashboard, MapPin, Navigation, Navigation2, Package, PenTool, PieChart, Settings, User, Users } from "lucide-react"
 
-export const NavList = (roleId: string, emailId: string) => {
+export const NavList = (roleId: string, emailId: string, customFeatures: string) => {
     let navList = []
     const siteAppNotAllowed = process.env.NEXT_PUBLIC_SITEAPP_REPORT_NOT_ALLOWED?.split(',').includes(emailId)
+    const hasBidMulti = customFeatures.split(",").includes("BID MULTIPLIER")
+    const hasAudience = customFeatures.split(",").includes("AUDIENCE")
 
     if (roleId === '2') {
         navList = [
@@ -87,6 +89,20 @@ export const NavList = (roleId: string, emailId: string) => {
     if (siteAppNotAllowed) {
         navList = navList.map(section => {
             if (section.label === "Reports") section.options = section.options.filter(option => option.title !== "SiteApp Report")
+            return section
+        })
+    }
+
+    if (!hasBidMulti) {
+        navList = navList.map(section => {
+            if (section.label === "Tools") section.options = section.options.filter(option => option.title !== "Bid Multiplier")
+            return section
+        })
+    }
+
+    if (!hasAudience) {
+        navList = navList.map(section => {
+            if (section.label === "Assets" || section.label === "Tools") section.options = section.options.filter(option => option.title !== "Audiences")
             return section
         })
     }

@@ -154,7 +154,7 @@ export default function OptimizationDatatable({
 
     useEffect(() => {
         const fetchCampaignList = async () => {
-            const campaignList = await searchCampaign({ pageNo: '0', pageSize: "50", filter: {} })
+            const campaignList = await searchCampaign({ pageNo: '0', pageSize: "512", filter: {} })
             setCampaignList(campaignList.content.map((v: CampaignType) => ({ id: v.id, name: v.campaignName })))
         }
         fetchCampaignList()
