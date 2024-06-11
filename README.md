@@ -76,16 +76,16 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
 
-  <img src="https://raw.githubusercontent.com/SauravMob/dsp-ui-nextjs/ui-changes/public/screenshots/Admin_dashboard.png?token=GHSAT0AAAAAACTO52H64BHZ7DW6KXHJ2NKEZTH4G6A" alt="Admin dashboard" width="48%">
+  <img src="https://github.com/SauravMob/dsp-ui-nextjs/blob/ui-changes/public/screenshots/Admin_dashboard.png" alt="Admin dashboard" width="48%">
 
-  <img src="https://raw.githubusercontent.com/SauravMob/dsp-ui-nextjs/ui-changes/public/screenshots/Dashboard.png?token=GHSAT0AAAAAACTO52H7VIGYFS46SK272DIWZTH4HRA" alt="Dashboard" width="48%">
+  <img src="https://github.com/SauravMob/dsp-ui-nextjs/blob/ui-changes/public/screenshots/Dashboard.png" alt="Dashboard" width="48%">
 
-  <img src="https://raw.githubusercontent.com/SauravMob/dsp-ui-nextjs/ui-changes/public/screenshots/Campaign_section.png?token=GHSAT0AAAAAACTO52H6NKGF5H656RM3PFZKZTH4IAA" alt="Campaign" width="48%">
+  <img src="https://github.com/SauravMob/dsp-ui-nextjs/blob/ui-changes/public/screenshots/Campaign_section.png" alt="Campaign" width="48%">
 
-  <img src="https://raw.githubusercontent.com/SauravMob/dsp-ui-nextjs/ui-changes/public/screenshots/creative_section.png?token=GHSAT0AAAAAACTO52H72XS4GY43YS5LVDXGZTH4IQA" alt="Creative" width="48%">
+  <img src="https://github.com/SauravMob/dsp-ui-nextjs/blob/ui-changes/public/screenshots/creative_section.png" alt="Creative" width="48%">
 
-  <img src="https://raw.githubusercontent.com/SauravMob/dsp-ui-nextjs/ui-changes/public/screenshots/Siteapp_report.png?token=GHSAT0AAAAAACTO52H6GL5OPUZBCUPRG726ZTH4JAA" alt="SiteApp Report" width="48%">
+  <img src="https://github.com/SauravMob/dsp-ui-nextjs/blob/ui-changes/public/screenshots/Siteapp_report.png" alt="SiteApp Report" width="48%">
 
-  <img src="https://raw.githubusercontent.com/SauravMob/dsp-ui-nextjs/ui-changes/public/screenshots/manage_user.png?token=GHSAT0AAAAAACTO52H6U64OF4D7SITXRJ5IZTH4JNQ" alt="Manage User" width="48%">
+  <img src="https://github.com/SauravMob/dsp-ui-nextjs/blob/ui-changes/public/screenshots/manage_user.png" alt="Manage User" width="48%">
 
 </div>
